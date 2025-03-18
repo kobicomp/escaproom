@@ -179,6 +179,8 @@ function loadCurrentRoom() {
 
 // פונקציה לבחירת אובייקט
 function selectItem(e) {
+  e.preventDefault(); // מנע ברירת מחדל של האירוע
+  
   // שמור את האובייקט הנבחר
   selectedItem = {
     element: this,
@@ -200,18 +202,19 @@ function selectItem(e) {
   
   this.classList.add("selected");
   
-  // הוסף ידיות שינוי גודל
+  // הוסף ידית שינוי גודל בפינה הימנית תחתונה
   var handleSE = document.createElement("div");
   handleSE.className = "resize-handle resize-handle-se";
   this.appendChild(handleSE);
   
-  handleSE.addEventListener("mousedown", startResize);
+  // הוסף מאזין אירוע נפרד לידית שינוי הגודל
+  handleSE.addEventListener("mousedown", function(evt) {
+    evt.stopPropagation(); // חשוב - מונע מאירוע ה-mousedown להתפשט לאובייקט ההורה
+    startResize(evt, selectedItem.element);
+  });
   
   // הצג את התכונות שלו
   showItemProperties(this.id);
-  
-  // מנע ברירת מחדל של האירוע
-  e.preventDefault();
 }
 
 // פונקציה להזזת אובייקט
@@ -249,18 +252,17 @@ function deselectItem() {
 }
 
 // פונקציה להתחלת שינוי גודל
-function startResize(e) {
-  e.stopPropagation();
+function startResize(e, item) {
+  e.preventDefault();
   
-  var item = this.parentElement;
   var itemId = item.id;
-  
   var startX = e.clientX;
   var startY = e.clientY;
   var startWidth = parseInt(item.style.width);
   var startHeight = parseInt(item.style.height);
   
   function doResize(e) {
+    // חשב את הגודל החדש
     var newWidth = startWidth + (e.clientX - startX);
     var newHeight = startHeight + (e.clientY - startY);
     
@@ -279,6 +281,9 @@ function startResize(e) {
     // עדכן את נתוני האובייקט
     projectData.rooms[currentRoomId].items[itemId].width = newWidth;
     projectData.rooms[currentRoomId].items[itemId].height = newHeight;
+    
+    // הוסף הדפסת דיבוג
+    console.log("Resizing: " + newWidth + "x" + newHeight);
   }
   
   function stopResize() {
