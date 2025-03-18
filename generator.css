@@ -1,0 +1,308 @@
+/* סגנון כללי */
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+/* סגנון ממשק המחולל */
+.generator {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* סרגל צד */
+.sidebar {
+  width: 300px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #465c6e;
+  padding-bottom: 10px;
+}
+
+.sidebar-section {
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #ecf0f1;
+}
+
+/* אזור תצוגה מרכזי */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.toolbar {
+  background-color: #34495e;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.preview-area {
+  flex: 1;
+  background-color: #ecf0f1;
+  overflow: auto;
+  position: relative;
+}
+
+/* סגנון החדר */
+.room-preview {
+  width: 800px;
+  height: 600px;
+  margin: 20px auto;
+  position: relative;
+  background-color: #fff;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+/* אובייקטים בחדר */
+.room-item {
+  position: absolute;
+  cursor: move;
+  border: 2px dashed transparent;
+  background-color: rgba(52, 152, 219, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+}
+
+.room-item.selected {
+  border-color: #3498db;
+  background-color: rgba(52, 152, 219, 0.7);
+}
+
+.room-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* לשוניות */
+.tabs {
+  display: flex;
+  background-color: #465c6e;
+}
+
+.tab {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #465c6e;
+  color: #ecf0f1;
+  border: none;
+  outline: none;
+}
+
+.tab:hover {
+  background-color: #566c7e;
+}
+
+.tab.active {
+  background-color: #34495e;
+  border-bottom: 3px solid #3498db;
+}
+
+/* תפריט חדרים */
+.rooms-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.room-item-list {
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  background-color: #34495e;
+  cursor: pointer;
+}
+
+.room-item-list.active {
+  background-color: #3498db;
+}
+
+/* תפריט אובייקטים */
+.object-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.object-thumbnail {
+  width: 100%;
+  height: 80px;
+  background-color: #34495e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* טפסים */
+.form-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #465c6e;
+  background-color: #34495e;
+  color: white;
+  border-radius: 4px;
+}
+
+/* כפתורים */
+.btn {
+  padding: 8px 15px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-secondary {
+  background-color: #95a5a6;
+}
+
+.btn-success {
+  background-color: #2ecc71;
+}
+
+.btn-danger {
+  background-color: #e74c3c;
+}
+
+/* חלוניות מודאליות */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 1000;
+  overflow: auto;
+}
+
+.modal-content {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  margin: 50px auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}
+
+.close-modal {
+  float: left;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* לשונית מפה */
+.map-editor {
+  height: 100%;
+  background-color: #ecf0f1;
+  padding: 20px;
+}
+
+.map-container {
+  width: 100%;
+  height: 500px;
+  background-color: white;
+  border: 1px solid #bdc3c7;
+  position: relative;
+}
+
+.map-room {
+  position: absolute;
+  width: 120px;
+  height: 80px;
+  background-color: #3498db;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: move;
+}
+
+.map-connection {
+  position: absolute;
+  background-color: #7f8c8d;
+  z-index: -1;
+}
+
+/* לשונית חידות */
+.puzzle-editor {
+  padding: 20px;
+}
+
+.puzzle-list {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.puzzle-list-item {
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  margin-bottom: 5px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.puzzle-form {
+  background-color: white;
+  padding: 15px;
+  border: 1px solid #bdc3c7;
+}
+
+/* לשונית ייצוא */
+.export-section {
+  padding: 20px;
+}
