@@ -107,19 +107,25 @@ body, html {
 }
 
 /* ידיות שינוי גודל */
+/* ידיות שינוי גודל */
 .resize-handle {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
   background-color: white;
-  border: 1px solid #3498db;
+  border: 2px solid #3498db;
   border-radius: 50%;
+  z-index: 10;
+  cursor: nwse-resize;
 }
 
 .resize-handle-se {
-  bottom: -5px;
-  right: -5px;
-  cursor: nwse-resize;
+  bottom: -7px;
+  right: -7px;
+}
+
+.room-item.selected .resize-handle {
+  display: block;
 }
 
 .room-item.selected .resize-handle {
