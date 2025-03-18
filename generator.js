@@ -138,7 +138,460 @@ function loadCurrentRoom() {
   // עדכן את רשימת החדרים בתפריט יעד הדלת
   updateDoorTargets();
 }
+// פונקציה ליצירת טפסי חידות
+function createPuzzleForms() {
+  var formsContainer = document.getElementById("puzzle-forms-container");
+  
+  // יצירת טופס לחידת קוד
+  var codeForm = document.createElement("div");
+  codeForm.id = "code-puzzle-form";
+  codeForm.className = "puzzle-form";
+  codeForm.style.display = "none";
+  codeForm.innerHTML = `
+    <h4>עריכת חידת קוד</h4>
+    <div class="form-group">
+      <label for="code-puzzle-name">שם החידה:</label>
+      <input type="text" id="code-puzzle-name">
+    </div>
+    <div class="form-group">
+      <label for="code-puzzle-description">תיאור החידה:</label>
+      <textarea id="code-puzzle-description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="code-puzzle-answer">הקוד הנכון:</label>
+      <input type="text" id="code-puzzle-answer">
+    </div>
+    <div class="form-group">
+      <label for="code-puzzle-hint">רמז:</label>
+      <input type="text" id="code-puzzle-hint">
+    </div>
+    <div class="form-group">
+      <label for="code-puzzle-success">הודעת הצלחה:</label>
+      <input type="text" id="code-puzzle-success">
+    </div>
+    <button class="btn" id="save-code-puzzle">שמור</button>
+    <button class="btn btn-danger" id="delete-code-puzzle" style="float: left;">מחק חידה</button>
+  `;
+  
+  // יצירת טופס לחידת טקסט
+  var textForm = document.createElement("div");
+  textForm.id = "text-puzzle-form";
+  textForm.className = "puzzle-form";
+  textForm.style.display = "none";
+  textForm.innerHTML = `
+    <h4>עריכת חידת טקסט</h4>
+    <div class="form-group">
+      <label for="text-puzzle-name">שם החידה:</label>
+      <input type="text" id="text-puzzle-name">
+    </div>
+    <div class="form-group">
+      <label for="text-puzzle-question">שאלה:</label>
+      <textarea id="text-puzzle-question" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="text-puzzle-answer">תשובה נכונה:</label>
+      <input type="text" id="text-puzzle-answer">
+    </div>
+    <div class="form-group">
+      <label for="text-puzzle-hint">רמז:</label>
+      <input type="text" id="text-puzzle-hint">
+    </div>
+    <div class="form-group">
+      <label for="text-puzzle-success">הודעת הצלחה:</label>
+      <input type="text" id="text-puzzle-success">
+    </div>
+    <button class="btn" id="save-text-puzzle">שמור</button>
+    <button class="btn btn-danger" id="delete-text-puzzle" style="float: left;">מחק חידה</button>
+  `;
+  
+  // יצירת טופס לחידת רצף
+  var sequenceForm = document.createElement("div");
+  sequenceForm.id = "sequence-puzzle-form";
+  sequenceForm.className = "puzzle-form";
+  sequenceForm.style.display = "none";
+  sequenceForm.innerHTML = `
+    <h4>עריכת חידת רצף</h4>
+    <div class="form-group">
+      <label for="sequence-puzzle-name">שם החידה:</label>
+      <input type="text" id="sequence-puzzle-name">
+    </div>
+    <div class="form-group">
+      <label for="sequence-puzzle-description">תיאור החידה:</label>
+      <textarea id="sequence-puzzle-description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>צעדים ברצף:</label>
+      <div id="sequence-steps-editor" class="sequence-editor">
+        <!-- צעדים יתווספו דינמית -->
+        <button class="btn" id="add-sequence-step">+ הוסף צעד</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="sequence-reset-on-error">
+        איפוס הרצף בטעות
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="sequence-puzzle-hint">רמז:</label>
+      <input type="text" id="sequence-puzzle-hint">
+    </div>
+    <div class="form-group">
+      <label for="sequence-puzzle-success">הודעת הצלחה:</label>
+      <input type="text" id="sequence-puzzle-success">
+    </div>
+    <button class="btn" id="save-sequence-puzzle">שמור</button>
+    <button class="btn btn-danger" id="delete-sequence-puzzle" style="float: left;">מחק חידה</button>
+  `;
+  
+  // יצירת טופס לחידת התאמה
+  var matchingForm = document.createElement("div");
+  matchingForm.id = "matching-puzzle-form";
+  matchingForm.className = "puzzle-form";
+  matchingForm.style.display = "none";
+  matchingForm.innerHTML = `
+    <h4>עריכת חידת התאמה</h4>
+    <div class="form-group">
+      <label for="matching-puzzle-name">שם החידה:</label>
+      <input type="text" id="matching-puzzle-name">
+    </div>
+    <div class="form-group">
+      <label for="matching-puzzle-description">תיאור החידה:</label>
+      <textarea id="matching-puzzle-description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>זוגות להתאמה:</label>
+      <div id="matching-pairs-editor" class="elements-container">
+        <!-- זוגות יתווספו דינמית -->
+      </div>
+      <button class="btn" id="add-matching-pair">+ הוסף זוג</button>
+    </div>
+    <div class="form-group">
+      <label for="matching-puzzle-hint">רמז:</label>
+      <input type="text" id="matching-puzzle-hint">
+    </div>
+    <div class="form-group">
+      <label for="matching-puzzle-success">הודעת הצלחה:</label>
+      <input type="text" id="matching-puzzle-success">
+    </div>
+    <button class="btn" id="save-matching-puzzle">שמור</button>
+    <button class="btn btn-danger" id="delete-matching-puzzle" style="float: left;">מחק חידה</button>
+  `;
+  
+  // יצירת טופס לחידת סידור
+  var arrangeForm = document.createElement("div");
+  arrangeForm.id = "arrange-puzzle-form";
+  arrangeForm.className = "puzzle-form";
+  arrangeForm.style.display = "none";
+  arrangeForm.innerHTML = `
+    <h4>עריכת חידת סידור</h4>
+    <div class="form-group">
+      <label for="arrange-puzzle-name">שם החידה:</label>
+      <input type="text" id="arrange-puzzle-name">
+    </div>
+    <div class="form-group">
+      <label for="arrange-puzzle-description">תיאור החידה:</label>
+      <textarea id="arrange-puzzle-description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>פריטים לסידור:</label>
+      <div id="arrange-items-editor" class="elements-container">
+        <!-- פריטים יתווספו דינמית -->
+      </div>
+      <button class="btn" id="add-arrange-item">+ הוסף פריט</button>
+    </div>
+    <div class="form-group">
+      <label for="arrange-puzzle-hint">רמז:</label>
+      <input type="text" id="arrange-puzzle-hint">
+    </div>
+    <div class="form-group">
+      <label for="arrange-puzzle-success">הודעת הצלחה:</label>
+      <input type="text" id="arrange-puzzle-success">
+    </div>
+    <button class="btn" id="save-arrange-puzzle">שמור</button>
+    <button class="btn btn-danger" id="delete-arrange-puzzle" style="float: left;">מחק חידה</button>
+  `;
+  
+  // יצירת טופס לחידת חיפוש
+  var searchForm = document.createElement("div");
+  searchForm.id = "search-puzzle-form";
+  searchForm.className = "puzzle-form";
+  searchForm.style.display = "none";
+  searchForm.innerHTML = `
+    <h4>עריכת חידת חיפוש</h4>
+    <div class="form-group">
+      <label for="search-puzzle-name">שם החידה:</label>
+      <input type="text" id="search-puzzle-name">
+    </div>
+    <div class="form-group">
+      <label for="search-puzzle-description">תיאור החידה:</label>
+      <textarea id="search-puzzle-description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>פריטים למציאה:</label>
+      <div id="search-items-container" class="search-items-container">
+        <!-- פריטים יתווספו דינמית -->
+      </div>
+      <button class="btn" id="add-search-item">+ הוסף פריט</button>
+    </div>
+    <div class="form-group">
+      <label for="search-puzzle-hint">רמז כללי:</label>
+      <input type="text" id="search-puzzle-hint">
+    </div>
+    <div class="form-group">
+      <label for="search-puzzle-success">הודעת הצלחה:</label>
+      <input type="text" id="search-puzzle-success">
+    </div>
+    <button class="btn" id="save-search-puzzle">שמור</button>
+    <button class="btn btn-danger" id="delete-search-puzzle" style="float: left;">מחק חידה</button>
+  `;
+  
+  // יצירת טופס לחידת הרכבה
+  var assemblyForm = document.createElement("div");
+  assemblyForm.id = "assembly-puzzle-form";
+  assemblyForm.className = "puzzle-form";
+  assemblyForm.style.display = "none";
+  assemblyForm.innerHTML = `
+    <h4>עריכת חידת הרכבה</h4>
+    <div class="form-group">
+      <label for="assembly-puzzle-name">שם החידה:</label>
+      <input type="text" id="assembly-puzzle-name">
+    </div>
+    <div class="form-group">
+      <label for="assembly-puzzle-description">תיאור החידה:</label>
+      <textarea id="assembly-puzzle-description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+      <label>חלקים להרכבה:</label>
+      <div id="assembly-parts-editor" class="elements-container">
+        <!-- חלקים יתווספו דינמית -->
+      </div>
+      <button class="btn" id="add-assembly-part">+ הוסף חלק</button>
+    </div>
+    <div class="form-group">
+      <label for="assembly-puzzle-hint">רמז:</label>
+      <input type="text" id="assembly-puzzle-hint">
+    </div>
+    <div class="form-group">
+      <label for="assembly-puzzle-success">הודעת הצלחה:</label>
+      <input type="text" id="assembly-puzzle-success">
+    </div>
+    <button class="btn" id="save-assembly-puzzle">שמור</button>
+    <button class="btn btn-danger" id="delete-assembly-puzzle" style="float: left;">מחק חידה</button>
+  `;
+  
+  // הוספת כל הטפסים למיכל
+  formsContainer.appendChild(codeForm);
+  formsContainer.appendChild(textForm);
+  formsContainer.appendChild(sequenceForm);
+  formsContainer.appendChild(matchingForm);
+  formsContainer.appendChild(arrangeForm);
+  formsContainer.appendChild(searchForm);
+  formsContainer.appendChild(assemblyForm);
+  
+  // הוספת מאזיני אירועים לטפסים
+  setupPuzzleFormEvents();
+}
 
+// פונקציה להגדרת אירועים לטפסי החידות
+function setupPuzzleFormEvents() {
+  // אירועים לחידת רצף
+  var addSequenceStepBtn = document.getElementById("add-sequence-step");
+  if (addSequenceStepBtn) {
+    addSequenceStepBtn.addEventListener("click", function() {
+      var stepsEditor = document.getElementById("sequence-steps-editor");
+      var stepIndex = stepsEditor.querySelectorAll(".sequence-step").length;
+      
+      var stepContainer = document.createElement("div");
+      stepContainer.className = "sequence-step";
+      
+      var stepInput = document.createElement("input");
+      stepInput.type = "text";
+      stepInput.placeholder = "צעד " + (stepIndex + 1);
+      stepInput.className = "sequence-step-input";
+      stepInput.setAttribute("data-index", stepIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.style.marginRight = "5px";
+      deleteBtn.addEventListener("click", function() {
+        stepsEditor.removeChild(stepContainer);
+        // עדכון האינדקסים
+        var steps = stepsEditor.querySelectorAll(".sequence-step-input");
+        for (var i = 0; i < steps.length; i++) {
+          steps[i].setAttribute("data-index", i);
+          steps[i].placeholder = "צעד " + (i + 1);
+        }
+      });
+      
+      stepContainer.appendChild(stepInput);
+      stepContainer.appendChild(deleteBtn);
+      
+      // הוסף לפני כפתור הוספת הצעד
+      stepsEditor.insertBefore(stepContainer, addSequenceStepBtn);
+    });
+  }
+  
+  // אירועים לחידת התאמה
+  var addMatchingPairBtn = document.getElementById("add-matching-pair");
+  if (addMatchingPairBtn) {
+    addMatchingPairBtn.addEventListener("click", function() {
+      var pairsEditor = document.getElementById("matching-pairs-editor");
+      var pairIndex = pairsEditor.querySelectorAll(".matching-pair").length;
+      
+      var pairContainer = document.createElement("div");
+      pairContainer.className = "matching-pair";
+      
+      var leftInput = document.createElement("input");
+      leftInput.type = "text";
+      leftInput.placeholder = "פריט שמאל";
+      leftInput.className = "matching-item";
+      leftInput.setAttribute("data-side", "left");
+      leftInput.setAttribute("data-index", pairIndex);
+      
+      var rightInput = document.createElement("input");
+      rightInput.type = "text";
+      rightInput.placeholder = "פריט ימין";
+      rightInput.className = "matching-item";
+      rightInput.setAttribute("data-side", "right");
+      rightInput.setAttribute("data-index", pairIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.addEventListener("click", function() {
+        pairsEditor.removeChild(pairContainer);
+      });
+      
+      pairContainer.appendChild(leftInput);
+      pairContainer.appendChild(rightInput);
+      pairContainer.appendChild(deleteBtn);
+      
+      pairsEditor.appendChild(pairContainer);
+    });
+  }
+  
+  // אירועים לחידת סידור
+  var addArrangeItemBtn = document.getElementById("add-arrange-item");
+  if (addArrangeItemBtn) {
+    addArrangeItemBtn.addEventListener("click", function() {
+      var itemsEditor = document.getElementById("arrange-items-editor");
+      var itemIndex = itemsEditor.querySelectorAll(".element-item").length;
+      
+      var itemContainer = document.createElement("div");
+      itemContainer.className = "element-item";
+      
+      var itemInput = document.createElement("input");
+      itemInput.type = "text";
+      itemInput.placeholder = "פריט " + (itemIndex + 1);
+      itemInput.setAttribute("data-index", itemIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.addEventListener("click", function() {
+        itemsEditor.removeChild(itemContainer);
+      });
+      
+      itemContainer.appendChild(itemInput);
+      itemContainer.appendChild(deleteBtn);
+      
+      itemsEditor.appendChild(itemContainer);
+    });
+  }
+  
+  // אירועים לחידת חיפוש
+  var addSearchItemBtn = document.getElementById("add-search-item");
+  if (addSearchItemBtn) {
+    addSearchItemBtn.addEventListener("click", function() {
+      var itemsContainer = document.getElementById("search-items-container");
+      var itemIndex = itemsContainer.querySelectorAll(".search-item").length;
+      
+      var itemDiv = document.createElement("div");
+      itemDiv.className = "search-item";
+      
+      var nameGroup = document.createElement("div");
+      nameGroup.className = "form-group";
+      
+      var nameLabel = document.createElement("label");
+      nameLabel.textContent = "שם הפריט:";
+      
+      var nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.placeholder = "פריט " + (itemIndex + 1);
+      nameInput.className = "search-item-name";
+      
+      nameGroup.appendChild(nameLabel);
+      nameGroup.appendChild(nameInput);
+      
+      var hintGroup = document.createElement("div");
+      hintGroup.className = "form-group";
+      
+      var hintLabel = document.createElement("label");
+      hintLabel.textContent = "רמז לפריט:";
+      
+      var hintInput = document.createElement("input");
+      hintInput.type = "text";
+      hintInput.placeholder = "רמז לפריט " + (itemIndex + 1);
+      hintInput.className = "search-item-hint";
+      
+      hintGroup.appendChild(hintLabel);
+      hintGroup.appendChild(hintInput);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "הסר פריט";
+      deleteBtn.addEventListener("click", function() {
+        itemsContainer.removeChild(itemDiv);
+      });
+      
+      itemDiv.appendChild(nameGroup);
+      itemDiv.appendChild(hintGroup);
+      itemDiv.appendChild(deleteBtn);
+      
+      itemsContainer.appendChild(itemDiv);
+    });
+  }
+  
+  // אירועים לחידת הרכבה
+  var addAssemblyPartBtn = document.getElementById("add-assembly-part");
+  if (addAssemblyPartBtn) {
+    addAssemblyPartBtn.addEventListener("click", function() {
+      var partsEditor = document.getElementById("assembly-parts-editor");
+      var partIndex = partsEditor.querySelectorAll(".assembly-part").length;
+      
+      var partContainer = document.createElement("div");
+      partContainer.className = "assembly-part";
+      
+      var partInput = document.createElement("input");
+      partInput.type = "text";
+      partInput.placeholder = "חלק " + (partIndex + 1);
+      partInput.setAttribute("data-index", partIndex);
+      
+      var orderInput = document.createElement("input");
+      orderInput.type = "number";
+      orderInput.placeholder = "סדר";
+      orderInput.value = partIndex;
+      orderInput.min = "0";
+      orderInput.style.width = "60px";
+      orderInput.setAttribute("data-index", partIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.addEventListener("click", function() {
+        partsEditor.removeChild(partContainer);
+      });
+      
+      partContainer.appendChild(partInput);
+      partContainer.appendChild(orderInput);
+      partContainer.appendChild(deleteBtn);
+      
+      partsEditor.appendChild(partContainer);
+    });
+  }
+}
 // פונקציה לעדכון רשימת יעדי הדלת
 function updateDoorTargets() {
   var nextRoomSelect = document.getElementById("next-room");
