@@ -138,6 +138,206 @@ function loadCurrentRoom() {
   // עדכן את רשימת החדרים בתפריט יעד הדלת
   updateDoorTargets();
 }
+
+// פונקציה להגדרת אירועים לטפסי החידות
+function setupPuzzleFormEvents() {
+  // אירועים לחידת רצף
+  var addSequenceStepBtn = document.getElementById("add-sequence-step");
+  if (addSequenceStepBtn) {
+    addSequenceStepBtn.addEventListener("click", function() {
+      var stepsEditor = document.getElementById("sequence-steps-editor");
+      var stepIndex = stepsEditor.querySelectorAll(".sequence-step").length;
+      
+      var stepContainer = document.createElement("div");
+      stepContainer.className = "sequence-step";
+      
+      var stepInput = document.createElement("input");
+      stepInput.type = "text";
+      stepInput.placeholder = "צעד " + (stepIndex + 1);
+      stepInput.className = "sequence-step-input";
+      stepInput.setAttribute("data-index", stepIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.style.marginRight = "5px";
+      deleteBtn.addEventListener("click", function() {
+        stepsEditor.removeChild(stepContainer);
+        // עדכון האינדקסים
+        var steps = stepsEditor.querySelectorAll(".sequence-step-input");
+        for (var i = 0; i < steps.length; i++) {
+          steps[i].setAttribute("data-index", i);
+          steps[i].placeholder = "צעד " + (i + 1);
+        }
+      });
+      
+      stepContainer.appendChild(stepInput);
+      stepContainer.appendChild(deleteBtn);
+      
+      // הוסף לפני כפתור הוספת הצעד
+      stepsEditor.insertBefore(stepContainer, addSequenceStepBtn);
+    });
+  }
+  
+  // אירועים לחידת התאמה
+  var addMatchingPairBtn = document.getElementById("add-matching-pair");
+  if (addMatchingPairBtn) {
+    addMatchingPairBtn.addEventListener("click", function() {
+      var pairsEditor = document.getElementById("matching-pairs-editor");
+      var pairIndex = pairsEditor.querySelectorAll(".matching-pair").length;
+      
+      var pairContainer = document.createElement("div");
+      pairContainer.className = "matching-pair";
+      
+      var leftInput = document.createElement("input");
+      leftInput.type = "text";
+      leftInput.placeholder = "פריט שמאל";
+      leftInput.className = "matching-item";
+      leftInput.setAttribute("data-side", "left");
+      leftInput.setAttribute("data-index", pairIndex);
+      
+      var rightInput = document.createElement("input");
+      rightInput.type = "text";
+      rightInput.placeholder = "פריט ימין";
+      rightInput.className = "matching-item";
+      rightInput.setAttribute("data-side", "right");
+      rightInput.setAttribute("data-index", pairIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.addEventListener("click", function() {
+        pairsEditor.removeChild(pairContainer);
+      });
+      
+      pairContainer.appendChild(leftInput);
+      pairContainer.appendChild(rightInput);
+      pairContainer.appendChild(deleteBtn);
+      
+      pairsEditor.appendChild(pairContainer);
+    });
+  }
+  
+  // אירועים לחידת סידור
+  var addArrangeItemBtn = document.getElementById("add-arrange-item");
+  if (addArrangeItemBtn) {
+    addArrangeItemBtn.addEventListener("click", function() {
+      var itemsEditor = document.getElementById("arrange-items-editor");
+      var itemIndex = itemsEditor.querySelectorAll(".element-item").length;
+      
+      var itemContainer = document.createElement("div");
+      itemContainer.className = "element-item";
+      
+      var itemInput = document.createElement("input");
+      itemInput.type = "text";
+      itemInput.placeholder = "פריט " + (itemIndex + 1);
+      itemInput.setAttribute("data-index", itemIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.addEventListener("click", function() {
+        itemsEditor.removeChild(itemContainer);
+      });
+      
+      itemContainer.appendChild(itemInput);
+      itemContainer.appendChild(deleteBtn);
+      
+      itemsEditor.appendChild(itemContainer);
+    });
+  }
+  
+  // אירועים לחידת חיפוש
+  var addSearchItemBtn = document.getElementById("add-search-item");
+  if (addSearchItemBtn) {
+    addSearchItemBtn.addEventListener("click", function() {
+      var itemsContainer = document.getElementById("search-items-container");
+      var itemIndex = itemsContainer.querySelectorAll(".search-item").length;
+      
+      var itemDiv = document.createElement("div");
+      itemDiv.className = "search-item";
+      
+      var nameGroup = document.createElement("div");
+      nameGroup.className = "form-group";
+      
+      var nameLabel = document.createElement("label");
+      nameLabel.textContent = "שם הפריט:";
+      
+      var nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.placeholder = "פריט " + (itemIndex + 1);
+      nameInput.className = "search-item-name";
+      
+      nameGroup.appendChild(nameLabel);
+      nameGroup.appendChild(nameInput);
+      
+      var hintGroup = document.createElement("div");
+      hintGroup.className = "form-group";
+      
+      var hintLabel = document.createElement("label");
+      hintLabel.textContent = "רמז לפריט:";
+      
+      var hintInput = document.createElement("input");
+      hintInput.type = "text";
+      hintInput.placeholder = "רמז לפריט " + (itemIndex + 1);
+      hintInput.className = "search-item-hint";
+      
+      hintGroup.appendChild(hintLabel);
+      hintGroup.appendChild(hintInput);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "הסר פריט";
+      deleteBtn.addEventListener("click", function() {
+        itemsContainer.removeChild(itemDiv);
+      });
+      
+      itemDiv.appendChild(nameGroup);
+      itemDiv.appendChild(hintGroup);
+      itemDiv.appendChild(deleteBtn);
+      
+      itemsContainer.appendChild(itemDiv);
+    });
+  }
+  
+  // אירועים לחידת הרכבה
+  var addAssemblyPartBtn = document.getElementById("add-assembly-part");
+  if (addAssemblyPartBtn) {
+    addAssemblyPartBtn.addEventListener("click", function() {
+      var partsEditor = document.getElementById("assembly-parts-editor");
+      var partIndex = partsEditor.querySelectorAll(".assembly-part").length;
+      
+      var partContainer = document.createElement("div");
+      partContainer.className = "assembly-part";
+      
+      var partInput = document.createElement("input");
+      partInput.type = "text";
+      partInput.placeholder = "חלק " + (partIndex + 1);
+      partInput.setAttribute("data-index", partIndex);
+      
+      var orderInput = document.createElement("input");
+      orderInput.type = "number";
+      orderInput.placeholder = "סדר";
+      orderInput.value = partIndex;
+      orderInput.min = "0";
+      orderInput.style.width = "60px";
+      orderInput.setAttribute("data-index", partIndex);
+      
+      var deleteBtn = document.createElement("button");
+      deleteBtn.className = "btn btn-danger";
+      deleteBtn.textContent = "X";
+      deleteBtn.addEventListener("click", function() {
+        partsEditor.removeChild(partContainer);
+      });
+      
+      partContainer.appendChild(partInput);
+      partContainer.appendChild(orderInput);
+      partContainer.appendChild(deleteBtn);
+      
+      partsEditor.appendChild(partContainer);
+    });
+  }
+}
 // פונקציה ליצירת טפסי חידות
 function createPuzzleForms() {
   var formsContainer = document.getElementById("puzzle-forms-container");
@@ -393,205 +593,6 @@ function createPuzzleForms() {
   setupPuzzleFormEvents();
 }
 
-// פונקציה להגדרת אירועים לטפסי החידות
-function setupPuzzleFormEvents() {
-  // אירועים לחידת רצף
-  var addSequenceStepBtn = document.getElementById("add-sequence-step");
-  if (addSequenceStepBtn) {
-    addSequenceStepBtn.addEventListener("click", function() {
-      var stepsEditor = document.getElementById("sequence-steps-editor");
-      var stepIndex = stepsEditor.querySelectorAll(".sequence-step").length;
-      
-      var stepContainer = document.createElement("div");
-      stepContainer.className = "sequence-step";
-      
-      var stepInput = document.createElement("input");
-      stepInput.type = "text";
-      stepInput.placeholder = "צעד " + (stepIndex + 1);
-      stepInput.className = "sequence-step-input";
-      stepInput.setAttribute("data-index", stepIndex);
-      
-      var deleteBtn = document.createElement("button");
-      deleteBtn.className = "btn btn-danger";
-      deleteBtn.textContent = "X";
-      deleteBtn.style.marginRight = "5px";
-      deleteBtn.addEventListener("click", function() {
-        stepsEditor.removeChild(stepContainer);
-        // עדכון האינדקסים
-        var steps = stepsEditor.querySelectorAll(".sequence-step-input");
-        for (var i = 0; i < steps.length; i++) {
-          steps[i].setAttribute("data-index", i);
-          steps[i].placeholder = "צעד " + (i + 1);
-        }
-      });
-      
-      stepContainer.appendChild(stepInput);
-      stepContainer.appendChild(deleteBtn);
-      
-      // הוסף לפני כפתור הוספת הצעד
-      stepsEditor.insertBefore(stepContainer, addSequenceStepBtn);
-    });
-  }
-  
-  // אירועים לחידת התאמה
-  var addMatchingPairBtn = document.getElementById("add-matching-pair");
-  if (addMatchingPairBtn) {
-    addMatchingPairBtn.addEventListener("click", function() {
-      var pairsEditor = document.getElementById("matching-pairs-editor");
-      var pairIndex = pairsEditor.querySelectorAll(".matching-pair").length;
-      
-      var pairContainer = document.createElement("div");
-      pairContainer.className = "matching-pair";
-      
-      var leftInput = document.createElement("input");
-      leftInput.type = "text";
-      leftInput.placeholder = "פריט שמאל";
-      leftInput.className = "matching-item";
-      leftInput.setAttribute("data-side", "left");
-      leftInput.setAttribute("data-index", pairIndex);
-      
-      var rightInput = document.createElement("input");
-      rightInput.type = "text";
-      rightInput.placeholder = "פריט ימין";
-      rightInput.className = "matching-item";
-      rightInput.setAttribute("data-side", "right");
-      rightInput.setAttribute("data-index", pairIndex);
-      
-      var deleteBtn = document.createElement("button");
-      deleteBtn.className = "btn btn-danger";
-      deleteBtn.textContent = "X";
-      deleteBtn.addEventListener("click", function() {
-        pairsEditor.removeChild(pairContainer);
-      });
-      
-      pairContainer.appendChild(leftInput);
-      pairContainer.appendChild(rightInput);
-      pairContainer.appendChild(deleteBtn);
-      
-      pairsEditor.appendChild(pairContainer);
-    });
-  }
-  
-  // אירועים לחידת סידור
-  var addArrangeItemBtn = document.getElementById("add-arrange-item");
-  if (addArrangeItemBtn) {
-    addArrangeItemBtn.addEventListener("click", function() {
-      var itemsEditor = document.getElementById("arrange-items-editor");
-      var itemIndex = itemsEditor.querySelectorAll(".element-item").length;
-      
-      var itemContainer = document.createElement("div");
-      itemContainer.className = "element-item";
-      
-      var itemInput = document.createElement("input");
-      itemInput.type = "text";
-      itemInput.placeholder = "פריט " + (itemIndex + 1);
-      itemInput.setAttribute("data-index", itemIndex);
-      
-      var deleteBtn = document.createElement("button");
-      deleteBtn.className = "btn btn-danger";
-      deleteBtn.textContent = "X";
-      deleteBtn.addEventListener("click", function() {
-        itemsEditor.removeChild(itemContainer);
-      });
-      
-      itemContainer.appendChild(itemInput);
-      itemContainer.appendChild(deleteBtn);
-      
-      itemsEditor.appendChild(itemContainer);
-    });
-  }
-  
-  // אירועים לחידת חיפוש
-  var addSearchItemBtn = document.getElementById("add-search-item");
-  if (addSearchItemBtn) {
-    addSearchItemBtn.addEventListener("click", function() {
-      var itemsContainer = document.getElementById("search-items-container");
-      var itemIndex = itemsContainer.querySelectorAll(".search-item").length;
-      
-      var itemDiv = document.createElement("div");
-      itemDiv.className = "search-item";
-      
-      var nameGroup = document.createElement("div");
-      nameGroup.className = "form-group";
-      
-      var nameLabel = document.createElement("label");
-      nameLabel.textContent = "שם הפריט:";
-      
-      var nameInput = document.createElement("input");
-      nameInput.type = "text";
-      nameInput.placeholder = "פריט " + (itemIndex + 1);
-      nameInput.className = "search-item-name";
-      
-      nameGroup.appendChild(nameLabel);
-      nameGroup.appendChild(nameInput);
-      
-      var hintGroup = document.createElement("div");
-      hintGroup.className = "form-group";
-      
-      var hintLabel = document.createElement("label");
-      hintLabel.textContent = "רמז לפריט:";
-      
-      var hintInput = document.createElement("input");
-      hintInput.type = "text";
-      hintInput.placeholder = "רמז לפריט " + (itemIndex + 1);
-      hintInput.className = "search-item-hint";
-      
-      hintGroup.appendChild(hintLabel);
-      hintGroup.appendChild(hintInput);
-      
-      var deleteBtn = document.createElement("button");
-      deleteBtn.className = "btn btn-danger";
-      deleteBtn.textContent = "הסר פריט";
-      deleteBtn.addEventListener("click", function() {
-        itemsContainer.removeChild(itemDiv);
-      });
-      
-      itemDiv.appendChild(nameGroup);
-      itemDiv.appendChild(hintGroup);
-      itemDiv.appendChild(deleteBtn);
-      
-      itemsContainer.appendChild(itemDiv);
-    });
-  }
-  
-  // אירועים לחידת הרכבה
-  var addAssemblyPartBtn = document.getElementById("add-assembly-part");
-  if (addAssemblyPartBtn) {
-    addAssemblyPartBtn.addEventListener("click", function() {
-      var partsEditor = document.getElementById("assembly-parts-editor");
-      var partIndex = partsEditor.querySelectorAll(".assembly-part").length;
-      
-      var partContainer = document.createElement("div");
-      partContainer.className = "assembly-part";
-      
-      var partInput = document.createElement("input");
-      partInput.type = "text";
-      partInput.placeholder = "חלק " + (partIndex + 1);
-      partInput.setAttribute("data-index", partIndex);
-      
-      var orderInput = document.createElement("input");
-      orderInput.type = "number";
-      orderInput.placeholder = "סדר";
-      orderInput.value = partIndex;
-      orderInput.min = "0";
-      orderInput.style.width = "60px";
-      orderInput.setAttribute("data-index", partIndex);
-      
-      var deleteBtn = document.createElement("button");
-      deleteBtn.className = "btn btn-danger";
-      deleteBtn.textContent = "X";
-      deleteBtn.addEventListener("click", function() {
-        partsEditor.removeChild(partContainer);
-      });
-      
-      partContainer.appendChild(partInput);
-      partContainer.appendChild(orderInput);
-      partContainer.appendChild(deleteBtn);
-      
-      partsEditor.appendChild(partContainer);
-    });
-  }
-}
 // פונקציה לעדכון רשימת יעדי הדלת
 function updateDoorTargets() {
   var nextRoomSelect = document.getElementById("next-room");
