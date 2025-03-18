@@ -16,14 +16,14 @@
       height: 100%;
       background-color: #f5f5f5;
     }
-
+    
     /* סגנון ממשק המחולל */
     .generator {
       display: flex;
       height: 100vh;
       overflow: hidden;
     }
-
+    
     /* סרגל צד */
     .sidebar {
       width: 300px;
@@ -34,25 +34,25 @@
       flex-direction: column;
       overflow-y: auto;
     }
-
+    
     .sidebar h2 {
       margin-top: 0;
       margin-bottom: 15px;
       border-bottom: 1px solid #465c6e;
       padding-bottom: 10px;
     }
-
+    
     .sidebar-section {
       margin-bottom: 20px;
     }
-
+    
     .section-title {
       font-size: 16px;
       font-weight: bold;
       margin-bottom: 10px;
       color: #ecf0f1;
     }
-
+    
     /* אזור תצוגה מרכזי */
     .main-content {
       flex: 1;
@@ -60,7 +60,7 @@
       flex-direction: column;
       overflow: hidden;
     }
-
+    
     .toolbar {
       background-color: #34495e;
       color: white;
@@ -69,14 +69,14 @@
       justify-content: space-between;
       align-items: center;
     }
-
+    
     .preview-area {
       flex: 1;
       background-color: #ecf0f1;
       overflow: auto;
       position: relative;
     }
-
+    
     /* סגנון החדר */
     .room-preview {
       width: 800px;
@@ -88,7 +88,7 @@
       background-position: center;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
-
+    
     /* אובייקטים בחדר */
     .room-item {
       position: absolute;
@@ -101,18 +101,24 @@
       color: white;
       font-weight: bold;
     }
-
+    
     .room-item.selected {
       border-color: #3498db;
       background-color: rgba(52, 152, 219, 0.7);
     }
-
+    
+    .room-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    
     /* לשוניות */
     .tabs {
       display: flex;
       background-color: #465c6e;
     }
-
+    
     .tab {
       padding: 10px 15px;
       cursor: pointer;
@@ -121,23 +127,23 @@
       border: none;
       outline: none;
     }
-
+    
     .tab:hover {
       background-color: #566c7e;
     }
-
+    
     .tab.active {
       background-color: #34495e;
       border-bottom: 3px solid #3498db;
     }
-
+    
     /* תפריט חדרים */
     .rooms-list {
       list-style-type: none;
       padding: 0;
       margin: 0;
     }
-
+    
     .room-item-list {
       padding: 8px 10px;
       border-radius: 4px;
@@ -145,18 +151,18 @@
       background-color: #34495e;
       cursor: pointer;
     }
-
+    
     .room-item-list.active {
       background-color: #3498db;
     }
-
+    
     /* תפריט אובייקטים */
     .object-gallery {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 8px;
     }
-
+    
     .object-thumbnail {
       width: 100%;
       height: 80px;
@@ -170,18 +176,18 @@
       font-weight: bold;
       text-align: center;
     }
-
+    
     /* טפסים */
     .form-group {
       margin-bottom: 15px;
     }
-
+    
     label {
       display: block;
       margin-bottom: 5px;
       font-size: 14px;
     }
-
+    
     input, select, textarea {
       width: 100%;
       padding: 8px;
@@ -190,7 +196,7 @@
       color: white;
       border-radius: 4px;
     }
-
+    
     /* כפתורים */
     .btn {
       padding: 8px 15px;
@@ -201,19 +207,19 @@
       cursor: pointer;
       font-size: 14px;
     }
-
+    
     .btn-secondary {
       background-color: #95a5a6;
     }
-
+    
     .btn-success {
       background-color: #2ecc71;
     }
-
+    
     .btn-danger {
       background-color: #e74c3c;
     }
-
+    
     /* חלוניות מודאליות */
     .modal {
       display: none;
@@ -226,7 +232,7 @@
       z-index: 1000;
       overflow: auto;
     }
-
+    
     .modal-content {
       background-color: #ecf0f1;
       color: #2c3e50;
@@ -237,20 +243,20 @@
       border-radius: 4px;
       box-shadow: 0 0 20px rgba(0,0,0,0.3);
     }
-
+    
     .close-modal {
       float: left;
       font-size: 24px;
       cursor: pointer;
     }
-
+    
     /* לשונית מפה */
     .map-editor {
       height: 100%;
       background-color: #ecf0f1;
       padding: 20px;
     }
-
+    
     .map-container {
       width: 100%;
       height: 500px;
@@ -258,7 +264,7 @@
       border: 1px solid #bdc3c7;
       position: relative;
     }
-
+    
     .map-room {
       position: absolute;
       width: 120px;
@@ -271,24 +277,24 @@
       color: white;
       cursor: move;
     }
-
+    
     .map-connection {
       position: absolute;
       background-color: #7f8c8d;
       z-index: -1;
     }
-
+    
     /* לשונית חידות */
     .puzzle-editor {
       padding: 20px;
     }
-
+    
     .puzzle-list {
       list-style-type: none;
       padding: 0;
       margin-bottom: 20px;
     }
-
+    
     .puzzle-list-item {
       padding: 10px;
       border: 1px solid #bdc3c7;
@@ -296,13 +302,13 @@
       background-color: white;
       cursor: pointer;
     }
-
+    
     .puzzle-form {
       background-color: white;
       padding: 15px;
       border: 1px solid #bdc3c7;
     }
-
+    
     /* לשונית ייצוא */
     .export-section {
       padding: 20px;
@@ -314,7 +320,7 @@
     <!-- סרגל צד -->
     <div class="sidebar">
       <h2>מחולל חדרי בריחה</h2>
-
+      
       <div class="sidebar-section">
         <div class="section-title">חדרים</div>
         <ul class="rooms-list" id="rooms-list">
@@ -322,7 +328,7 @@
         </ul>
         <button class="btn" id="add-room-btn" style="width: 100%; margin-top: 10px;">+ הוסף חדר</button>
       </div>
-
+      
       <div class="sidebar-section">
         <div class="section-title">אובייקטים</div>
         <div class="object-gallery" id="object-gallery">
@@ -332,7 +338,7 @@
           <div class="object-thumbnail" data-type="computer">מחשב</div>
         </div>
       </div>
-
+      
       <div class="sidebar-section">
         <div class="section-title">הגדרות חדר</div>
         <div class="form-group">
@@ -345,10 +351,16 @@
             <option value="lab">מעבדה</option>
             <option value="library">ספרייה</option>
             <option value="office">משרד</option>
+            <option value="mansion">אחוזה</option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="room-background-image">תמונת רקע:</label>
+          <input type="file" id="room-background-image" accept="image/*">
+          <button class="btn btn-secondary" id="remove-room-bg-image" style="margin-top: 5px;">הסר תמונת רקע</button>
+        </div>
       </div>
-
+      
       <div class="sidebar-section">
         <div class="section-title">תכונות האובייקט</div>
         <div id="object-properties" style="display: none;">
@@ -384,6 +396,11 @@
               <option value="room2">חדר 2</option>
             </select>
           </div>
+          <div class="form-group">
+            <label for="object-image">תמונת האובייקט:</label>
+            <input type="file" id="object-image" accept="image/*">
+            <button class="btn btn-secondary" id="remove-object-image" style="margin-top: 5px;">הסר תמונה</button>
+          </div>
           <button class="btn btn-danger" id="delete-object-btn">מחק אובייקט</button>
         </div>
         <div id="no-object-selected" style="text-align: center; padding: 10px;">
@@ -391,7 +408,7 @@
         </div>
       </div>
     </div>
-
+    
     <!-- תוכן ראשי -->
     <div class="main-content">
       <div class="toolbar">
@@ -404,14 +421,14 @@
           <button class="btn btn-success" id="export-btn">ייצא משחק</button>
         </div>
       </div>
-
+      
       <div class="tabs">
         <button class="tab active" data-tab="rooms">חדרים</button>
         <button class="tab" data-tab="puzzles">חידות</button>
         <button class="tab" data-tab="map">מפה</button>
         <button class="tab" data-tab="export">ייצוא</button>
       </div>
-
+      
       <div class="preview-area">
         <!-- לשונית חדרים -->
         <div class="tab-content active" id="rooms-tab">
@@ -420,26 +437,26 @@
             <div class="room-item" id="item1" style="width: 60px; height: 60px; left: 200px; top: 300px;" data-type="safe">
               כספת
             </div>
-
+            
             <div class="room-item" id="item2" style="width: 50px; height: 50px; left: 400px; top: 150px;" data-type="computer">
               מחשב
             </div>
           </div>
         </div>
-
+        
         <!-- לשונית חידות -->
         <div class="tab-content" id="puzzles-tab" style="display: none;">
           <div class="puzzle-editor">
             <h3>חידות</h3>
             <p>כאן תוכל ליצור ולערוך חידות לחדרי הבריחה שלך.</p>
-
+            
             <div class="puzzle-list">
               <div class="puzzle-list-item" data-puzzle-id="code-puzzle">חידת קוד - כספת</div>
               <div class="puzzle-list-item" data-puzzle-id="text-puzzle">חידת טקסט - מחשב</div>
             </div>
-
+            
             <button class="btn" id="add-puzzle-btn">+ הוסף חידה חדשה</button>
-
+            
             <div class="puzzle-form" id="code-puzzle-form" style="display: none; margin-top: 20px;">
               <h4>עריכת חידת קוד</h4>
               <div class="form-group">
@@ -464,7 +481,7 @@
               </div>
               <button class="btn" id="save-code-puzzle">שמור</button>
             </div>
-
+            
             <div class="puzzle-form" id="text-puzzle-form" style="display: none; margin-top: 20px;">
               <h4>עריכת חידת טקסט</h4>
               <div class="form-group">
@@ -491,13 +508,13 @@
             </div>
           </div>
         </div>
-
+        
         <!-- לשונית מפה -->
         <div class="tab-content" id="map-tab" style="display: none;">
           <div class="map-editor">
             <h3>מפת חדרים</h3>
             <p>גרור חדרים למפה וצור קשרים ביניהם.</p>
-
+            
             <div class="map-container" id="map-container">
               <div class="map-room" id="map-room1" style="top: 50px; left: 50px;" data-room-id="room1">
                 חדר 1: מעבדה
@@ -507,7 +524,7 @@
               </div>
               <!-- קשרים בין חדרים יתווספו דינאמית ע"י ה-JavaScript -->
             </div>
-
+            
             <div style="margin-top: 20px;">
               <button class="btn" id="add-map-room">+ הוסף חדר</button>
               <button class="btn" id="create-connection">צור קשר</button>
@@ -515,30 +532,30 @@
             </div>
           </div>
         </div>
-
+        
         <!-- לשונית ייצוא -->
         <div class="tab-content" id="export-tab" style="display: none;">
           <div class="export-section">
             <h3>ייצוא משחק</h3>
             <p>ייצא את חדר הבריחה שלך כקובץ HTML שניתן לשתף ולהפעיל בכל דפדפן.</p>
-
+            
             <div class="form-group">
               <label for="game-title">כותרת המשחק:</label>
               <input type="text" id="game-title" value="חדר הבריחה שלי - המעבדה המסתורית">
             </div>
-
+            
             <div class="form-group">
               <label for="game-description">תיאור המשחק:</label>
               <textarea id="game-description" rows="4">ברוכים הבאים לחדר הבריחה המקוון! מצאת את עצמך נעול במעבדה מסתורית. עליך לפתור את החידות ולמצוא את הדרך החוצה תוך 60 דקות.</textarea>
             </div>
-
+            
             <div class="form-group">
               <label for="game-time-limit">הגבלת זמן (בדקות):</label>
               <input type="number" id="game-time-limit" value="60">
             </div>
-
+            
             <button class="btn btn-success" id="generate-game">ייצא משחק</button>
-
+            
             <div style="margin-top: 20px; display: none;" id="export-result">
               <h4>המשחק מוכן להורדה!</h4>
               <p>לחץ על הכפתור למטה כדי להוריד את המשחק:</p>
@@ -546,7 +563,7 @@
             </div>
           </div>
         </div>
-
+        
         <!-- מודאלים -->
         <div class="modal" id="add-room-modal">
           <div class="modal-content">
@@ -568,7 +585,7 @@
             <button class="btn btn-success" id="create-room-btn">צור חדר</button>
           </div>
         </div>
-
+        
         <div class="modal" id="add-puzzle-modal">
           <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -589,7 +606,7 @@
             <button class="btn btn-success" id="create-puzzle-btn">צור חידה</button>
           </div>
         </div>
-
+        
         <div class="modal" id="export-game-modal">
           <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -618,6 +635,7 @@
           id: "room1",
           name: "חדר 1: מעבדה",
           background: "lab",
+          backgroundImage: null,
           items: {
             item1: {
               id: "item1",
@@ -630,7 +648,8 @@
               puzzle: "code-puzzle",
               locked: true,
               requiredItem: null,
-              nextRoom: null
+              nextRoom: null,
+              image: null
             },
             item2: {
               id: "item2",
@@ -643,7 +662,8 @@
               puzzle: "text-puzzle",
               locked: false,
               requiredItem: null,
-              nextRoom: null
+              nextRoom: null,
+              image: null
             }
           }
         },
@@ -651,6 +671,7 @@
           id: "room2",
           name: "חדר 2: ספרייה",
           background: "library",
+          backgroundImage: null,
           items: {}
         }
       },
@@ -683,13 +704,27 @@
         timeLimit: 60
       }
     };
-
+    
     // חדר נוכחי שמוצג
     var currentRoomId = "room1";
-
+    
     // אובייקט נבחר
     var selectedItem = null;
-
+    
+    // פונקציה להמרת קובץ תמונה ל-Data URL
+    function fileToDataURL(file) {
+      return new Promise((resolve, reject) => {
+        var reader = new FileReader();
+        reader.onload = function(event) {
+          resolve(event.target.result);
+        };
+        reader.onerror = function(error) {
+          reject(error);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    
     // פונקציה לטעינת החדר הנוכחי
     function loadCurrentRoom() {
       // נקה את תצוגת החדר
@@ -699,381 +734,1026 @@
       for (var i = 0; i < items.length; i++) {
         items[i].remove();
       }
-
+      
       // הגדר את הרקע של החדר
       var room = projectData.rooms[currentRoomId];
-      if (room.background === "lab") {
-        roomPreview.style.backgroundColor = "#243447";
-      } else if (room.background === "library") {
-        roomPreview.style.backgroundColor = "#4b3621";
-      } else if (room.background === "office") {
-        roomPreview.style.backgroundColor = "#34515e";
-      } else if (room.background === "mansion") {
-        roomPreview.style.backgroundColor = "#544e4d";
-      }
-
-      // הוסף את כל האובייקטים בחדר
-      for (var itemId in room.items) {
-        var item = room.items[itemId];
-        var itemElement = document.createElement("div");
-        itemElement.id = item.id;
-        itemElement.className = "room-item";
-        itemElement.style.width = item.width + "px";
-        itemElement.style.height = item.height + "px";
-        itemElement.style.left = item.x + "px";
-        itemElement.style.top = item.y + "px";
-        itemElement.setAttribute("data-type", item.type);
-        itemElement.textContent = item.name;
-
-        // הוסף את האובייקט לחדר
-        roomPreview.appendChild(itemElement);
-
-        // טיפול באירועי עכבר
-        itemElement.addEventListener("mousedown", selectItem);
-        itemElement.addEventListener("mousemove", moveItem);
-        itemElement.addEventListener("mouseup", deselectItem);
-      }
-
-      // עדכן את שם החדר
-      document.getElementById("room-name").value = room.name;
-
-      // עדכן את הרקע בתפריט
-      document.getElementById("room-background").value = room.background;
-
-      // עדכן את הרשימה של החדרים
-     var roomItems = document.querySelectorAll(".room-item-list");
-     for (var i = 0; i < roomItems.length; i++) {
-       roomItems[i].classList.remove("active");
-       if (roomItems[i].getAttribute("data-room-id") === currentRoomId) {
-         roomItems[i].classList.add("active");
+      
+      // בדוק אם יש תמונת רקע
+      if (room.backgroundImage) {
+        roomPreview.style.backgroundImage = "url('" + room.backgroundImage + "')";
+         roomPreview.style.backgroundColor = "transparent";
+       } else {
+         roomPreview.style.backgroundImage = "none";
+         // הגדר את צבע הרקע לפי סוג החדר
+         if (room.background === "lab") {
+           roomPreview.style.backgroundColor = "#243447";
+         } else if (room.background === "library") {
+           roomPreview.style.backgroundColor = "#4b3621";
+         } else if (room.background === "office") {
+           roomPreview.style.backgroundColor = "#34515e";
+         } else if (room.background === "mansion") {
+           roomPreview.style.backgroundColor = "#544e4d";
+         }
+       }
+       
+       // הוסף את כל האובייקטים בחדר
+       for (var itemId in room.items) {
+         var item = room.items[itemId];
+         var itemElement = document.createElement("div");
+         itemElement.id = item.id;
+         itemElement.className = "room-item";
+         itemElement.style.width = item.width + "px";
+         itemElement.style.height = item.height + "px";
+         itemElement.style.left = item.x + "px";
+         itemElement.style.top = item.y + "px";
+         itemElement.setAttribute("data-type", item.type);
+         
+         // בדוק אם יש תמונה לאובייקט
+         if (item.image) {
+           var imgElement = document.createElement("img");
+           imgElement.src = item.image;
+           imgElement.style.width = "100%";
+           imgElement.style.height = "100%";
+           imgElement.style.objectFit = "contain";
+           itemElement.appendChild(imgElement);
+         } else {
+           // אם אין תמונה, השתמש בטקסט
+           itemElement.textContent = item.name;
+         }
+         
+         // הוסף את האובייקט לחדר
+         roomPreview.appendChild(itemElement);
+         
+         // טיפול באירועי עכבר
+         itemElement.addEventListener("mousedown", selectItem);
+         itemElement.addEventListener("mousemove", moveItem);
+         itemElement.addEventListener("mouseup", deselectItem);
+       }
+       
+       // עדכן את שם החדר
+       document.getElementById("room-name").value = room.name;
+       
+       // עדכן את הרקע בתפריט
+       document.getElementById("room-background").value = room.background;
+       
+       // עדכן את הרשימה של החדרים
+       var roomItems = document.querySelectorAll(".room-item-list");
+       for (var i = 0; i < roomItems.length; i++) {
+         roomItems[i].classList.remove("active");
+         if (roomItems[i].getAttribute("data-room-id") === currentRoomId) {
+           roomItems[i].classList.add("active");
+         }
        }
      }
-   }
-
-   // פונקציה לבחירת אובייקט
-   function selectItem(e) {
-     // שמור את האובייקט הנבחר
-     selectedItem = {
-       element: this,
-       offsetX: e.clientX - this.getBoundingClientRect().left,
-       offsetY: e.clientY - this.getBoundingClientRect().top,
-       moving: true
-     };
-
-     // סמן את האובייקט בחזותית
-     var items = document.querySelectorAll(".room-item");
-     for (var i = 0; i < items.length; i++) {
-       items[i].classList.remove("selected");
+  
+     // פונקציה לבחירת אובייקט
+     function selectItem(e) {
+       // שמור את האובייקט הנבחר
+       selectedItem = {
+         element: this,
+         offsetX: e.clientX - this.getBoundingClientRect().left,
+         offsetY: e.clientY - this.getBoundingClientRect().top,
+         moving: true
+       };
+       
+       // סמן את האובייקט בחזותית
+       var items = document.querySelectorAll(".room-item");
+       for (var i = 0; i < items.length; i++) {
+         items[i].classList.remove("selected");
+       }
+       this.classList.add("selected");
+       
+       // הצג את התכונות שלו
+       showItemProperties(this.id);
+       
+       // מנע ברירת מחדל של האירוע
+       e.preventDefault();
      }
-     this.classList.add("selected");
-
-     // הצג את התכונות שלו
-     showItemProperties(this.id);
-
-     // מנע ברירת מחדל של האירוע
-     e.preventDefault();
-   }
-
-   // פונקציה להזזת אובייקט
-   function moveItem(e) {
-     if (selectedItem && selectedItem.moving && selectedItem.element === this) {
-       var roomPreview = document.getElementById("room-preview");
-       var roomRect = roomPreview.getBoundingClientRect();
-
-       var newX = e.clientX - roomRect.left - selectedItem.offsetX;
-       var newY = e.clientY - roomRect.top - selectedItem.offsetY;
-
-       // וודא שהאובייקט נשאר בגבולות החדר
-       var width = parseInt(this.style.width);
-       var height = parseInt(this.style.height);
-
-       newX = Math.max(0, Math.min(newX, roomRect.width - width));
-       newY = Math.max(0, Math.min(newY, roomRect.height - height));
-
-       // עדכן את המיקום
-       this.style.left = newX + "px";
-       this.style.top = newY + "px";
-
-       // עדכן את מידע האובייקט בפרויקט
-       var itemId = this.id;
-       projectData.rooms[currentRoomId].items[itemId].x = newX;
-       projectData.rooms[currentRoomId].items[itemId].y = newY;
+     
+     // פונקציה להזזת אובייקט
+     function moveItem(e) {
+       if (selectedItem && selectedItem.moving && selectedItem.element === this) {
+         var roomPreview = document.getElementById("room-preview");
+         var roomRect = roomPreview.getBoundingClientRect();
+         
+         var newX = e.clientX - roomRect.left - selectedItem.offsetX;
+         var newY = e.clientY - roomRect.top - selectedItem.offsetY;
+         
+         // וודא שהאובייקט נשאר בגבולות החדר
+         var width = parseInt(this.style.width);
+         var height = parseInt(this.style.height);
+         
+         newX = Math.max(0, Math.min(newX, roomRect.width - width));
+         newY = Math.max(0, Math.min(newY, roomRect.height - height));
+         
+         // עדכן את המיקום
+         this.style.left = newX + "px";
+         this.style.top = newY + "px";
+         
+         // עדכן את מידע האובייקט בפרויקט
+         var itemId = this.id;
+         projectData.rooms[currentRoomId].items[itemId].x = newX;
+         projectData.rooms[currentRoomId].items[itemId].y = newY;
+       }
      }
-   }
-
-   // פונקציה לשחרור אובייקט
-   function deselectItem() {
-     if (selectedItem && selectedItem.element === this) {
-       selectedItem.moving = false;
+     
+     // פונקציה לשחרור אובייקט
+     function deselectItem() {
+       if (selectedItem && selectedItem.element === this) {
+         selectedItem.moving = false;
+       }
      }
-   }
-
-   // פונקציה להצגת תכונות של אובייקט נבחר
-   function showItemProperties(itemId) {
-     var item = projectData.rooms[currentRoomId].items[itemId];
-     if (!item) return;
-
-     // הצג את פאנל התכונות
-     document.getElementById("no-object-selected").style.display = "none";
-     document.getElementById("object-properties").style.display = "block";
-
-     // מלא את הערכים בטופס
-     document.getElementById("object-name").value = item.name;
-     document.getElementById("object-puzzle").value = item.puzzle || "";
-     document.getElementById("object-locked").checked = item.locked;
-     document.getElementById("object-required-item").value = item.requiredItem || "";
-     document.getElementById("object-next-room").value = item.nextRoom || "";
-   }
-
-   // פונקציה להוספת אובייקט חדש
-   function addNewItem(type) {
-     // צור מזהה ייחודי
-     var itemCount = Object.keys(projectData.rooms[currentRoomId].items).length;
-     var newItemId = "item" + (itemCount + 1);
-
-     // הגדר מידות ברירת מחדל לפי הסוג
-     var width = 50, height = 50;
-     var name = "";
-
-     if (type === "safe") {
-       width = 60;
-       height = 60;
-       name = "כספת";
-     } else if (type === "key") {
-       width = 40;
-       height = 40;
-       name = "מפתח";
-     } else if (type === "book") {
-       width = 50;
-       height = 40;
-       name = "ספר";
-     } else if (type === "computer") {
-       width = 50;
-       height = 50;
-       name = "מחשב";
+     
+     // פונקציה להצגת תכונות של אובייקט נבחר
+     function showItemProperties(itemId) {
+       var item = projectData.rooms[currentRoomId].items[itemId];
+       if (!item) return;
+       
+       // הצג את פאנל התכונות
+       document.getElementById("no-object-selected").style.display = "none";
+       document.getElementById("object-properties").style.display = "block";
+       
+       // מלא את הערכים בטופס
+       document.getElementById("object-name").value = item.name;
+       document.getElementById("object-puzzle").value = item.puzzle || "";
+       document.getElementById("object-locked").checked = item.locked;
+       document.getElementById("object-required-item").value = item.requiredItem || "";
+       document.getElementById("object-next-room").value = item.nextRoom || "";
+       
+       // איפוס שדה העלאת התמונה
+       document.getElementById("object-image").value = "";
      }
-
-     // הוסף את האובייקט לנתוני הפרויקט
-     projectData.rooms[currentRoomId].items[newItemId] = {
-       id: newItemId,
-       name: name,
-       type: type,
-       x: 200,
-       y: 200,
-       width: width,
-       height: height,
-       puzzle: "",
-       locked: false,
-       requiredItem: null,
-       nextRoom: null
-     };
-
-     // טען מחדש את החדר
-     loadCurrentRoom();
-   }
-
-   // פונקציה למחיקת אובייקט
-   function deleteSelectedItem() {
-     if (selectedItem) {
-       var itemId = selectedItem.element.id;
-       delete projectData.rooms[currentRoomId].items[itemId];
-
+     
+     // פונקציה להוספת אובייקט חדש
+     function addNewItem(type) {
+       // צור מזהה ייחודי
+       var itemCount = Object.keys(projectData.rooms[currentRoomId].items).length;
+       var newItemId = "item" + (itemCount + 1);
+       
+       // הגדר מידות ברירת מחדל לפי הסוג
+       var width = 50, height = 50;
+       var name = "";
+       
+       if (type === "safe") {
+         width = 60;
+         height = 60;
+         name = "כספת";
+       } else if (type === "key") {
+         width = 40;
+         height = 40;
+         name = "מפתח";
+       } else if (type === "book") {
+         width = 50;
+         height = 40;
+         name = "ספר";
+       } else if (type === "computer") {
+         width = 50;
+         height = 50;
+         name = "מחשב";
+       }
+       
+       // הוסף את האובייקט לנתוני הפרויקט
+       projectData.rooms[currentRoomId].items[newItemId] = {
+         id: newItemId,
+         name: name,
+         type: type,
+         x: 200,
+         y: 200,
+         width: width,
+         height: height,
+         puzzle: "",
+         locked: false,
+         requiredItem: null,
+         nextRoom: null,
+         image: null
+       };
+       
        // טען מחדש את החדר
        loadCurrentRoom();
-
-       // הסתר את תכונות האובייקט
-       document.getElementById("object-properties").style.display = "none";
-       document.getElementById("no-object-selected").style.display = "block";
-
-       selectedItem = null;
      }
-   }
-
-   // פונקציה להוספת חדר חדש
-   function addNewRoom() {
-     var roomName = document.getElementById("new-room-name").value;
-     var roomBackground = document.getElementById("new-room-background").value;
-
-     // צור מזהה ייחודי
-     var roomCount = Object.keys(projectData.rooms).length;
-     var newRoomId = "room" + (roomCount + 1);
-
-     // הוסף את החדר לנתוני הפרויקט
-     projectData.rooms[newRoomId] = {
-       id: newRoomId,
-       name: roomName,
-       background: roomBackground,
-       items: {}
+     
+     // פונקציה למחיקת אובייקט
+     function deleteSelectedItem() {
+       if (selectedItem) {
+         var itemId = selectedItem.element.id;
+         delete projectData.rooms[currentRoomId].items[itemId];
+         
+         // טען מחדש את החדר
+         loadCurrentRoom();
+         
+         // הסתר את תכונות האובייקט
+         document.getElementById("object-properties").style.display = "none";
+         document.getElementById("no-object-selected").style.display = "block";
+         
+         selectedItem = null;
+       }
+     }
+     
+     // פונקציה להוספת חדר חדש
+     function addNewRoom() {
+       var roomName = document.getElementById("new-room-name").value;
+       var roomBackground = document.getElementById("new-room-background").value;
+       
+       // צור מזהה ייחודי
+       var roomCount = Object.keys(projectData.rooms).length;
+       var newRoomId = "room" + (roomCount + 1);
+       
+       // הוסף את החדר לנתוני הפרויקט
+       projectData.rooms[newRoomId] = {
+         id: newRoomId,
+         name: roomName,
+         background: roomBackground,
+         backgroundImage: null,
+         items: {}
+       };
+       
+       // עדכן את רשימת החדרים
+       var roomsList = document.getElementById("rooms-list");
+       var li = document.createElement("li");
+       li.className = "room-item-list";
+       li.setAttribute("data-room-id", newRoomId);
+       li.textContent = roomName;
+       li.addEventListener("click", function() {
+         currentRoomId = this.getAttribute("data-room-id");
+         loadCurrentRoom();
+       });
+       roomsList.appendChild(li);
+       
+       // סגור את המודאל
+       document.getElementById("add-room-modal").style.display = "none";
+       
+       // עדכן את רשימת החדרים בתפריט של "מעבר לחדר"
+       var nextRoomSelect = document.getElementById("object-next-room");
+       var option = document.createElement("option");
+       option.value = newRoomId;
+       option.textContent = roomName;
+       nextRoomSelect.appendChild(option);
+     }
+     
+     // פונקציה להוספת חידה חדשה
+     function addNewPuzzle() {
+       var puzzleType = document.getElementById("new-puzzle-type").value;
+       var puzzleName = document.getElementById("new-puzzle-name").value;
+       
+       // צור מזהה ייחודי
+       var puzzleCount = Object.keys(projectData.puzzles).length;
+       var newPuzzleId = puzzleType + "-puzzle-" + (puzzleCount + 1);
+       
+       // הוסף את החידה לנתוני הפרויקט
+       if (puzzleType === "code") {
+         projectData.puzzles[newPuzzleId] = {
+           id: newPuzzleId,
+           name: puzzleName,
+           type: "code",
+           description: "הזן את הקוד הנכון",
+           answer: "1234",
+           hint: "חפש רמזים בחדר...",
+           successMessage: "הצלחת!"
+         };
+       } else if (puzzleType === "text") {
+         projectData.puzzles[newPuzzleId] = {
+           id: newPuzzleId,
+           name: puzzleName,
+           type: "text",
+           question: "ענה על השאלה",
+           answer: "תשובה",
+           hint: "רמז...",
+           successMessage: "תשובה נכונה!"
+         };
+       }
+       
+       // עדכן את רשימת החידות
+       var puzzleList = document.querySelector(".puzzle-list");
+       var div = document.createElement("div");
+       div.className = "puzzle-list-item";
+       div.setAttribute("data-puzzle-id", newPuzzleId);
+       div.textContent = puzzleName;
+       div.addEventListener("click", function() {
+         showPuzzleForm(this.getAttribute("data-puzzle-id"));
+       });
+       puzzleList.appendChild(div);
+       
+       // עדכן את רשימת החידות בתפריט של "חידה מקושרת"
+       var puzzleSelect = document.getElementById("object-puzzle");
+       var option = document.createElement("option");
+       option.value = newPuzzleId;
+       option.textContent = puzzleName;
+       puzzleSelect.appendChild(option);
+       
+       // סגור את המודאל
+       document.getElementById("add-puzzle-modal").style.display = "none";
+     }
+     
+     // פונקציה להצגת טופס עריכת חידה
+     function showPuzzleForm(puzzleId) {
+       var puzzle = projectData.puzzles[puzzleId];
+       if (!puzzle) return;
+       
+       // הסתר את כל טפסי החידות
+       var puzzleForms = document.querySelectorAll(".puzzle-form");
+       for (var i = 0; i < puzzleForms.length; i++) {
+         puzzleForms[i].style.display = "none";
+       }
+       
+       // הצג את הטופס המתאים
+       if (puzzle.type === "code") {
+         var form = document.getElementById("code-puzzle-form");
+         form.style.display = "block";
+         document.getElementById("code-puzzle-name").value = puzzle.name;
+         document.getElementById("code-puzzle-description").value = puzzle.description;
+         document.getElementById("code-puzzle-answer").value = puzzle.answer;
+         document.getElementById("code-puzzle-hint").value = puzzle.hint;
+         document.getElementById("code-puzzle-success").value = puzzle.successMessage;
+         
+         // קבע אירוע שמירה לטופס
+         document.getElementById("save-code-puzzle").onclick = function() {
+           savePuzzle(puzzleId, "code");
+         };
+       } else if (puzzle.type === "text") {
+         var form = document.getElementById("text-puzzle-form");
+         form.style.display = "block";
+         document.getElementById("text-puzzle-name").value = puzzle.name;
+         document.getElementById("text-puzzle-question").value = puzzle.question;
+         document.getElementById("text-puzzle-answer").value = puzzle.answer;
+         document.getElementById("text-puzzle-hint").value = puzzle.hint;
+         document.getElementById("text-puzzle-success").value = puzzle.successMessage;
+         
+         // קבע אירוע שמירה לטופס
+         document.getElementById("save-text-puzzle").onclick = function() {
+           savePuzzle(puzzleId, "text");
+         };
+       }
+     }
+     
+     // פונקציה לשמירת חידה
+     function savePuzzle(puzzleId, type) {
+       if (type === "code") {
+         projectData.puzzles[puzzleId] = {
+           id: puzzleId,
+           name: document.getElementById("code-puzzle-name").value,
+           type: "code",
+           description: document.getElementById("code-puzzle-description").value,
+           answer: document.getElementById("code-puzzle-answer").value,
+           hint: document.getElementById("code-puzzle-hint").value,
+           successMessage: document.getElementById("code-puzzle-success").value
+         };
+         
+         // עדכן את שם החידה ברשימה
+         var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
+         if (puzzleItem) {
+           puzzleItem.textContent = document.getElementById("code-puzzle-name").value;
+         }
+           
+       } else if (type === "text") {
+         projectData.puzzles[puzzleId] = {
+           id: puzzleId,
+           name: document.getElementById("text-puzzle-name").value,
+           type: "text",
+           question: document.getElementById("text-puzzle-question").value,
+           answer: document.getElementById("text-puzzle-answer").value,
+           hint: document.getElementById("text-puzzle-hint").value,
+           successMessage: document.getElementById("text-puzzle-success").value
+         };
+         
+         // עדכן את שם החידה ברשימה
+         var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
+         if (puzzleItem) {
+           puzzleItem.textContent = document.getElementById("text-puzzle-name").value;
+         }
+       }
+       
+       // עדכן את רשימת החידות בתפריט של "חידה מקושרת"
+       var puzzleSelect = document.getElementById("object-puzzle");
+       var option = puzzleSelect.querySelector('option[value="' + puzzleId + '"]');
+       if (option) {
+         option.textContent = projectData.puzzles[puzzleId].name;
+       }
+       
+       alert("החידה נשמרה בהצלחה!");
+     }
+     
+     // פונקציה לייצוא המשחק - גרסה משופרת
+     function exportGame() {
+       // עדכון נתוני הפרויקט מהטופס
+       projectData.settings.title = document.getElementById("game-title").value;
+       projectData.settings.description = document.getElementById("game-description").value;
+       projectData.settings.timeLimit = parseInt(document.getElementById("game-time-limit").value);
+       
+       // יצירת תבנית המשחק
+       var template = `<!DOCTYPE html>
+  <html dir="rtl" lang="he">
+  <head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>{{GAME_TITLE}}</title>
+   <style>
+     /* סגנונות בסיסיים */
+     body, html {
+       margin: 0;
+       padding: 0;
+       height: 100%;
+       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+     }
+     
+     /* סגנון חדרי הבריחה */
+     .game-container {
+       width: 100%;
+       height: 100vh;
+       position: relative;
+       overflow: hidden;
+     }
+     
+     .room {
+       width: 100%;
+       height: 100%;
+       position: absolute;
+       top: 0;
+       left: 0;
+       background-size: cover;
+       background-position: center;
+       display: none;
+     }
+     
+     .room.active {
+       display: block;
+     }
+     
+     .item {
+       position: absolute;
+       cursor: pointer;
+       transition: transform 0.2s;
+       background-color: rgba(52, 152, 219, 0.6);
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       color: white;
+       font-weight: bold;
+       border-radius: 5px;
+     }
+     
+     .item:hover {
+       transform: scale(1.05);
+       background-color: rgba(52, 152, 219, 0.8);
+     }
+     
+     .item img {
+       width: 100%;
+       height: 100%;
+       object-fit: contain;
+     }
+     
+     /* סגנון מודאלים וחידות */
+     .modal {
+       display: none;
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background-color: rgba(0,0,0,0.7);
+       z-index: 100;
+     }
+     
+     .modal-content {
+       background-color: white;
+       margin: 10% auto;
+       padding: 20px;
+       width: 60%;
+       max-width: 500px;
+       border-radius: 10px;
+       box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+       position: relative;
+     }
+     
+     .close-modal {
+       position: absolute;
+       top: 10px;
+       left: 10px;
+       font-size: 24px;
+       cursor: pointer;
+     }
+     
+     /* סגנון חידות */
+     .puzzle-container h3 {
+       margin-top: 0;
+       text-align: center;
+     }
+     
+     .puzzle-input {
+       display: block;
+       width: 80%;
+       margin: 10px auto;
+       padding: 8px;
+       font-size: 16px;
+       text-align: center;
+     }
+     
+     .puzzle-btn {
+       display: block;
+       margin: 15px auto;
+       padding: 10px 20px;
+       background-color: #3498db;
+       color: white;
+       border: none;
+       border-radius: 5px;
+       cursor: pointer;
+       font-size: 16px;
+     }
+     
+     /* סגנון מערכת מלאי */
+     .inventory {
+       position: fixed;
+       bottom: 10px;
+       left: 50%;
+       transform: translateX(-50%);
+       display: flex;
+       gap: 10px;
+       padding: 10px;
+       background-color: rgba(0,0,0,0.5);
+       border-radius: 10px;
+     }
+     
+     .inventory-slot {
+       width: 50px;
+       height: 50px;
+       background-color: rgba(255,255,255,0.3);
+       border-radius: 5px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       color: white;
+     }
+     
+     /* סגנון טיימר */
+     .timer {
+       position: fixed;
+       top: 10px;
+       right: 10px;
+       background-color: rgba(0,0,0,0.5);
+       color: white;
+       padding: 10px;
+       border-radius: 5px;
+       font-size: 18px;
+     }
+     
+     /* סגנון מסך התחלה וסיום */
+     .start-screen, .end-screen {
+       position: fixed;
+       top: 0;
+       left: 0;
+       width: 100%;
+       height: 100%;
+       background-color: rgba(0,0,0,0.8);
+       color: white;
+       display: flex;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       z-index: 200;
+       text-align: center;
+       padding: 20px;
+     }
+     
+     .start-btn, .restart-btn {
+       margin-top: 20px;
+       padding: 12px 30px;
+       background-color: #2ecc71;
+       color: white;
+       border: none;
+       border-radius: 5px;
+       cursor: pointer;
+       font-size: 18px;
+     }
+     
+     .hint-text {
+       background-color: #f9f9f9;
+       padding: 10px;
+       border-right: 4px solid #3498db;
+       margin: 10px 0;
+       display: none;
+     }
+     
+     .hint-btn {
+       display: block;
+       margin: 10px auto;
+       padding: 8px 15px;
+       background-color: #95a5a6;
+       color: white;
+       border: none;
+       border-radius: 5px;
+       cursor: pointer;
+     }
+   </style>
+  </head>
+  <body>
+   <!-- מסך פתיחה -->
+   <div class="start-screen" id="start-screen">
+     <h1>{{GAME_TITLE}}</h1>
+     <p>{{GAME_DESCRIPTION}}</p>
+     <button class="start-btn" id="start-btn">התחל משחק</button>
+   </div>
+   
+   <!-- מסך סיום -->
+   <div class="end-screen" id="end-screen" style="display: none;">
+     <h1>כל הכבוד!</h1>
+     <p>הצלחת לברוח מחדר הבריחה!</p>
+     <p>הזמן שלך: <span id="final-time">00:00</span></p>
+     <button class="restart-btn" id="restart-btn">שחק שוב</button>
+   </div>
+   
+   <!-- מיכל המשחק -->
+   <div class="game-container" id="game-container">
+     <!-- החדרים והתוכן ייוצרו דינמית על ידי קוד JavaScript -->
+   </div>
+  
+   <script>
+     // נתוני המשחק
+     var gameData = {{GAME_DATA_JSON}};
+     
+     // מצב המשחק הנוכחי
+     var gameState = {
+       currentRoom: "room1",
+       inventory: [],
+       solvedPuzzles: {},
+       timeLeft: {{GAME_TIME_LIMIT}} * 60,
+       timerInterval: null,
+       gameStarted: false,
+       gameEnded: false
      };
-
-     // עדכן את רשימת החדרים
-     var roomsList = document.getElementById("rooms-list");
-     var li = document.createElement("li");
-     li.className = "room-item-list";
-     li.setAttribute("data-room-id", newRoomId);
-     li.textContent = roomName;
-     li.addEventListener("click", function() {
-       currentRoomId = this.getAttribute("data-room-id");
-       loadCurrentRoom();
-     });
-     roomsList.appendChild(li);
-
-     // סגור את המודאל
-     document.getElementById("add-room-modal").style.display = "none";
-
-     // עדכן את רשימת החדרים בתפריט של "מעבר לחדר"
-     var nextRoomSelect = document.getElementById("object-next-room");
-     var option = document.createElement("option");
-     option.value = newRoomId;
-     option.textContent = roomName;
-     nextRoomSelect.appendChild(option);
-   }
-
-   // פונקציה להוספת חידה חדשה
-   function addNewPuzzle() {
-     var puzzleType = document.getElementById("new-puzzle-type").value;
-     var puzzleName = document.getElementById("new-puzzle-name").value;
-
-     // צור מזהה ייחודי
-     var puzzleCount = Object.keys(projectData.puzzles).length;
-     var newPuzzleId = puzzleType + "-puzzle-" + (puzzleCount + 1);
-
-     // הוסף את החידה לנתוני הפרויקט
-     if (puzzleType === "code") {
-       projectData.puzzles[newPuzzleId] = {
-         id: newPuzzleId,
-         name: puzzleName,
-         type: "code",
-         description: "הזן את הקוד הנכון",
-         answer: "1234",
-         hint: "חפש רמזים בחדר...",
-         successMessage: "הצלחת!"
-       };
-     } else if (puzzleType === "text") {
-       projectData.puzzles[newPuzzleId] = {
-         id: newPuzzleId,
-         name: puzzleName,
-         type: "text",
-         question: "ענה על השאלה",
-         answer: "תשובה",
-         hint: "רמז...",
-         successMessage: "תשובה נכונה!"
-       };
+     
+     // פונקציה לאתחול המשחק
+     function initGame() {
+       // יצירת החדרים
+       createRooms();
+       
+       // יצירת החידות
+       createPuzzles();
+       
+       // הגדרת אירועים
+       setupEventListeners();
      }
-
-     // עדכן את רשימת החידות
-     var puzzleList = document.querySelector(".puzzle-list");
-     var div = document.createElement("div");
-     div.className = "puzzle-list-item";
-     div.setAttribute("data-puzzle-id", newPuzzleId);
-     div.textContent = puzzleName;
-     div.addEventListener("click", function() {
-       showPuzzleForm(this.getAttribute("data-puzzle-id"));
-     });
-     puzzleList.appendChild(div);
-
-     // עדכן את רשימת החידות בתפריט של "חידה מקושרת"
-     var puzzleSelect = document.getElementById("object-puzzle");
-     var option = document.createElement("option");
-     option.value = newPuzzleId;
-     option.textContent = puzzleName;
-     puzzleSelect.appendChild(option);
-
-     // סגור את המודאל
-     document.getElementById("add-puzzle-modal").style.display = "none";
+     
+     // פונקציה ליצירת החדרים ותוכנם
+     function createRooms() {
+       var gameContainer = document.getElementById("game-container");
+       
+       // יצירת כל החדרים
+       for (var roomId in gameData.rooms) {
+         var room = gameData.rooms[roomId];
+         
+         // יצירת אלמנט החדר
+         var roomElement = document.createElement("div");
+         roomElement.id = roomId;
+         roomElement.className = "room" + (roomId === "room1" ? " active" : "");
+         
+         // הגדר את הרקע
+         if (room.backgroundImage) {
+           roomElement.style.backgroundImage = "url('" + room.backgroundImage + "')";
+           roomElement.style.backgroundColor = "transparent";
+         } else {
+           var bgColor = "#243447"; // מעבדה (ברירת מחדל)
+           if (room.background === "library") { bgColor = "#4b3621"; }
+           else if (room.background === "office") { bgColor = "#34515e"; }
+           else if (room.background === "mansion") { bgColor = "#544e4d"; }
+           roomElement.style.backgroundColor = bgColor;
+         }
+         
+         // הוספת כל האובייקטים בחדר
+         for (var itemId in room.items) {
+           var item = room.items[itemId];
+           
+           var itemElement = document.createElement("div");
+           itemElement.className = "item";
+           itemElement.style.left = item.x + "px";
+           itemElement.style.top = item.y + "px";
+           itemElement.style.width = item.width + "px";
+           itemElement.style.height = item.height + "px";
+           itemElement.setAttribute("data-item-id", itemId);
+           itemElement.setAttribute("data-type", item.type);
+           
+           // הגדרת תכונות נוספות
+           if (item.puzzle) { itemElement.setAttribute("data-puzzle", item.puzzle); }
+           if (item.locked) { itemElement.setAttribute("data-locked", "true"); }
+           if (item.requiredItem) { itemElement.setAttribute("data-required-item", item.requiredItem); }
+           if (item.nextRoom) { itemElement.setAttribute("data-next-room", item.nextRoom); }
+           
+           // הוספת תמונה אם קיימת
+           if (item.image) {
+             var imgElement = document.createElement("img");
+             imgElement.src = item.image;
+             imgElement.style.width = "100%";
+             imgElement.style.height = "100%";
+             imgElement.style.objectFit = "contain";
+             itemElement.appendChild(imgElement);
+           } else {
+             itemElement.textContent = item.name;
+           }
+           
+           // הוספת האובייקט לחדר
+           roomElement.appendChild(itemElement);
+         }
+         
+         // הוספת החדר למיכל המשחק
+         gameContainer.appendChild(roomElement);
+       }
+     }
+     
+     // פונקציה ליצירת חידות
+     function createPuzzles() {
+       var gameContainer = document.getElementById("game-container");
+       
+       // יצירת כל החידות
+       for (var puzzleId in gameData.puzzles) {
+         var puzzle = gameData.puzzles[puzzleId];
+         var modalElement = document.createElement("div");
+         modalElement.id = "puzzle-" + puzzleId;
+         modalElement.className = "modal";
+         
+         var modalContent = "";
+         
+         if (puzzle.type === "code") {
+           modalContent = '<div class="modal-content">' +
+                           '<span class="close-modal">&times;</span>' +
+                           '<div class="puzzle-container">' +
+                             '<h3>' + puzzle.name + '</h3>' +
+                             '<p>' + puzzle.description + '</p>' +
+                             '<input type="text" class="puzzle-input" id="input-' + puzzleId + '" placeholder="הקוד...">' +
+                             '<button class="puzzle-btn" data-puzzle-id="' + puzzleId + '">בדוק</button>' +
+                             '<p class="hint-text" id="hint-' + puzzleId + '">' + puzzle.hint + '</p>' +
+                             '<button class="hint-btn" data-hint="hint-' + puzzleId + '">רמז</button>' +
+                           '</div>' +
+                         '</div>';
+         } else if (puzzle.type === "text") {
+           modalContent = '<div class="modal-content">' +
+                           '<span class="close-modal">&times;</span>' +
+                           '<div class="puzzle-container">' +
+                             '<h3>' + puzzle.name + '</h3>' +
+                             '<p>' + puzzle.question + '</p>' +
+                             '<input type="text" class="puzzle-input" id="input-' + puzzleId + '" placeholder="התשובה שלך...">' +
+                             '<button class="puzzle-btn" data-puzzle-id="' + puzzleId + '">בדוק</button>' +
+                             '<p class="hint-text" id="hint-' + puzzleId + '">' + puzzle.hint + '</p>' +
+                             '<button class="hint-btn" data-hint="hint-' + puzzleId + '">רמז</button>' +
+                           '</div>' +
+                         '</div>';
+         }
+         
+         modalElement.innerHTML = modalContent;
+         gameContainer.appendChild(modalElement);
+       }
+       
+       // יצירת מלאי
+       var inventoryElement = document.createElement("div");
+       inventoryElement.className = "inventory";
+       
+       for (var i = 0; i < 4; i++) {
+         var slotElement = document.createElement("div");
+       slotElement.className = "inventory-slot";
+       slotElement.setAttribute("data-slot", i);
+       inventoryElement.appendChild(slotElement);
+     }
+     
+     gameContainer.appendChild(inventoryElement);
+     
+     // יצירת טיימר
+     var timerElement = document.createElement("div");
+     timerElement.id = "timer";
+     timerElement.className = "timer";
+     timerElement.textContent = "00:00";
+     gameContainer.appendChild(timerElement);
    }
-
-   // פונקציה להצגת טופס עריכת חידה
-   function showPuzzleForm(puzzleId) {
-     var puzzle = projectData.puzzles[puzzleId];
+   
+   // פונקציה להגדרת כל מאזיני האירועים
+   function setupEventListeners() {
+     // אירועי התחלת ואתחול משחק
+     document.getElementById("start-btn").addEventListener("click", startGame);
+     document.getElementById("restart-btn").addEventListener("click", restartGame);
+     
+     // אירועי לחיצה על אובייקטים
+     var items = document.querySelectorAll(".item");
+     for (var i = 0; i < items.length; i++) {
+       items[i].addEventListener("click", handleItemClick);
+     }
+     
+     // אירועי סגירת מודאלים
+     var closeButtons = document.querySelectorAll(".close-modal");
+     for (var i = 0; i < closeButtons.length; i++) {
+       closeButtons[i].addEventListener("click", function() {
+         this.closest(".modal").style.display = "none";
+       });
+     }
+     
+     // אירועי לחיצה על כפתורי בדיקת חידות
+     var puzzleButtons = document.querySelectorAll(".puzzle-btn");
+     for (var i = 0; i < puzzleButtons.length; i++) {
+       puzzleButtons[i].addEventListener("click", function() {
+         checkPuzzleAnswer(this.getAttribute("data-puzzle-id"));
+       });
+     }
+     
+     // אירועי לחיצה על כפתורי רמז
+     var hintButtons = document.querySelectorAll(".hint-btn");
+     for (var i = 0; i < hintButtons.length; i++) {
+       hintButtons[i].addEventListener("click", function() {
+         document.getElementById(this.getAttribute("data-hint")).style.display = "block";
+         this.style.display = "none";
+       });
+     }
+   }
+   
+   // פונקציית התחלת משחק
+   function startGame() {
+     document.getElementById("start-screen").style.display = "none";
+     gameState.gameStarted = true;
+     
+     // התחל את הטיימר
+     gameState.timerInterval = setInterval(updateTimer, 1000);
+   }
+   
+   // פונקציית עדכון טיימר
+   function updateTimer() {
+     gameState.timeLeft--;
+     
+     if (gameState.timeLeft <= 0) {
+       clearInterval(gameState.timerInterval);
+       alert("הזמן נגמר! נסה שוב.");
+       restartGame();
+       return;
+     }
+     
+     var minutes = Math.floor(gameState.timeLeft / 60);
+     var seconds = gameState.timeLeft % 60;
+     document.getElementById("timer").textContent = 
+       minutes.toString().padStart(2, "0") + ":" + 
+       seconds.toString().padStart(2, "0");
+   }
+   
+   // פונקציית סיום משחק
+   function endGame() {
+     clearInterval(gameState.timerInterval);
+     gameState.gameEnded = true;
+     
+     var timeUsed = ({{GAME_TIME_LIMIT}} * 60) - gameState.timeLeft;
+     var minutes = Math.floor(timeUsed / 60);
+     var seconds = timeUsed % 60;
+     document.getElementById("final-time").textContent = 
+       minutes.toString().padStart(2, "0") + ":" + 
+       seconds.toString().padStart(2, "0");
+     
+     document.getElementById("end-screen").style.display = "flex";
+   }
+   
+   // פונקציית אתחול משחק
+   function restartGame() {
+     // נקה את המצב
+     gameState.currentRoom = "room1";
+     gameState.inventory = [];
+     gameState.solvedPuzzles = {};
+     gameState.timeLeft = {{GAME_TIME_LIMIT}} * 60;
+     gameState.gameStarted = false;
+     gameState.gameEnded = false;
+     
+     // נקה את המלאי
+     var slots = document.querySelectorAll(".inventory-slot");
+     for (var i = 0; i < slots.length; i++) {
+       slots[i].textContent = "";
+       slots[i].setAttribute("data-item-type", "");
+     }
+     
+     // הסתר את מסך הסיום
+     document.getElementById("end-screen").style.display = "none";
+     
+     // הצג את מסך הפתיחה
+     document.getElementById("start-screen").style.display = "flex";
+     
+     // עצור את הטיימר
+     clearInterval(gameState.timerInterval);
+     
+     // הצג את החדר הראשון
+     var rooms = document.querySelectorAll(".room");
+     for (var i = 0; i < rooms.length; i++) {
+       rooms[i].classList.remove("active");
+     }
+     document.getElementById("room1").classList.add("active");
+     
+     // אפס את כל החידות
+     var inputs = document.querySelectorAll(".puzzle-input");
+     for (var i = 0; i < inputs.length; i++) {
+       inputs[i].value = "";
+     }
+     
+     var hints = document.querySelectorAll(".hint-text");
+     for (var i = 0; i < hints.length; i++) {
+       hints[i].style.display = "none";
+     }
+     
+     var hintButtons = document.querySelectorAll(".hint-btn");
+     for (var i = 0; i < hintButtons.length; i++) {
+       hintButtons[i].style.display = "block";
+     }
+   }
+   
+   // פונקציית טיפול בלחיצה על אובייקט
+   function handleItemClick() {
+     if (!gameState.gameStarted || gameState.gameEnded) return;
+     
+     var itemId = this.getAttribute("data-item-id");
+     var item = gameData.rooms[gameState.currentRoom].items[itemId];
+     
+     // בדוק אם האובייקט נעול ודורש פריט
+     if (this.getAttribute("data-locked") === "true") {
+       var requiredItem = this.getAttribute("data-required-item");
+       if (requiredItem && gameState.inventory.indexOf(requiredItem) !== -1) {
+         // השתמש בפריט
+         var itemIndex = gameState.inventory.indexOf(requiredItem);
+         gameState.inventory.splice(itemIndex, 1);
+         
+         // עדכן את המלאי
+         updateInventoryUI();
+         
+         // בטל את הנעילה
+         this.setAttribute("data-locked", "false");
+         alert("השתמשת ב" + requiredItem + " כדי לפתוח את " + item.name);
+       } else {
+         alert("אובייקט זה נעול. מצא את הפריט הנדרש כדי לפתוח אותו.");
+         return;
+       }
+     }
+     
+     // בדוק אם האובייקט מקושר לחידה
+     var puzzleId = this.getAttribute("data-puzzle");
+     if (puzzleId) {
+       // בדוק אם החידה כבר נפתרה
+       if (gameState.solvedPuzzles[puzzleId]) {
+         // הצג הודעת הצלחה
+         alert(gameData.puzzles[puzzleId].successMessage);
+       } else {
+         // הצג את חלונית החידה
+         document.getElementById("puzzle-" + puzzleId).style.display = "block";
+       }
+       return;
+     }
+     
+     // בדוק אם האובייקט הוא פריט שניתן לאסוף
+     if (this.getAttribute("data-type") === "key") {
+       // הוסף את הפריט למלאי
+       if (gameState.inventory.length < 4) {
+         gameState.inventory.push(this.getAttribute("data-type"));
+         updateInventoryUI();
+         
+         // הסר את הפריט מהחדר
+         this.style.display = "none";
+         alert("אספת " + item.name);
+       } else {
+         alert("המלאי שלך מלא. פנה מקום לפריט חדש.");
+       }
+       return;
+     }
+     
+     // בדוק אם האובייקט מוביל לחדר אחר
+     var nextRoomId = this.getAttribute("data-next-room");
+     if (nextRoomId) {
+       changeRoom(nextRoomId);
+       return;
+     }
+     
+     // אם הגענו לכאן, האובייקט אינו עושה שום דבר מיוחד
+     alert("בחנת את " + item.name);
+   }
+   
+   // פונקציית בדיקת תשובה לחידה
+   function checkPuzzleAnswer(puzzleId) {
+     var puzzle = gameData.puzzles[puzzleId];
+     var userAnswer = document.getElementById("input-" + puzzleId).value.trim();
+     
      if (!puzzle) return;
-
-     // הסתר את כל טפסי החידות
-     var puzzleForms = document.querySelectorAll(".puzzle-form");
-     for (var i = 0; i < puzzleForms.length; i++) {
-       puzzleForms[i].style.display = "none";
-     }
-
-     // הצג את הטופס המתאים
+     
+     // בדוק אם התשובה נכונה
+     var isCorrect = false;
+     
      if (puzzle.type === "code") {
-       var form = document.getElementById("code-puzzle-form");
-       form.style.display = "block";
-       document.getElementById("code-puzzle-name").value = puzzle.name;
-       document.getElementById("code-puzzle-description").value = puzzle.description;
-       document.getElementById("code-puzzle-answer").value = puzzle.answer;
-       document.getElementById("code-puzzle-hint").value = puzzle.hint;
-       document.getElementById("code-puzzle-success").value = puzzle.successMessage;
-
-       // קבע אירוע שמירה לטופס
-       document.getElementById("save-code-puzzle").onclick = function() {
-         savePuzzle(puzzleId, "code");
-       };
+       isCorrect = userAnswer === puzzle.answer;
      } else if (puzzle.type === "text") {
-       var form = document.getElementById("text-puzzle-form");
-       form.style.display = "block";
-       document.getElementById("text-puzzle-name").value = puzzle.name;
-       document.getElementById("text-puzzle-question").value = puzzle.question;
-       document.getElementById("text-puzzle-answer").value = puzzle.answer;
-       document.getElementById("text-puzzle-hint").value = puzzle.hint;
-       document.getElementById("text-puzzle-success").value = puzzle.successMessage;
-
-       // קבע אירוע שמירה לטופס
-       document.getElementById("save-text-puzzle").onclick = function() {
-         savePuzzle(puzzleId, "text");
-       };
+       // בדיקה בלי תלות באותיות גדולות/קטנות
+       isCorrect = userAnswer.toLowerCase() === puzzle.answer.toLowerCase();
+     }
+     
+     if (isCorrect) {
+       // סמן את החידה כפתורה
+       gameState.solvedPuzzles[puzzleId] = true;
+       
+       // הצג הודעת הצלחה
+       alert(puzzle.successMessage);
+       
+       // סגור את המודאל
+       document.getElementById("puzzle-" + puzzleId).style.display = "none";
+       
+       // בדוק אם זה היה התנאי האחרון לסיום המשחק
+       checkGameCompletion();
+     } else {
+       alert("תשובה שגויה. נסה שוב.");
      }
    }
-
-   // פונקציה לשמירת חידה
-   function savePuzzle(puzzleId, type) {
-     if (type === "code") {
-       projectData.puzzles[puzzleId] = {
-         id: puzzleId,
-         name: document.getElementById("code-puzzle-name").value,
-         type: "code",
-         description: document.getElementById("code-puzzle-description").value,
-         answer: document.getElementById("code-puzzle-answer").value,
-         hint: document.getElementById("code-puzzle-hint").value,
-         successMessage: document.getElementById("code-puzzle-success").value
-       };
-
-       // עדכן את שם החידה ברשימה
-       var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
-       if (puzzleItem) {
-         puzzleItem.textContent = document.getElementById("code-puzzle-name").value;
-       }
-
-     } else if (type === "text") {
-       projectData.puzzles[puzzleId] = {
-         id: puzzleId,
-         name: document.getElementById("text-puzzle-name").value,
-         type: "text",
-         question: document.getElementById("text-puzzle-question").value,
-         answer: document.getElementById("text-puzzle-answer").value,
-         hint: document.getElementById("text-puzzle-hint").value,
-         successMessage: document.getElementById("text-puzzle-success").value
-       };
-
-       // עדכן את שם החידה ברשימה
-       var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
-       if (puzzleItem) {
-         puzzleItem.textContent = document.getElementById("text-puzzle-name").value;
-       }
-     }
-
-     // עדכן את רשימת החידות בתפריט של "חידה מקושרת"
-     var puzzleSelect = document.getElementById("object-puzzle");
-     var option = puzzleSelect.querySelector('option[value="' + puzzleId + '"]');
-     if (option) {
-       option.textContent = projectData.puzzles[puzzleId].name;
-     }
-
-     alert("החידה נשמרה בהצלחה!");
-   }
-
-   // פונקציה לעדכון המלאי במשחק (בקוד המיוצא)
-   function createUpdateInventoryFunction() {
-     return `
+   
    // פונקציה לעדכון המלאי במשחק
    function updateInventoryUI() {
      // נקה את כל החריצים
@@ -1082,100 +1762,193 @@
        slots[i].textContent = "";
        slots[i].setAttribute("data-item-type", "");
      }
-
+     
      // מלא את החריצים לפי המלאי
      for (var i = 0; i < gameState.inventory.length; i++) {
        var itemType = gameState.inventory[i];
        var slotSelector = '.inventory-slot[data-slot="' + i + '"]';
        var slot = document.querySelector(slotSelector);
-
+       
        if (slot) {
          slot.textContent = getTitleByType(itemType);
          slot.setAttribute("data-item-type", itemType);
        }
      }
    }
-
+   
    // פונקציה לקבלת כותרת לפי סוג פריט
    function getTitleByType(type) {
      if (type === "key") return "מפתח";
      if (type === "book") return "ספר";
      return type;
-   }`;
    }
-
-   // פונקציה לייצוא המשחק כקובץ HTML
-   // פונקציה לייצוא המשחק באמצעות גלופה
- function exportGame() {
-   // עדכון נתוני הפרויקט מהטופס
-   projectData.settings.title = document.getElementById("game-title").value;
-   projectData.settings.description = document.getElementById("game-description").value;
-   projectData.settings.timeLimit = parseInt(document.getElementById("game-time-limit").value);
-
-   // ייבוא הגלופה
-   fetch('escape-room-template.html')
-     .then(response => response.text())
-     .then(template => {
-       // החלפת המקומות השמורים בגלופה
-       var gameHTML = template
-         .replace('{{GAME_TITLE}}', projectData.settings.title)
-         .replace('{{GAME_DESCRIPTION}}', projectData.settings.description)
-         .replace('{{GAME_TIME_LIMIT}}', projectData.settings.timeLimit)
-         .replace('{{GAME_DATA_JSON}}', JSON.stringify(projectData));
-
-       // יצירת והורדת הקובץ
-       var blob = new Blob([gameHTML], { type: 'text/html;charset=utf-8' });
+   
+   // פונקציה למעבר בין חדרים
+   function changeRoom(roomId) {
+     // הסתר את החדר הנוכחי
+     document.getElementById(gameState.currentRoom).classList.remove("active");
+     
+     // הצג את החדר החדש
+     document.getElementById(roomId).classList.add("active");
+     
+     // עדכן את החדר הנוכחי
+     gameState.currentRoom = roomId;
+     
+     // בדוק אם זה חדר היציאה (האחרון)
+     if (roomId === "lastRoom" || isLastRoom(roomId)) {
+       endGame();
+     }
+   }
+   
+   // פונקציה לבדיקה אם זה החדר האחרון
+   function isLastRoom(roomId) {
+     // בדוק אם אין מעברים מחדר זה לחדרים אחרים
+     for (var i = 0; i < gameData.connections.length; i++) {
+       var connection = gameData.connections[i];
+       if (connection.from === roomId) {
+         return false;
+       }
+     }
+     return true;
+   }
+   
+   // פונקציה לבדיקת סיום המשחק
+   function checkGameCompletion() {
+     // בדוק אם כל החידות נפתרו
+     var allPuzzlesSolved = true;
+     for (var puzzleId in gameData.puzzles) {
+       if (!gameState.solvedPuzzles[puzzleId]) {
+         allPuzzlesSolved = false;
+         break;
+       }
+     }
+     
+     if (allPuzzlesSolved) {
+       // בדוק אם אנחנו בחדר האחרון
+       if (isLastRoom(gameState.currentRoom)) {
+         endGame();
+       }
+     }
+   }
+   
+   // אתחול המשחק בטעינת הדף
+   document.addEventListener("DOMContentLoaded", initGame);
+ </script>
+</body>
+</html>`;
+     
+     // החלפת המקומות השמורים בתבנית
+     var gameHTML = template
+       .replace('{{GAME_TITLE}}', projectData.settings.title)
+       .replace('{{GAME_DESCRIPTION}}', projectData.settings.description)
+       .replace('{{GAME_TIME_LIMIT}}', projectData.settings.timeLimit)
+       .replace('{{GAME_DATA_JSON}}', JSON.stringify(projectData));
+     
+     // הצג את המודאל ייצוא המשחק
+     document.getElementById("export-game-modal").style.display = "block";
+     
+     // שמור את קוד המשחק עבור הורדה
+     document.getElementById("download-game-btn").onclick = function() {
+       var blob = new Blob([gameHTML], { type: "text/html;charset=utf-8" });
        var url = URL.createObjectURL(blob);
-       var a = document.createElement('a');
+       var a = document.createElement("a");
        a.href = url;
-       a.download = 'escape-room-game.html';
+       a.download = "escape-room-game.html";
        document.body.appendChild(a);
        a.click();
        document.body.removeChild(a);
        URL.revokeObjectURL(url);
-
-       // הצגת מודאל הצלחה
-       document.getElementById("export-game-modal").style.display = "block";
-     })
-     .catch(error => {
-       alert('אירעה שגיאה בטעינת הגלופה: ' + error);
-     });
- }
-   // פונקציה ליצירת קובץ להורדה
-   function downloadGame() {
-     var gameHTML = exportGame();
-
-     // צור בלוב מהקוד
-     var blob = new Blob([gameHTML], { type: "text/html" });
-
-     // צור אובייקט URL
-     var url = URL.createObjectURL(blob);
-
-     // צור אלמנט קישור להורדה
-     var a = document.createElement("a");
-     a.href = url;
-     a.download = "escape-room-game.html";
-
-     // הוסף אותו זמנית לדף
-     document.body.appendChild(a);
-
-     // לחץ עליו
-     a.click();
-
-     // נקה
-     setTimeout(function() {
-       document.body.removeChild(a);
-       URL.revokeObjectURL(url);
-     }, 0);
+     };
    }
-
+   
+   // הוספת מאזיני אירועים לשדה העלאת תמונת רקע
+   document.getElementById("room-background-image").addEventListener("change", async function(e) {
+     if (this.files && this.files[0]) {
+       try {
+         // המרת הקובץ ל-Data URL
+         var dataURL = await fileToDataURL(this.files[0]);
+         
+         // עדכון נתוני הפרויקט
+         projectData.rooms[currentRoomId].backgroundImage = dataURL;
+         
+         // עדכון תצוגת החדר
+         document.getElementById("room-preview").style.backgroundImage = "url('" + dataURL + "')";
+         document.getElementById("room-preview").style.backgroundColor = "transparent";
+       } catch (error) {
+         alert("אירעה שגיאה בטעינת התמונה: " + error);
+       }
+     }
+   });
+   
+   // הוספת מאזין אירועים לכפתור הסרת תמונת רקע
+   document.getElementById("remove-room-bg-image").addEventListener("click", function() {
+     // הסרת תמונת הרקע והחזרת צבע הרקע המקורי
+     delete projectData.rooms[currentRoomId].backgroundImage;
+     var room = projectData.rooms[currentRoomId];
+     
+     document.getElementById("room-preview").style.backgroundImage = "none";
+     
+     // הצג את צבע הרקע המקורי לפי סוג החדר
+     if (room.background === "lab") {
+       document.getElementById("room-preview").style.backgroundColor = "#243447";
+     } else if (room.background === "library") {
+       document.getElementById("room-preview").style.backgroundColor = "#4b3621";
+     } else if (room.background === "office") {
+       document.getElementById("room-preview").style.backgroundColor = "#34515e";
+     } else if (room.background === "mansion") {
+       document.getElementById("room-preview").style.backgroundColor = "#544e4d";
+     }
+   });
+   
+   // הוספת מאזין אירועים לשדה העלאת תמונת אובייקט
+   document.getElementById("object-image").addEventListener("change", async function(e) {
+     if (this.files && this.files[0] && selectedItem) {
+       try {
+         // המרת הקובץ ל-Data URL
+         var dataURL = await fileToDataURL(this.files[0]);
+         
+         // עדכון נתוני הפרויקט
+         var itemId = selectedItem.element.id;
+         projectData.rooms[currentRoomId].items[itemId].image = dataURL;
+         
+         // עדכון תצוגת האובייקט
+         var imgElement = document.createElement("img");
+         imgElement.src = dataURL;
+         imgElement.style.width = "100%";
+         imgElement.style.height = "100%";
+         imgElement.style.objectFit = "contain";
+         
+         // נקה את תוכן האובייקט ושים את התמונה
+         selectedItem.element.textContent = "";
+         selectedItem.element.appendChild(imgElement);
+       } catch (error) {
+         alert("אירעה שגיאה בטעינת התמונה: " + error);
+       }
+     }
+   });
+   
+   // הוספת מאזין אירועים לכפתור הסרת תמונת אובייקט
+   document.getElementById("remove-object-image").addEventListener("click", function() {
+     if (selectedItem) {
+       var itemId = selectedItem.element.id;
+       var item = projectData.rooms[currentRoomId].items[itemId];
+       
+       // הסרת התמונה מנתוני הפרויקט
+       delete item.image;
+       
+       // שחזור הטקסט המקורי של האובייקט
+       selectedItem.element.innerHTML = "";
+       selectedItem.element.textContent = item.name;
+     }
+   });
+   
    // אירועים
-
+   
    // טעינת הדף
    document.addEventListener("DOMContentLoaded", function() {
      // טען את החדר הנוכחי
      loadCurrentRoom();
-
+     
      // אירועי לחיצה על הלשוניות
      var tabs = document.querySelectorAll(".tab");
      for (var i = 0; i < tabs.length; i++) {
@@ -1187,19 +1960,19 @@
          }
          // סמן את הלשונית הנוכחית
          this.classList.add("active");
-
+         
          // הסתר את כל התוכן
          var allContent = document.querySelectorAll(".tab-content");
          for (var j = 0; j < allContent.length; j++) {
            allContent[j].style.display = "none";
          }
-
+         
          // הצג את התוכן המתאים
          var tabId = this.getAttribute("data-tab") + "-tab";
          document.getElementById(tabId).style.display = "block";
        });
      }
-
+     
      // אירועי לחיצה על אובייקטי הגלריה
      var thumbnails = document.querySelectorAll(".object-thumbnail");
      for (var i = 0; i < thumbnails.length; i++) {
@@ -1207,7 +1980,7 @@
          addNewItem(this.getAttribute("data-type"));
        });
      }
-
+     
      // אירועי לחיצה על רשימת החדרים
      var roomItems = document.querySelectorAll(".room-item-list");
      for (var i = 0; i < roomItems.length; i++) {
@@ -1216,23 +1989,23 @@
          loadCurrentRoom();
        });
      }
-
+     
      // אירוע לחיצה על כפתור הוספת חדר
      document.getElementById("add-room-btn").addEventListener("click", function() {
        document.getElementById("add-room-modal").style.display = "block";
      });
-
+     
      // אירוע לחיצה על כפתור הוספת חידה
      document.getElementById("add-puzzle-btn").addEventListener("click", function() {
        document.getElementById("add-puzzle-modal").style.display = "block";
      });
-
+     
      // אירוע לחיצה על כפתור יצירת חדר חדש
      document.getElementById("create-room-btn").addEventListener("click", addNewRoom);
-
+     
      // אירוע לחיצה על כפתור יצירת חידה חדשה
      document.getElementById("create-puzzle-btn").addEventListener("click", addNewPuzzle);
-
+     
      // אירוע לחיצה על פריט בגלריית החידות
      var puzzleItems = document.querySelectorAll(".puzzle-list-item");
      for (var i = 0; i < puzzleItems.length; i++) {
@@ -1240,16 +2013,13 @@
          showPuzzleForm(this.getAttribute("data-puzzle-id"));
        });
      }
-
+     
      // אירוע לחיצה על כפתור מחיקת אובייקט
      document.getElementById("delete-object-btn").addEventListener("click", deleteSelectedItem);
-
+     
      // אירוע לחיצה על כפתור ייצוא משחק
      document.getElementById("generate-game").addEventListener("click", exportGame);
-
-     // אירוע לחיצה על כפתור הורדת משחק
-     document.getElementById("download-game-btn").addEventListener("click", downloadGame);
-
+     
      // אירועי סגירת מודאלים
      var closeButtons = document.querySelectorAll(".close-modal");
      for (var i = 0; i < closeButtons.length; i++) {
@@ -1257,7 +2027,7 @@
          this.closest(".modal").style.display = "none";
        });
      }
-
+     
      // אירוע עדכון שם חדר
      document.getElementById("room-name").addEventListener("change", function() {
        projectData.rooms[currentRoomId].name = this.value;
@@ -1266,63 +2036,67 @@
          roomItem.textContent = this.value;
        }
      });
-
+     
      // אירוע שינוי רקע חדר
      document.getElementById("room-background").addEventListener("change", function() {
        projectData.rooms[currentRoomId].background = this.value;
        loadCurrentRoom();
      });
-
+     
      // אירועי עדכון תכונות אובייקט
      document.getElementById("object-name").addEventListener("change", function() {
        if (selectedItem) {
          var itemId = selectedItem.element.id;
          projectData.rooms[currentRoomId].items[itemId].name = this.value;
-         selectedItem.element.textContent = this.value;
+         
+         // בדוק אם יש תמונה לאובייקט
+         if (!projectData.rooms[currentRoomId].items[itemId].image) {
+           selectedItem.element.textContent = this.value;
+         }
        }
      });
-
+     
      document.getElementById("object-puzzle").addEventListener("change", function() {
        if (selectedItem) {
          var itemId = selectedItem.element.id;
          projectData.rooms[currentRoomId].items[itemId].puzzle = this.value || null;
        }
      });
-
+     
      document.getElementById("object-locked").addEventListener("change", function() {
        if (selectedItem) {
          var itemId = selectedItem.element.id;
          projectData.rooms[currentRoomId].items[itemId].locked = this.checked;
        }
      });
-
+     
      document.getElementById("object-required-item").addEventListener("change", function() {
        if (selectedItem) {
          var itemId = selectedItem.element.id;
          projectData.rooms[currentRoomId].items[itemId].requiredItem = this.value || null;
        }
      });
-
+     
      document.getElementById("object-next-room").addEventListener("change", function() {
        if (selectedItem) {
          var itemId = selectedItem.element.id;
          projectData.rooms[currentRoomId].items[itemId].nextRoom = this.value || null;
        }
      });
-
+     
      // אירועי שמירה וטעינה של פרויקט
      document.getElementById("save-project-btn").addEventListener("click", function() {
        localStorage.setItem("escape-room-project", JSON.stringify(projectData));
        alert("הפרויקט נשמר בהצלחה!");
      });
-
+     
      document.getElementById("load-project-btn").addEventListener("click", function() {
        var savedProject = localStorage.getItem("escape-room-project");
        if (savedProject) {
          try {
            projectData = JSON.parse(savedProject);
            currentRoomId = Object.keys(projectData.rooms)[0] || "room1";
-
+           
            // עדכן את רשימת החדרים
            var roomsList = document.getElementById("rooms-list");
            roomsList.innerHTML = "";
@@ -1338,17 +2112,17 @@
              });
              roomsList.appendChild(li);
            }
-
+           
            loadCurrentRoom();
            alert("הפרויקט נטען בהצלחה!");
-         } catch (e) {
-           alert("שגיאה בטעינת הפרויקט: " + e.message);
+         } catch (error) {
+           alert("שגיאה בטעינת הפרויקט: " + error);
          }
        } else {
          alert("לא נמצא פרויקט שמור!");
        }
      });
-
+     
      // אירוע פרויקט חדש
      document.getElementById("new-project-btn").addEventListener("click", function() {
        if (confirm("האם אתה בטוח שברצונך ליצור פרויקט חדש? כל השינויים שלא נשמרו יאבדו.")) {
@@ -1359,6 +2133,7 @@
                id: "room1",
                name: "חדר 1: מעבדה",
                background: "lab",
+               backgroundImage: null,
                items: {}
              }
            },
@@ -1370,7 +2145,7 @@
              timeLimit: 60
            }
          };
-
+         
          // עדכן את רשימת החדרים
          var roomsList = document.getElementById("rooms-list");
          roomsList.innerHTML = '<li class="room-item-list active" data-room-id="room1">חדר 1: מעבדה</li>';
@@ -1379,10 +2154,10 @@
            currentRoomId = this.getAttribute("data-room-id");
            loadCurrentRoom();
          });
-
+         
          currentRoomId = "room1";
          loadCurrentRoom();
-
+         
          // נקה את בחירת האובייקט
          selectedItem = null;
          document.getElementById("object-properties").style.display = "none";
