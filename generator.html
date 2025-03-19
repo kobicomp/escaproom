@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>מחולל חדרי בריחה מקוונים - גרסה משודרגת</title>
+  <title>מחולל חדרי בריחה מקוונים</title>
   <link rel="stylesheet" href="generator.css">
 </head>
 <body>
@@ -27,8 +27,6 @@
           <div class="object-thumbnail" data-type="key">מפתח</div>
           <div class="object-thumbnail" data-type="book">ספר</div>
           <div class="object-thumbnail" data-type="computer">מחשב</div>
-          <div class="object-thumbnail" data-type="info">הערת מידע</div>
-          <div class="object-thumbnail" data-type="door">דלת/יציאה</div>
         </div>
       </div>
       
@@ -57,225 +55,51 @@
       <div class="sidebar-section">
         <div class="section-title">תכונות האובייקט</div>
         <div id="object-properties" style="display: none;">
-          <!-- תכונות בסיסיות -->
           <div class="form-group">
             <label for="object-name">שם:</label>
             <input type="text" id="object-name">
           </div>
-          
-          <!-- תכונות לכל סוגי האובייקטים -->
-          <div id="common-properties">
-            <div class="form-group">
-              <label for="object-width">רוחב:</label>
-              <input type="number" id="object-width" min="20" max="400">
-            </div>
-            <div class="form-group">
-              <label for="object-height">גובה:</label>
-              <input type="number" id="object-height" min="20" max="400">
-            </div>
-            <div class="form-group">
-              <label for="object-image">תמונת האובייקט:</label>
-              <input type="file" id="object-image" accept="image/*">
-              <button class="btn btn-secondary" id="remove-object-image" style="margin-top: 5px;">הסר תמונה</button>
-            </div>
+          <div class="form-group">
+            <label for="object-puzzle">חידה מקושרת:</label>
+            <select id="object-puzzle">
+              <option value="">ללא</option>
+              <option value="code-puzzle">חידת קוד</option>
+              <option value="text-puzzle">חידת טקסט</option>
+            </select>
           </div>
-          
-          <!-- תכונות ספציפיות לכספת -->
-          <div id="safe-properties" style="display: none;">
-            <div class="form-group">
-              <label for="object-puzzle">חידה מקושרת:</label>
-              <select id="object-puzzle">
-                <option value="">ללא</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>
-                <input type="checkbox" id="object-locked">
-                נעול (דורש פריט)
-              </label>
-            </div>
-            <div class="form-group">
-              <label for="object-required-item">פריט נדרש:</label>
-              <select id="object-required-item">
-                <option value="">ללא</option>
-                <option value="key">מפתח</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="object-code">קוד פתיחה (אם אין חידה מקושרת):</label>
-              <input type="text" id="object-code">
-            </div>
-            <div class="form-group">
-              <label for="object-content">תוכן הכספת:</label>
-              <textarea id="object-content" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="object-opened-image">תמונת כספת פתוחה:</label>
-              <input type="file" id="object-opened-image" accept="image/*">
-            </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="object-locked">
+              נעול (דורש פריט)
+            </label>
           </div>
-          
-          <!-- תכונות ספציפיות למפתח -->
-          <div id="key-properties" style="display: none;">
-            <div class="form-group">
-              <label for="key-type">סוג מפתח:</label>
-              <select id="key-type">
-                <option value="regular">רגיל</option>
-                <option value="gold">זהב</option>
-                <option value="silver">כסף</option>
-                <option value="red">אדום</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>
-                <input type="checkbox" id="one-time-use">
-                שימוש חד-פעמי
-              </label>
-            </div>
-            <div class="form-group">
-              <label for="key-hint">רמז למלאי:</label>
-              <input type="text" id="key-hint">
-            </div>
+          <div class="form-group">
+            <label for="object-required-item">פריט נדרש:</label>
+            <select id="object-required-item">
+              <option value="">ללא</option>
+              <option value="key">מפתח</option>
+            </select>
           </div>
-          
-          <!-- תכונות ספציפיות לספר -->
-          <div id="book-properties" style="display: none;">
-            <div class="form-group">
-              <label for="book-content">תוכן הספר:</label>
-              <textarea id="book-content" rows="5"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="book-style">סגנון ספר:</label>
-              <select id="book-style">
-                <option value="regular">רגיל</option>
-                <option value="ancient">עתיק</option>
-                <option value="diary">יומן</option>
-                <option value="letter">מכתב</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="book-hidden-hint">רמז מוסתר:</label>
-              <input type="text" id="book-hidden-hint">
-            </div>
-            <div class="form-group">
-              <label for="book-requires-item">פריט נדרש לחשיפת רמז:</label>
-              <select id="book-requires-item">
-                <option value="">ללא</option>
-                <option value="key">מפתח</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="book-pages">מספר עמודים:</label>
-              <input type="number" id="book-pages" min="1" max="10" value="1">
-              <button class="btn btn-secondary" id="edit-pages-btn" style="margin-top: 5px;">ערוך עמודים</button>
-            </div>
+          <div class="form-group">
+            <label for="object-next-room">מעבר לחדר:</label>
+            <select id="object-next-room">
+              <option value="">ללא</option>
+              <option value="room2">חדר 2</option>
+            </select>
           </div>
-          
-          <!-- תכונות ספציפיות למחשב -->
-          <div id="computer-properties" style="display: none;">
-            <div class="form-group">
-              <label for="computer-puzzle">חידה מקושרת:</label>
-              <select id="computer-puzzle">
-                <option value="">ללא</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>
-                <input type="checkbox" id="computer-locked">
-                נעול (דורש סיסמה)
-              </label>
-            </div>
-            <div class="form-group">
-              <label for="computer-password">סיסמה:</label>
-              <input type="text" id="computer-password">
-            </div>
-            <div class="form-group">
-              <label for="computer-off-text">טקסט במצב כבוי:</label>
-              <textarea id="computer-off-text" rows="2"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="computer-on-text">טקסט במצב פעיל:</label>
-              <textarea id="computer-on-text" rows="2"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="computer-programs">תוכניות במחשב:</label>
-              <button class="btn btn-secondary" id="edit-programs-btn">ערוך תוכניות</button>
-            </div>
+          <div class="form-group">
+            <label for="object-width">רוחב:</label>
+            <input type="number" id="object-width" min="20" max="400">
           </div>
-          
-          <!-- תכונות ספציפיות להערת מידע -->
-          <div id="info-properties" style="display: none;">
-            <div class="form-group">
-              <label for="info-text">טקסט מידע:</label>
-              <textarea id="info-text" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="display-style">סגנון תצוגה:</label>
-              <select id="display-style">
-                <option value="popup">הודעה צפה</option>
-                <option value="dialog">חלונית מידע</option>
-                <option value="embedded">טקסט מוטמע</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>
-                <input type="checkbox" id="auto-show">
-                הצגה אוטומטית בכניסה לחדר
-              </label>
-            </div>
-            <div class="form-group">
-              <label>
-                <input type="checkbox" id="show-once">
-                הצגה חד-פעמית
-              </label>
-            </div>
-            <div class="form-group">
-              <label for="font-size">גודל גופן:</label>
-              <select id="font-size">
-                <option value="small">קטן</option>
-                <option value="medium">בינוני</option>
-                <option value="large">גדול</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="text-color">צבע טקסט:</label>
-              <input type="color" id="text-color" value="#000000">
-            </div>
+          <div class="form-group">
+            <label for="object-height">גובה:</label>
+            <input type="number" id="object-height" min="20" max="400">
           </div>
-          
-          <!-- תכונות ספציפיות לדלת/יציאה -->
-          <div id="door-properties" style="display: none;">
-            <div class="form-group">
-              <label for="next-room">חדר יעד:</label>
-              <select id="next-room">
-                <option value="">בחר חדר</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>
-                <input type="checkbox" id="door-locked">
-                נעולה
-              </label>
-            </div>
-            <div class="form-group">
-              <label for="door-required-item">פריט נדרש:</label>
-              <select id="door-required-item">
-                <option value="">ללא</option>
-                <option value="key">מפתח</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="door-required-puzzle">חידה נדרשת:</label>
-              <select id="door-required-puzzle">
-                <option value="">ללא</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="door-message">הודעת מעבר:</label>
-              <input type="text" id="door-message">
-            </div>
+          <div class="form-group">
+            <label for="object-image">תמונת האובייקט:</label>
+            <input type="file" id="object-image" accept="image/*">
+            <button class="btn btn-secondary" id="remove-object-image" style="margin-top: 5px;">הסר תמונה</button>
           </div>
-          
           <button class="btn btn-danger" id="delete-object-btn">מחק אובייקט</button>
         </div>
         <div id="no-object-selected" style="text-align: center; padding: 10px;">
@@ -308,7 +132,14 @@
         <!-- לשונית חדרים -->
         <div class="tab-content active" id="rooms-tab">
           <div class="room-preview" id="room-preview" style="background-color: #243447;">
-            <!-- אובייקטים יתווספו דינמית -->
+            <!-- חדר דוגמה עם פריטים -->
+            <div class="room-item" id="item1" style="width: 60px; height: 60px; left: 200px; top: 300px;" data-type="safe">
+              כספת
+            </div>
+            
+            <div class="room-item" id="item2" style="width: 50px; height: 50px; left: 400px; top: 150px;" data-type="computer">
+              מחשב
+            </div>
           </div>
         </div>
         
@@ -319,14 +150,62 @@
             <p>כאן תוכל ליצור ולערוך חידות לחדרי הבריחה שלך.</p>
             
             <div class="puzzle-list" id="puzzle-list">
-              <!-- רשימת חידות תתווסף דינמית -->
+              <div class="puzzle-list-item" data-puzzle-id="code-puzzle">חידת קוד - כספת</div>
+              <div class="puzzle-list-item" data-puzzle-id="text-puzzle">חידת טקסט - מחשב</div>
             </div>
             
             <button class="btn" id="add-puzzle-btn">+ הוסף חידה חדשה</button>
             
-            <!-- טפסי עריכת חידות -->
-            <div class="puzzle-forms-container" id="puzzle-forms-container">
-              <!-- טפסי עריכה לחידות שונות יתווספו דינמית -->
+            <div id="puzzle-forms-container">
+              <div class="puzzle-form" id="code-puzzle-form" style="display: none; margin-top: 20px;">
+                <h4>עריכת חידת קוד</h4>
+                <div class="form-group">
+                  <label for="code-puzzle-name">שם החידה:</label>
+                  <input type="text" id="code-puzzle-name" value="חידת קוד - כספת">
+                </div>
+                <div class="form-group">
+                  <label for="code-puzzle-description">תיאור החידה:</label>
+                  <textarea id="code-puzzle-description" rows="3">מצא את הקוד לפתיחת הכספת!</textarea>
+                </div>
+                <div class="form-group">
+                  <label for="code-puzzle-answer">הקוד הנכון:</label>
+                  <input type="text" id="code-puzzle-answer" value="1234">
+                </div>
+                <div class="form-group">
+                  <label for="code-puzzle-hint">רמז:</label>
+                  <input type="text" id="code-puzzle-hint" value="חפש רמזים בחדר...">
+                </div>
+                <div class="form-group">
+                  <label for="code-puzzle-success">הודעת הצלחה:</label>
+                  <input type="text" id="code-puzzle-success" value="הכספת נפתחה!">
+                </div>
+                <button class="btn" id="save-code-puzzle">שמור</button>
+              </div>
+              
+              <div class="puzzle-form" id="text-puzzle-form" style="display: none; margin-top: 20px;">
+                <h4>עריכת חידת טקסט</h4>
+                <div class="form-group">
+                  <label for="text-puzzle-name">שם החידה:</label>
+                  <input type="text" id="text-puzzle-name" value="חידת טקסט - מחשב">
+                </div>
+                <div class="form-group">
+                  <label for="text-puzzle-question">שאלה:</label>
+                  <textarea id="text-puzzle-question" rows="3">מהו שמו של המדען הידוע שגילה את חוק הכבידה?</textarea>
+                </div>
+                <div class="form-group">
+                  <label for="text-puzzle-answer">תשובה נכונה:</label>
+                  <input type="text" id="text-puzzle-answer" value="אייזק ניוטון">
+                </div>
+                <div class="form-group">
+                  <label for="text-puzzle-hint">רמז:</label>
+                  <input type="text" id="text-puzzle-hint" value="הוא ראה תפוח נופל...">
+                </div>
+                <div class="form-group">
+                  <label for="text-puzzle-success">הודעת הצלחה:</label>
+                  <input type="text" id="text-puzzle-success" value="נכון! המחשב נפתח!">
+                </div>
+                <button class="btn" id="save-text-puzzle">שמור</button>
+              </div>
             </div>
           </div>
         </div>
@@ -338,7 +217,13 @@
             <p>גרור חדרים למפה וצור קשרים ביניהם.</p>
             
             <div class="map-container" id="map-container">
-              <!-- חדרים וקשרים יתווספו דינמית -->
+              <div class="map-room" id="map-room1" style="top: 50px; left: 50px;" data-room-id="room1">
+                חדר 1: מעבדה
+              </div>
+              <div class="map-room" id="map-room2" style="top: 200px; left: 250px;" data-room-id="room2">
+                חדר 2: ספרייה
+              </div>
+              <!-- קשרים בין חדרים יתווספו דינאמית ע"י ה-JavaScript -->
             </div>
             
             <div style="margin-top: 20px;">
@@ -371,6 +256,12 @@
             </div>
             
             <button class="btn btn-success" id="generate-game">ייצא משחק</button>
+            
+            <div style="margin-top: 20px; display: none;" id="export-result">
+              <h4>המשחק מוכן להורדה!</h4>
+              <p>לחץ על הכפתור למטה כדי להוריד את המשחק:</p>
+              <button class="btn btn-success" id="download-game">הורד משחק</button>
+            </div>
           </div>
         </div>
         
@@ -405,11 +296,8 @@
               <select id="new-puzzle-type">
                 <option value="code">חידת קוד</option>
                 <option value="text">חידת טקסט</option>
-                <option value="sequence">חידת רצף</option>
-                <option value="matching">חידת התאמה</option>
-                <option value="arrange">חידת סידור</option>
                 <option value="search">חידת חיפוש</option>
-                <option value="assembly">חידת הרכבה</option>
+                <option value="sequence">חידת רצף</option>
               </select>
             </div>
             <div class="form-group">
@@ -417,55 +305,6 @@
               <input type="text" id="new-puzzle-name" value="חידה חדשה">
             </div>
             <button class="btn btn-success" id="create-puzzle-btn">צור חידה</button>
-          </div>
-        </div>
-        
-        <div class="modal" id="edit-pages-modal">
-          <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>עריכת עמודי ספר</h3>
-            <div id="book-pages-editor">
-              <!-- תוכן עמודים יתווסף דינמית -->
-            </div>
-            <button class="btn btn-success" id="save-pages-btn">שמור עמודים</button>
-          </div>
-        </div>
-        
-        <div class="modal" id="edit-programs-modal">
-          <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3>עריכת תוכניות מחשב</h3>
-            <div id="computer-programs-editor">
-              <div class="programs-list" id="programs-list">
-                <!-- רשימת תוכניות תתווסף דינמית -->
-              </div>
-              <button class="btn" id="add-program-btn">+ הוסף תוכנית</button>
-              <div class="program-form" id="program-form" style="margin-top: 15px; display: none;">
-                <div class="form-group">
-                  <label for="program-name">שם התוכנית:</label>
-                  <input type="text" id="program-name">
-                </div>
-                <div class="form-group">
-                  <label for="program-content">תוכן:</label>
-                  <textarea id="program-content" rows="4"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="program-action">פעולה:</label>
-                  <select id="program-action">
-                    <option value="none">ללא</option>
-                    <option value="puzzle">הפעלת חידה</option>
-                    <option value="unlock">שחרור נעילה</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="program-target">יעד הפעולה:</label>
-                  <select id="program-target">
-                    <option value="">בחר</option>
-                  </select>
-                </div>
-                <button class="btn btn-success" id="save-program-btn">שמור תוכנית</button>
-              </div>
-            </div>
           </div>
         </div>
         
