@@ -3,7 +3,6 @@
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-
 body, html {
   margin: 0;
   padding: 0;
@@ -128,6 +127,10 @@ body, html {
   display: block;
 }
 
+.room-item.selected .resize-handle {
+  display: block;
+}
+
 /* לשוניות */
 .tabs {
   display: flex;
@@ -192,10 +195,6 @@ body, html {
   text-align: center;
 }
 
-.object-thumbnail:hover {
-  background-color: #3498db;
-}
-
 /* טפסים */
 .form-group {
   margin-bottom: 15px;
@@ -216,27 +215,6 @@ input, select, textarea {
   border-radius: 4px;
 }
 
-/* גלילה בתוך טופס רחב */
-.scroll-container {
-  max-height: 300px;
-  overflow-y: auto;
-  margin-bottom: 15px;
-  padding-right: 5px;
-}
-
-.scroll-container::-webkit-scrollbar {
-  width: 8px;
-}
-
-.scroll-container::-webkit-scrollbar-thumb {
-  background-color: #7f8c8d;
-  border-radius: 4px;
-}
-
-.scroll-container::-webkit-scrollbar-track {
-  background-color: #2c3e50;
-  border-radius: 4px;
-}
 /* כפתורים */
 .btn {
   padding: 8px 15px;
@@ -246,35 +224,18 @@ input, select, textarea {
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
-  transition: background-color 0.2s;
-}
-
-.btn:hover {
-  background-color: #2980b9;
 }
 
 .btn-secondary {
   background-color: #95a5a6;
 }
 
-.btn-secondary:hover {
-  background-color: #7f8c8d;
-}
-
 .btn-success {
   background-color: #2ecc71;
 }
 
-.btn-success:hover {
-  background-color: #27ae60;
-}
-
 .btn-danger {
   background-color: #e74c3c;
-}
-
-.btn-danger:hover {
-  background-color: #c0392b;
 }
 
 /* חלוניות מודאליות */
@@ -358,196 +319,15 @@ input, select, textarea {
   margin-bottom: 5px;
   background-color: white;
   cursor: pointer;
-  border-radius: 4px;
-}
-
-.puzzle-list-item:hover {
-  background-color: #f9f9f9;
-}
-
-.puzzle-list-item.active {
-  border-color: #3498db;
-  background-color: #ecf0f1;
 }
 
 .puzzle-form {
   background-color: white;
   padding: 15px;
   border: 1px solid #bdc3c7;
-  margin-top: 15px;
-  border-radius: 4px;
-}
-
-/* סגנון עורך עמודי ספר */
-.book-page {
-  margin-bottom: 15px;
-  border: 1px solid #bdc3c7;
-  padding: 10px;
-  border-radius: 4px;
-  background-color: white;
-}
-
-.page-number {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-/* סגנון עורך תוכניות מחשב */
-.programs-list {
-  margin-bottom: 15px;
-}
-
-.program-item {
-  padding: 8px;
-  border: 1px solid #bdc3c7;
-  margin-bottom: 5px;
-  cursor: pointer;
-  background-color: white;
-  border-radius: 4px;
-}
-
-.program-item:hover {
-  background-color: #f9f9f9;
-}
-
-.program-item.active {
-  border-color: #3498db;
-  background-color: #ecf0f1;
-}
-
-/* יצירת חידות סידור והתאמה */
-.elements-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 15px 0;
-}
-
-.element-item {
-  padding: 8px;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
-  background-color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.element-item input {
-  width: 80%;
-}
-
-/* סגנון חידת רצף */
-.sequence-editor {
-  margin: 15px 0;
-}
-
-.sequence-step {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.sequence-step input {
-  flex: 1;
-  margin-right: 5px;
-}
-
-/* תצוגת חידות חיפוש */
-.search-items-container {
-  margin: 15px 0;
-  padding: 10px;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
-  background-color: white;
-}
-
-.search-item {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px dashed #bdc3c7;
 }
 
 /* לשונית ייצוא */
 .export-section {
   padding: 20px;
-}
-
-/* מותאם למסכים קטנים */
-@media (max-width: 1200px) {
-  .generator {
-    flex-direction: column;
-  }
-  
-  .sidebar {
-    width: 100%;
-    max-height: 300px;
-  }
-  
-  .room-preview {
-    width: 90%;
-    height: 450px;
-  }
-}
-
-/* אנימציות */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.fade-in {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-/* סגנון אלמנטים חדשים לסוגי החידות */
-.matching-pair {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  align-items: center;
-}
-
-.matching-item {
-  flex: 1;
-}
-
-.assembly-part {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 10px;
-  align-items: center;
-}
-
-/* סגנונות לאייקונים של אובייקטים */
-.object-icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 5px;
-}
-
-/* תפריט הקשר (קליק ימני) */
-.context-menu {
-  position: absolute;
-  background-color: white;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  padding: 5px 0;
-  z-index: 1000;
-}
-
-.context-menu-item {
-  padding: 8px 15px;
-  cursor: pointer;
-}
-
-.context-menu-item:hover {
-  background-color: #f5f5f5;
-}
-
-.context-menu-separator {
-  height: 1px;
-  background-color: #bdc3c7;
-  margin: 5px 0;
 }
