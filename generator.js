@@ -71,6 +71,7 @@ function initGenerator() {
 }
 
 // פונקציה לטעינת החדר הנוכחי
+// פונקציה לטעינת החדר הנוכחי
 function loadCurrentRoom() {
   console.log("טוען חדר:", currentRoomId);
 
@@ -115,6 +116,21 @@ function loadCurrentRoom() {
     itemElement.style.left = item.x + "px";
     itemElement.style.top = item.y + "px";
     itemElement.setAttribute("data-type", item.type);
+    
+    // הוסף מאפיינים נוספים לאובייקט במחולל
+    if (item.puzzle) {
+      console.log("מוסיף חידה לאובייקט:", item.puzzle);
+      itemElement.setAttribute("data-puzzle", item.puzzle);
+    }
+    if (item.locked) {
+      itemElement.setAttribute("data-locked", "true");
+    }
+    if (item.requiredItem) {
+      itemElement.setAttribute("data-required-item", item.requiredItem);
+    }
+    if (item.nextRoom) {
+      itemElement.setAttribute("data-next-room", item.nextRoom);
+    }
 
     // בדוק אם יש תמונה לאובייקט
     if (item.image) {
@@ -361,6 +377,7 @@ function showItemProperties(itemId) {
 }
 
 // פונקציה להוספת אובייקט חדש
+// פונקציה להוספת אובייקט חדש
 function addNewItem(type) {
   console.log("מוסיף אובייקט חדש מסוג:", type);
 
@@ -371,12 +388,20 @@ function addNewItem(type) {
   // הגדר מידות ברירת מחדל לפי הסוג
   var width = 50, height = 50;
   var name = "";
+  var puzzleId = null;
 
   switch (type) {
     case "safe":
       width = 60;
       height = 60;
       name = "כספת";
+      // בדוק אם יש חידת קוד קיימת
+      for (var id in projectData.puzzles) {
+        if (projectData.puzzles[id].type === "code") {
+          puzzleId = id;
+          break;
+        }
+      }
       break;
     case "key":
       width = 40;
@@ -392,6 +417,13 @@ function addNewItem(type) {
       width = 50;
       height = 50;
       name = "מחשב";
+      // בדוק אם יש חידת טקסט קיימת
+      for (var id in projectData.puzzles) {
+        if (projectData.puzzles[id].type === "text") {
+          puzzleId = id;
+          break;
+        }
+      }
       break;
   }
 
@@ -405,7 +437,7 @@ function addNewItem(type) {
     width: width,
     height: height,
     image: null,
-    puzzle: "",
+    puzzle: puzzleId,
     locked: false,
     requiredItem: null,
     nextRoom: null
@@ -417,7 +449,7 @@ function addNewItem(type) {
   // טען מחדש את החדר
   loadCurrentRoom();
 
-  console.log("אובייקט חדש נוסף בהצלחה:", newItemId);
+  console.log("אובייקט חדש נוסף בהצלחה:", newItemId, "עם חידה:", puzzleId);
 }
 
 // פונקציה למחיקת אובייקט נבחר
