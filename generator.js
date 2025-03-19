@@ -338,6 +338,7 @@ function startResize(e, item) {
 }
 
 // פונקציה להצגת תכונות של אובייקט נבחר
+// פונקציה להצגת תכונות של אובייקט נבחר
 function showItemProperties(itemId) {
   var item = projectData.rooms[currentRoomId].items[itemId];
   if (!item) return;
@@ -366,7 +367,25 @@ function showItemProperties(itemId) {
   if (nameElement) nameElement.value = item.name;
   if (widthElement) widthElement.value = item.width;
   if (heightElement) heightElement.value = item.height;
-  if (puzzleElement) puzzleElement.value = item.puzzle || "";
+  
+  // עדכן את תפריט בחירת החידות
+  if (puzzleElement) {
+    // נקה את התפריט קודם
+    puzzleElement.innerHTML = '<option value="">ללא</option>';
+    
+    // הוסף את כל החידות
+    for (var puzzleId in projectData.puzzles) {
+      var puzzle = projectData.puzzles[puzzleId];
+      var option = document.createElement("option");
+      option.value = puzzleId;
+      option.textContent = puzzle.name;
+      puzzleElement.appendChild(option);
+    }
+    
+    // בחר את החידה המקושרת
+    puzzleElement.value = item.puzzle || "";
+  }
+  
   if (lockedElement) lockedElement.checked = item.locked || false;
   if (requiredItemElement) requiredItemElement.value = item.requiredItem || "";
   if (nextRoomElement) nextRoomElement.value = item.nextRoom || "";
@@ -479,64 +498,23 @@ function createPuzzleForms() {
 }
 
 // פונקציה להגדרת אירועים לטפסי החידות
+// פונקציה להגדרת אירועים לטפסי החידות
 function setupPuzzleFormEvents() {
   console.log("מגדיר אירועים לטפסי חידות");
 
-  // אירועי שמירה לחידת קוד
-  var saveCodePuzzleBtn = document.getElementById("save-code-puzzle");
-  if (saveCodePuzzleBtn) {
-    saveCodePuzzleBtn.addEventListener("click", function() {
-      var puzzleId = "code-puzzle";
-      var name = document.getElementById("code-puzzle-name").value;
-      var description = document.getElementById("code-puzzle-description").value;
-      var answer = document.getElementById("code-puzzle-answer").value;
-      var hint = document.getElementById("code-puzzle-hint").value;
-      var success = document.getElementById("code-puzzle-success").value;
+  // אנחנו מגדירים את אירועי השמירה דינמית בפונקציה showPuzzleForm
+  // כאשר פותחים חידה לעריכה, כדי שידעו לשמור את החידה הנכונה
 
-      if (!projectData.puzzles[puzzleId]) {
-        projectData.puzzles[puzzleId] = {
-          id: puzzleId,
-          type: "code"
-        };
-      }
-
-      projectData.puzzles[puzzleId].name = name;
-      projectData.puzzles[puzzleId].description = description;
-      projectData.puzzles[puzzleId].answer = answer;
-      projectData.puzzles[puzzleId].hint = hint;
-      projectData.puzzles[puzzleId].successMessage = success;
-
-      alert("החידה נשמרה בהצלחה!");
+  // אירועי לחיצה על פריטי רשימת החידות
+  var puzzleListItems = document.querySelectorAll(".puzzle-list-item");
+  for (var i = 0; i < puzzleListItems.length; i++) {
+    puzzleListItems[i].addEventListener("click", function() {
+      var puzzleId = this.getAttribute("data-puzzle-id");
+      showPuzzleForm(puzzleId);
     });
   }
 
-  // אירועי שמירה לחידת טקסט
-  var saveTextPuzzleBtn = document.getElementById("save-text-puzzle");
-  if (saveTextPuzzleBtn) {
-    saveTextPuzzleBtn.addEventListener("click", function() {
-      var puzzleId = "text-puzzle";
-      var name = document.getElementById("text-puzzle-name").value;
-      var question = document.getElementById("text-puzzle-question").value;
-      var answer = document.getElementById("text-puzzle-answer").value;
-      var hint = document.getElementById("text-puzzle-hint").value;
-      var success = document.getElementById("text-puzzle-success").value;
-
-      if (!projectData.puzzles[puzzleId]) {
-        projectData.puzzles[puzzleId] = {
-          id: puzzleId,
-          type: "text"
-        };
-      }
-
-      projectData.puzzles[puzzleId].name = name;
-      projectData.puzzles[puzzleId].question = question;
-      projectData.puzzles[puzzleId].answer = answer;
-      projectData.puzzles[puzzleId].hint = hint;
-      projectData.puzzles[puzzleId].successMessage = success;
-
-      alert("החידה נשמרה בהצלחה!");
-    });
-  }
+  console.log("אירועי טפסי חידות הוגדרו בהצלחה");
 }
 
 // פונקציה להגדרת מאזיני אירועים
@@ -887,6 +865,7 @@ var addPuzzleBtn = document.getElementById("add-puzzle-btn");
 }
 
 // פונקציה להצגת טופס חידה
+// פונקציה להצגת טופס חידה
 function showPuzzleForm(puzzleId) {
   // הסתר את כל טפסי החידות
   var puzzleForms = document.querySelectorAll(".puzzle-form");
@@ -894,11 +873,88 @@ function showPuzzleForm(puzzleId) {
     puzzleForms[i].style.display = "none";
   }
 
+  var puzzle = projectData.puzzles[puzzleId];
+  if (!puzzle) {
+    console.error("חידה לא נמצאה:", puzzleId);
+    return;
+  }
+
   // הצג את הטופס המתאים
-  var formId = puzzleId + "-form";
+  var formId = "";
+  if (puzzle.type === "code") {
+    formId = "code-puzzle-form";
+    var nameInput = document.getElementById("code-puzzle-name");
+    var descInput = document.getElementById("code-puzzle-description");
+    var answerInput = document.getElementById("code-puzzle-answer");
+    var hintInput = document.getElementById("code-puzzle-hint");
+    var successInput = document.getElementById("code-puzzle-success");
+
+    if (nameInput) nameInput.value = puzzle.name || "";
+    if (descInput) descInput.value = puzzle.description || "";
+    if (answerInput) answerInput.value = puzzle.answer || "";
+    if (hintInput) hintInput.value = puzzle.hint || "";
+    if (successInput) successInput.value = puzzle.successMessage || "";
+    
+    // עדכן את פונקציות השמירה לשמור את החידה הנוכחית
+    var saveBtn = document.getElementById("save-code-puzzle");
+    if (saveBtn) {
+      saveBtn.onclick = function() {
+        puzzle.name = nameInput.value;
+        puzzle.description = descInput.value;
+        puzzle.answer = answerInput.value;
+        puzzle.hint = hintInput.value;
+        puzzle.successMessage = successInput.value;
+        
+        // עדכן את תצוגת רשימת החידות
+        var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
+        if (puzzleItem) {
+          puzzleItem.textContent = puzzle.name;
+        }
+        
+        alert("החידה נשמרה בהצלחה!");
+      };
+    }
+  } else if (puzzle.type === "text") {
+    formId = "text-puzzle-form";
+    var nameInput = document.getElementById("text-puzzle-name");
+    var questionInput = document.getElementById("text-puzzle-question");
+    var answerInput = document.getElementById("text-puzzle-answer");
+    var hintInput = document.getElementById("text-puzzle-hint");
+    var successInput = document.getElementById("text-puzzle-success");
+
+    if (nameInput) nameInput.value = puzzle.name || "";
+    if (questionInput) questionInput.value = puzzle.question || "";
+    if (answerInput) answerInput.value = puzzle.answer || "";
+    if (hintInput) hintInput.value = puzzle.hint || "";
+    if (successInput) successInput.value = puzzle.successMessage || "";
+    
+    // עדכן את פונקציות השמירה לשמור את החידה הנוכחית
+    var saveBtn = document.getElementById("save-text-puzzle");
+    if (saveBtn) {
+      saveBtn.onclick = function() {
+        puzzle.name = nameInput.value;
+        puzzle.question = questionInput.value;
+        puzzle.answer = answerInput.value;
+        puzzle.hint = hintInput.value;
+        puzzle.successMessage = successInput.value;
+        
+        // עדכן את תצוגת רשימת החידות
+        var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
+        if (puzzleItem) {
+          puzzleItem.textContent = puzzle.name;
+        }
+        
+        alert("החידה נשמרה בהצלחה!");
+      };
+    }
+  }
+
+  // הצג את הטופס
   var form = document.getElementById(formId);
   if (form) {
     form.style.display = "block";
+  } else {
+    console.error("טופס החידה לא נמצא:", formId);
   }
 }
 
@@ -1270,6 +1326,7 @@ function addNewRoom() {
 }
 
 // פונקציה להוספת חידה חדשה
+// פונקציה להוספת חידה חדשה
 function addNewPuzzle() {
   var newPuzzleTypeSelect = document.getElementById("new-puzzle-type");
   var newPuzzleNameInput = document.getElementById("new-puzzle-name");
@@ -1320,8 +1377,8 @@ function addNewPuzzle() {
     puzzleItem.setAttribute("data-puzzle-id", puzzleId);
     puzzleItem.textContent = puzzleName;
     puzzleItem.addEventListener("click", function() {
-      var puzzleId = this.getAttribute("data-puzzle-id");
-      showPuzzleForm(puzzleId);
+      var id = this.getAttribute("data-puzzle-id");
+      showPuzzleForm(id);
     });
     puzzleList.appendChild(puzzleItem);
   }
@@ -1333,14 +1390,17 @@ function addNewPuzzle() {
   }
 
   // עדכן את תפריטי בחירת החידות
-  var selectElements = document.querySelectorAll("select[id$='puzzle']");
-  for (var i = 0; i < selectElements.length; i++) {
-    var select = selectElements[i];
+  var puzzleSelectElements = document.querySelectorAll("select[id$='puzzle']");
+  for (var i = 0; i < puzzleSelectElements.length; i++) {
+    var select = puzzleSelectElements[i];
     var option = document.createElement("option");
     option.value = puzzleId;
     option.textContent = puzzleName;
     select.appendChild(option);
   }
+
+  // פתח את הטופס לעריכת החידה החדשה
+  showPuzzleForm(puzzleId);
 
   alert("חידה חדשה נוספה בהצלחה!");
 }
@@ -1628,10 +1688,41 @@ document.addEventListener("DOMContentLoaded", function() {
     return;
   }
 
-  // מלא את החדר באובייקט אחד לדוגמה
-  if (Object.keys(projectData.rooms[currentRoomId].items).length === 0) {
-    console.log("מוסיף אובייקט דוגמה לחדר הראשון");
-    var demoItemId = "item1";
+ // מלא את החדר באובייקט אחד לדוגמה
+if (Object.keys(projectData.rooms[currentRoomId].items).length === 0) {
+  console.log("מוסיף אובייקט דוגמה לחדר הראשון");
+  
+  // צור חידת קוד לדוגמה
+  var demoCodePuzzleId = "code-puzzle-" + (new Date().getTime());
+  projectData.puzzles[demoCodePuzzleId] = {
+    id: demoCodePuzzleId,
+    name: "חידת קוד - כספת",
+    type: "code",
+    description: "מצא את הקוד לפתיחת הכספת!",
+    answer: "1234",
+    hint: "חפש רמזים בחדר...",
+    successMessage: "הכספת נפתחה!"
+  };
+  
+  // צור אובייקט כספת עם חידה מקושרת
+  var demoItemId = "item" + (new Date().getTime());
+  projectData.rooms[currentRoomId].items[demoItemId] = {
+    id: demoItemId,
+    name: "כספת",
+    type: "safe",
+    x: 200,
+    y: 300,
+    width: 60,
+    height: 60,
+    image: null,
+    puzzle: demoCodePuzzleId,  // קשר לחידה
+    locked: false,
+    requiredItem: null
+  };
+  
+  console.log("נוספה חידת קוד:", demoCodePuzzleId);
+  console.log("נוסף אובייקט כספת עם חידה מקושרת:", demoItemId);
+}
     projectData.rooms[currentRoomId].items[demoItemId] = {
       id: demoItemId,
       name: "כספת",
