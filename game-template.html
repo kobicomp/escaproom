@@ -140,30 +140,6 @@
      align-items: center;
      justify-content: center;
      color: white;
-     position: relative;
-   }
-
-   .inventory-slot img {
-     max-width: 100%;
-     max-height: 100%;
-   }
-
-   .inventory-hint {
-     display: none;
-     position: absolute;
-     bottom: 100%;
-     left: 50%;
-     transform: translateX(-50%);
-     background-color: #333;
-     color: white;
-     padding: 5px 10px;
-     border-radius: 5px;
-     white-space: nowrap;
-     margin-bottom: 5px;
-   }
-
-   .inventory-slot:hover .inventory-hint {
-     display: block;
    }
 
    /* סגנון טיימר */
@@ -225,198 +201,6 @@
      border-radius: 5px;
      cursor: pointer;
    }
-
-   /* סגנון תצוגת ספר */
-   .book-modal .modal-content {
-     background-color: #f5f2e9;
-     max-width: 700px;
-     padding: 40px;
-     border: 1px solid #7f8c8d;
-   }
-
-   .book-pages {
-     position: relative;
-     min-height: 250px;
-   }
-
-   .book-page {
-     margin-bottom: 20px;
-   }
-
-   .book-navigation {
-     display: flex;
-     justify-content: space-between;
-     margin-top: 20px;
-   }
-
-   .page-btn {
-     padding: 5px 15px;
-     background-color: #34495e;
-     color: white;
-     border: none;
-     border-radius: 3px;
-     cursor: pointer;
-   }
-
-   /* סגנון תצוגת מחשב */
-   .computer-screen {
-     background-color: #000;
-     color: #33ff33;
-     font-family: "Courier New", monospace;
-     padding: 20px;
-     border-radius: 5px;
-     min-height: 300px;
-   }
-
-   .computer-header {
-     border-bottom: 1px solid #33ff33;
-     padding-bottom: 10px;
-     margin-bottom: 10px;
-   }
-
-   .computer-content {
-     margin-bottom: 15px;
-   }
-
-   .computer-password {
-     text-align: center;
-     margin: 20px 0;
-   }
-
-   .computer-programs {
-     margin-top: 15px;
-   }
-
-   .computer-program {
-     margin: 5px 0;
-     padding: 5px;
-     background-color: rgba(51, 255, 51, 0.2);
-     cursor: pointer;
-   }
-
-   .computer-program:hover {
-     background-color: rgba(51, 255, 51, 0.4);
-   }
-
-   /* סגנון הודעת מידע */
-   .info-popup {
-     position: fixed;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     padding: 20px;
-     background-color: white;
-     border-radius: 5px;
-     box-shadow: 0 0 10px rgba(0,0,0,0.3);
-     z-index: 150;
-     max-width: 80%;
-   }
-
-   .info-embedded {
-     position: absolute;
-     padding: 10px;
-     background-color: rgba(255,255,255,0.8);
-     border-radius: 5px;
-     box-shadow: 0 0 5px rgba(0,0,0,0.2);
-     max-width: 300px;
-     z-index: 90;
-   }
-
-   /* סגנון חידת רצף */
-   .sequence-puzzle {
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-   }
-
-   .sequence-items {
-     display: flex;
-     flex-wrap: wrap;
-     justify-content: center;
-     gap: 10px;
-     margin: 15px 0;
-   }
-
-   .sequence-item {
-     padding: 10px 15px;
-     border: 1px solid #3498db;
-     border-radius: 5px;
-     cursor: pointer;
-     background-color: white;
-   }
-
-   .sequence-item:hover {
-     background-color: #f5f5f5;
-   }
-
-   .sequence-progress {
-     margin-top: 15px;
-     text-align: center;
-   }
-
-   /* סגנון חידת התאמה */
-   .matching-puzzle {
-     padding: 10px;
-   }
-
-   .matching-container {
-     display: flex;
-     justify-content: space-between;
-     margin: 20px 0;
-   }
-
-   .matching-column {
-     width: 45%;
-   }
-
-   .matching-item {
-     margin: 10px 0;
-     padding: 10px;
-     border: 1px solid #3498db;
-     border-radius: 5px;
-     background-color: white;
-     cursor: pointer;
-   }
-
-   .matching-item:hover {
-     background-color: #f5f5f5;
-   }
-
-   .matching-item.selected {
-     background-color: #d6eaf8;
-     border: 1px solid #2980b9;
-   }
-
-   .matching-results {
-     margin-top: 20px;
-   }
-
-   .matching-pair {
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     margin: 5px 0;
-   }
-
-   .matching-pair-item {
-     width: 45%;
-     padding: 5px 10px;
-     border-radius: 3px;
-   }
-
-   .matching-connected {
-     position: relative;
-   }
-
-   .matching-connected:after {
-     content: "";
-     position: absolute;
-     top: 50%;
-     left: 100%;
-     width: 50px;
-     height: 2px;
-     background-color: #3498db;
-   }
  </style>
 </head>
 <body>
@@ -443,6 +227,9 @@
  <script>
    // נתוני המשחק
    var gameData = {{GAME_DATA_JSON}};
+   
+   // הדפסת נתוני המשחק לדיבאג
+   console.log("Game data loaded:", gameData);
 
    // מצב המשחק הנוכחי
    var gameState = {
@@ -452,42 +239,40 @@
      timeLeft: {{GAME_TIME_LIMIT}} * 60,
      timerInterval: null,
      gameStarted: false,
-     gameEnded: false,
-     infoShown: {} // למעקב אחר הודעות מידע שהוצגו כבר
+     gameEnded: false
    };
 
    // פונקציה לאתחול המשחק
    function initGame() {
+     console.log("Initializing game...");
      // יצירת החדרים
      createRooms();
 
      // יצירת החידות
      createPuzzles();
 
-     // יצירת המלאי
-     createInventory();
-
-     // יצירת הטיימר
-     createTimer();
-
      // הגדרת אירועים
      setupEventListeners();
+     
+     console.log("Game initialized successfully");
    }
 
    // פונקציה ליצירת החדרים ותוכנם
    function createRooms() {
+     console.log("Creating rooms with data:", gameData.rooms);
      var gameContainer = document.getElementById("game-container");
 
      // יצירת כל החדרים
      for (var roomId in gameData.rooms) {
        var room = gameData.rooms[roomId];
+       console.log("Creating room:", roomId, room);
 
        // יצירת אלמנט החדר
        var roomElement = document.createElement("div");
        roomElement.id = roomId;
        roomElement.className = "room" + (roomId === "room1" ? " active" : "");
 
-  // הגדר את הרקע
+       // הגדר את הרקע
        if (room.backgroundImage) {
          roomElement.style.backgroundImage = "url('" + room.backgroundImage + "')";
          roomElement.style.backgroundColor = "transparent";
@@ -502,6 +287,7 @@
        // הוספת כל האובייקטים בחדר
        for (var itemId in room.items) {
          var item = room.items[itemId];
+         console.log("Adding item:", itemId, item);
 
          var itemElement = document.createElement("div");
          itemElement.className = "item";
@@ -509,49 +295,16 @@
          itemElement.style.top = item.y + "px";
          itemElement.style.width = item.width + "px";
          itemElement.style.height = item.height + "px";
+         
+         // חשוב לשמור את המזהה המקורי כדי שנוכל לגשת אליו בהמשך
          itemElement.setAttribute("data-item-id", itemId);
          itemElement.setAttribute("data-type", item.type);
 
-         // הגדרת תכונות נוספות לפי סוג האובייקט
-         switch (item.type) {
-           case "safe":
-             if (item.puzzle) { itemElement.setAttribute("data-puzzle", item.puzzle); }
-             if (item.locked) { itemElement.setAttribute("data-locked", "true"); }
-             if (item.requiredItem) { itemElement.setAttribute("data-required-item", item.requiredItem); }
-             if (item.correctCode) { itemElement.setAttribute("data-code", item.correctCode); }
-             break;
-             
-           case "key":
-             itemElement.setAttribute("data-key-type", item.keyType || "regular");
-             if (item.oneTimeUse) { itemElement.setAttribute("data-one-time", "true"); }
-             if (item.hint) { itemElement.setAttribute("data-hint", item.hint); }
-             break;
-             
-           case "book":
-             if (item.style) { itemElement.setAttribute("data-style", item.style); }
-             if (item.hiddenHint) { itemElement.setAttribute("data-hidden-hint", item.hiddenHint); }
-             if (item.requiresItem) { itemElement.setAttribute("data-requires-item", item.requiresItem); }
-             break;
-             
-           case "computer":
-             if (item.puzzle) { itemElement.setAttribute("data-puzzle", item.puzzle); }
-             if (item.locked) { itemElement.setAttribute("data-locked", "true"); }
-             if (item.password) { itemElement.setAttribute("data-password", item.password); }
-             break;
-             
-           case "info":
-             if (item.autoShow) { itemElement.setAttribute("data-auto-show", "true"); }
-             if (item.showOnce) { itemElement.setAttribute("data-show-once", "true"); }
-             if (item.displayStyle) { itemElement.setAttribute("data-display-style", item.displayStyle); }
-             break;
-             
-           case "door":
-             if (item.nextRoom) { itemElement.setAttribute("data-next-room", item.nextRoom); }
-             if (item.locked) { itemElement.setAttribute("data-locked", "true"); }
-             if (item.requiredItem) { itemElement.setAttribute("data-required-item", item.requiredItem); }
-             if (item.requiredPuzzle) { itemElement.setAttribute("data-required-puzzle", item.requiredPuzzle); }
-             break;
-         }
+         // הגדרת תכונות נוספות
+         if (item.puzzle) { itemElement.setAttribute("data-puzzle", item.puzzle); }
+         if (item.locked) { itemElement.setAttribute("data-locked", "true"); }
+         if (item.requiredItem) { itemElement.setAttribute("data-required-item", item.requiredItem); }
+         if (item.nextRoom) { itemElement.setAttribute("data-next-room", item.nextRoom); }
 
          // הוספת תמונה אם קיימת
          if (item.image) {
@@ -572,164 +325,55 @@
        // הוספת החדר למיכל המשחק
        gameContainer.appendChild(roomElement);
      }
-     
-     // בדיקת הודעות מידע אוטומטיות בחדר הראשון
-     checkAutoShowInfo();
    }
 
    // פונקציה ליצירת חידות
    function createPuzzles() {
+     console.log("Creating puzzles with data:", gameData.puzzles);
      var gameContainer = document.getElementById("game-container");
 
      // יצירת כל החידות
      for (var puzzleId in gameData.puzzles) {
        var puzzle = gameData.puzzles[puzzleId];
+       console.log("Creating puzzle:", puzzleId, puzzle);
+       
        var modalElement = document.createElement("div");
        modalElement.id = "puzzle-" + puzzleId;
        modalElement.className = "modal";
 
        var modalContent = "";
 
-       switch (puzzle.type) {
-         case "code":
-           // חידת קוד
-           modalContent = createCodePuzzleContent(puzzle);
-           break;
-           
-         case "text":
-           // חידת טקסט
-           modalContent = createTextPuzzleContent(puzzle);
-           break;
-           
-         case "sequence":
-           // חידת רצף
-           modalContent = createSequencePuzzleContent(puzzle);
-           break;
-           
-         case "matching":
-           // חידת התאמה
-           modalContent = createMatchingPuzzleContent(puzzle);
-           break;
-           
-         case "arrange":
-           // חידת סידור
-           modalContent = createArrangePuzzleContent(puzzle);
-           break;
-           
-         case "search":
-           // חידת חיפוש
-           modalContent = createSearchPuzzleContent(puzzle);
-           break;
-           
-         case "assembly":
-           // חידת הרכבה
-           modalContent = createAssemblyPuzzleContent(puzzle);
-           break;
+       if (puzzle.type === "code") {
+         modalContent = '<div class="modal-content">' +
+                         '<span class="close-modal">&times;</span>' +
+                         '<div class="puzzle-container">' +
+                           '<h3>' + puzzle.name + '</h3>' +
+                           '<p>' + puzzle.description + '</p>' +
+                           '<input type="text" class="puzzle-input" id="input-' + puzzleId + '" placeholder="הקוד...">' +
+                           '<button class="puzzle-btn" data-puzzle-id="' + puzzleId + '">בדוק</button>' +
+                           '<p class="hint-text" id="hint-' + puzzleId + '">' + puzzle.hint + '</p>' +
+                           '<button class="hint-btn" data-hint="hint-' + puzzleId + '">רמז</button>' +
+                         '</div>' +
+                       '</div>';
+       } else if (puzzle.type === "text") {
+         modalContent = '<div class="modal-content">' +
+                         '<span class="close-modal">&times;</span>' +
+                         '<div class="puzzle-container">' +
+                           '<h3>' + puzzle.name + '</h3>' +
+                           '<p>' + puzzle.question + '</p>' +
+                           '<input type="text" class="puzzle-input" id="input-' + puzzleId + '" placeholder="התשובה שלך...">' +
+                           '<button class="puzzle-btn" data-puzzle-id="' + puzzleId + '">בדוק</button>' +
+                           '<p class="hint-text" id="hint-' + puzzleId + '">' + puzzle.hint + '</p>' +
+                           '<button class="hint-btn" data-hint="hint-' + puzzleId + '">רמז</button>' +
+                         '</div>' +
+                       '</div>';
        }
 
        modalElement.innerHTML = modalContent;
        gameContainer.appendChild(modalElement);
      }
-   }
-   
-   // פונקציות ליצירת תוכן לסוגי חידות שונים
-   
-   // יצירת תוכן לחידת קוד
-   function createCodePuzzleContent(puzzle) {
-     return '<div class="modal-content">' +
-            '<span class="close-modal">&times;</span>' +
-            '<div class="puzzle-container">' +
-            '<h3>' + puzzle.name + '</h3>' +
-            '<p>' + puzzle.description + '</p>' +
-            '<input type="text" class="puzzle-input" id="input-' + puzzle.id + '" placeholder="הקוד...">' +
-            '<button class="puzzle-btn" data-puzzle-id="' + puzzle.id + '">בדוק</button>' +
-            '<p class="hint-text" id="hint-' + puzzle.id + '">' + puzzle.hint + '</p>' +
-            '<button class="hint-btn" data-hint="hint-' + puzzle.id + '">רמז</button>' +
-            '</div>' +
-            '</div>';
-   }
-   
-   // יצירת תוכן לחידת טקסט
-   function createTextPuzzleContent(puzzle) {
-     return '<div class="modal-content">' +
-            '<span class="close-modal">&times;</span>' +
-            '<div class="puzzle-container">' +
-            '<h3>' + puzzle.name + '</h3>' +
-            '<p>' + puzzle.question + '</p>' +
-            '<input type="text" class="puzzle-input" id="input-' + puzzle.id + '" placeholder="התשובה שלך...">' +
-            '<button class="puzzle-btn" data-puzzle-id="' + puzzle.id + '">בדוק</button>' +
-            '<p class="hint-text" id="hint-' + puzzle.id + '">' + puzzle.hint + '</p>' +
-            '<button class="hint-btn" data-hint="hint-' + puzzle.id + '">רמז</button>' +
-            '</div>' +
-            '</div>';
-   }
-   
-   // יצירת תוכן לחידת רצף
-   function createSequencePuzzleContent(puzzle) {
-     var content = '<div class="modal-content">' +
-                   '<span class="close-modal">&times;</span>' +
-                   '<div class="puzzle-container sequence-puzzle">' +
-                   '<h3>' + puzzle.name + '</h3>' +
-                   '<p>' + puzzle.description + '</p>' +
-                   '<div class="sequence-items">';
-     
-     // הוסף את הפריטים ברצף
-     for (var i = 0; i < puzzle.sequence.length; i++) {
-       content += '<div class="sequence-item" data-sequence-index="' + i + '">' + puzzle.sequence[i] + '</div>';
-     }
-     
-     content += '</div>' +
-                '<div class="sequence-progress">התקדמות: <span id="sequence-progress-' + puzzle.id + '">0/' + puzzle.sequence.length + '</span></div>' +
-                '<p class="hint-text" id="hint-' + puzzle.id + '">' + puzzle.hint + '</p>' +
-                '<button class="hint-btn" data-hint="hint-' + puzzle.id + '">רמז</button>' +
-                '</div>' +
-                '</div>';
-     
-     return content;
-   }
-   
-   // יצירת תוכן לחידת התאמה
-   function createMatchingPuzzleContent(puzzle) {
-     var content = '<div class="modal-content">' +
-                   '<span class="close-modal">&times;</span>' +
-                   '<div class="puzzle-container matching-puzzle">' +
-                   '<h3>' + puzzle.name + '</h3>' +
-                   '<p>' + puzzle.description + '</p>' +
-                   '<div class="matching-container">' +
-                   '<div class="matching-column" id="matching-left-' + puzzle.id + '">';
-     
-     // צד שמאל של ההתאמות
-     for (var i = 0; i < puzzle.pairs.length; i++) {
-       content += '<div class="matching-item" data-pair-index="' + i + '" data-side="left">' + puzzle.pairs[i].left + '</div>';
-     }
-     
-     content += '</div><div class="matching-column" id="matching-right-' + puzzle.id + '">';
-     
-     // צד ימין של ההתאמות (בסדר אקראי)
-     var rightItems = puzzle.pairs.map((pair, index) => ({ content: pair.right, index: index }));
-     rightItems.sort(() => Math.random() - 0.5); // ערבוב
-     
-     for (var i = 0; i < rightItems.length; i++) {
-       content += '<div class="matching-item" data-pair-index="' + rightItems[i].index + '" data-side="right">' + rightItems[i].content + '</div>';
-     }
-     
-     content += '</div></div>' +
-                '<div class="matching-results" id="matching-results-' + puzzle.id + '"></div>' +
-                '<button class="puzzle-btn" data-puzzle-id="' + puzzle.id + '" style="display:none;">בדוק</button>' +
-                '<p class="hint-text" id="hint-' + puzzle.id + '">' + puzzle.hint + '</p>' +
-                '<button class="hint-btn" data-hint="hint-' + puzzle.id + '">רמז</button>' +
-                '</div>' +
-                '</div>';
-     
-     return content;
-   }
-   
-   // פונקציות ליצירת תכנים לחידות נוספות ניתן להוסיף בהמשך
-   
-   // יצירת מלאי
-   function createInventory() {
-     var gameContainer = document.getElementById("game-container");
-     
+
+     // יצירת מלאי
      var inventoryElement = document.createElement("div");
      inventoryElement.className = "inventory";
 
@@ -741,25 +385,13 @@
      }
 
      gameContainer.appendChild(inventoryElement);
-   }
-   
-   // יצירת טיימר
-   function createTimer() {
-     var gameContainer = document.getElementById("game-container");
-     
+
+     // יצירת טיימר
      var timerElement = document.createElement("div");
      timerElement.id = "timer";
      timerElement.className = "timer";
-     timerElement.textContent = formatTime(gameState.timeLeft);
-     
+     timerElement.textContent = "00:00";
      gameContainer.appendChild(timerElement);
-   }
-   
-   // פונקציה לפורמט הזמן
-   function formatTime(seconds) {
-     var minutes = Math.floor(seconds / 60);
-     var secs = seconds % 60;
-     return minutes.toString().padStart(2, "0") + ":" + secs.toString().padStart(2, "0");
    }
 
    // פונקציה להגדרת כל מאזיני האירועים
@@ -798,30 +430,11 @@
          this.style.display = "none";
        });
      }
-     
-     // אירועים ספציפיים לסוגי חידות שונים
-     setupSequencePuzzleEvents();
-     setupMatchingPuzzleEvents();
-   }
-   
-   // פונקציה להגדרת אירועים לחידת רצף
-   function setupSequencePuzzleEvents() {
-     var sequenceItems = document.querySelectorAll(".sequence-item");
-     for (var i = 0; i < sequenceItems.length; i++) {
-       sequenceItems[i].addEventListener("click", handleSequenceItemClick);
-     }
-   }
-   
-   // פונקציה להגדרת אירועים לחידת התאמה
-   function setupMatchingPuzzleEvents() {
-     var matchingItems = document.querySelectorAll(".matching-item");
-     for (var i = 0; i < matchingItems.length; i++) {
-       matchingItems[i].addEventListener("click", handleMatchingItemClick);
-     }
    }
 
    // פונקציית התחלת משחק
    function startGame() {
+     console.log("Starting game");
      document.getElementById("start-screen").style.display = "none";
      gameState.gameStarted = true;
 
@@ -840,21 +453,32 @@
        return;
      }
 
-     document.getElementById("timer").textContent = formatTime(gameState.timeLeft);
+     var minutes = Math.floor(gameState.timeLeft / 60);
+     var seconds = gameState.timeLeft % 60;
+     document.getElementById("timer").textContent =
+       minutes.toString().padStart(2, "0") + ":" +
+       seconds.toString().padStart(2, "0");
    }
 
    // פונקציית סיום משחק
    function endGame() {
+     console.log("Game over - player won!");
      clearInterval(gameState.timerInterval);
      gameState.gameEnded = true;
 
      var timeUsed = ({{GAME_TIME_LIMIT}} * 60) - gameState.timeLeft;
-     document.getElementById("final-time").textContent = formatTime(timeUsed);
+     var minutes = Math.floor(timeUsed / 60);
+     var seconds = timeUsed % 60;
+     document.getElementById("final-time").textContent =
+       minutes.toString().padStart(2, "0") + ":" +
+       seconds.toString().padStart(2, "0");
+
      document.getElementById("end-screen").style.display = "flex";
    }
 
    // פונקציית אתחול משחק
    function restartGame() {
+     console.log("Restarting game");
      // נקה את המצב
      gameState.currentRoom = "room1";
      gameState.inventory = [];
@@ -862,12 +486,12 @@
      gameState.timeLeft = {{GAME_TIME_LIMIT}} * 60;
      gameState.gameStarted = false;
      gameState.gameEnded = false;
-     gameState.infoShown = {};
 
      // נקה את המלאי
      var slots = document.querySelectorAll(".inventory-slot");
      for (var i = 0; i < slots.length; i++) {
-       slots[i].innerHTML = "";
+       slots[i].textContent = "";
+       slots[i].setAttribute("data-item-type", "");
      }
 
      // הסתר את מסך הסיום
@@ -878,7 +502,6 @@
 
      // עצור את הטיימר
      clearInterval(gameState.timerInterval);
-     document.getElementById("timer").textContent = formatTime(gameState.timeLeft);
 
      // הצג את החדר הראשון
      var rooms = document.querySelectorAll(".room");
@@ -903,807 +526,164 @@
        hintButtons[i].style.display = "block";
      }
    }
-   
-   // פונקציה לבדיקת הודעות מידע אוטומטיות
-   function checkAutoShowInfo() {
-     if (!gameState.gameStarted) return;
-     
-     var room = document.getElementById(gameState.currentRoom);
-     var infoItems = room.querySelectorAll('.item[data-type="info"][data-auto-show="true"]');
-     
-     for (var i = 0; i < infoItems.length; i++) {
-       var itemId = infoItems[i].getAttribute("data-item-id");
-       var showOnce = infoItems[i].hasAttribute("data-show-once");
-       
-       // בדוק אם כבר הוצג במקרה של הצגה חד פעמית
-       if (showOnce && gameState.infoShown[itemId]) {
-         continue;
-       }
-       
-       // הצג את הודעת המידע
-       showInfoMessage(itemId);
-     }
-   }
 
    // פונקציית טיפול בלחיצה על אובייקט
    function handleItemClick() {
      if (!gameState.gameStarted || gameState.gameEnded) return;
 
      var itemId = this.getAttribute("data-item-id");
-     var item = gameData.rooms[gameState.currentRoom].items[itemId];
-     var itemType = this.getAttribute("data-type");
-
-     // טיפול באובייקט לפי סוג
-     switch (itemType) {
-       case "safe":
-         handleSafeClick(this, item);
-         break;
-         
-       case "key":
-         handleKeyClick(this, item);
-         break;
-         
-       case "book":
-         handleBookClick(this, item);
-         break;
-         
-       case "computer":
-         handleComputerClick(this, item);
-         break;
-         
-       case "info":
-         handleInfoClick(this, item);
-         break;
-         
-       case "door":
-         handleDoorClick(this, item);
-         break;
-         
-       default:
-         // אובייקט לא מוכר
-         alert("בחנת את " + item.name);
+     console.log("Item clicked:", itemId);
+     console.log("Current room data:", gameData.rooms[gameState.currentRoom]);
+     console.log("Items in current room:", gameData.rooms[gameState.currentRoom].items);
+     
+     // בדיקה שהאובייקט קיים
+     if (!gameData.rooms[gameState.currentRoom].items[itemId]) {
+       console.error("Item not found in game data:", itemId);
+       return;
      }
-   }
-   
-   // פונקציה לטיפול בלחיצה על כספת
-   function handleSafeClick(element, item) {
-     // בדוק אם הכספת נעולה ודורשת פריט
-     if (element.getAttribute("data-locked") === "true") {
-       var requiredItem = element.getAttribute("data-required-item");
+     
+     var item = gameData.rooms[gameState.currentRoom].items[itemId];
+     console.log("Item data:", item);
+
+     // בדוק אם האובייקט נעול ודורש פריט
+     if (this.getAttribute("data-locked") === "true") {
+       var requiredItem = this.getAttribute("data-required-item");
        if (requiredItem && gameState.inventory.indexOf(requiredItem) !== -1) {
          // השתמש בפריט
          var itemIndex = gameState.inventory.indexOf(requiredItem);
-         
-         // בדוק אם זה פריט לשימוש חד פעמי
-         var inventorySlot = document.querySelector('.inventory-slot[data-item-type="' + requiredItem + '"]');
-         var oneTimeUse = inventorySlot.getAttribute("data-one-time") === "true";
-         
-         if (oneTimeUse) {
-           gameState.inventory.splice(itemIndex, 1);
-           inventorySlot.innerHTML = "";
-           inventorySlot.removeAttribute("data-item-type");
-         }
+         gameState.inventory.splice(itemIndex, 1);
+
+         // עדכן את המלאי
+         updateInventoryUI();
 
          // בטל את הנעילה
-         element.setAttribute("data-locked", "false");
-         alert("השתמשת ב" + getTitleByType(requiredItem) + " כדי לפתוח את " + item.name);
+         this.setAttribute("data-locked", "false");
+         alert("השתמשת ב" + requiredItem + " כדי לפתוח את " + item.name);
        } else {
-         alert("כספת זו נעולה. מצא את הפריט הנדרש כדי לפתוח אותה.");
+         alert("אובייקט זה נעול. מצא את הפריט הנדרש כדי לפתוח אותו.");
          return;
        }
      }
 
-     // בדוק אם הכספת מקושרת לחידה
-     var puzzleId = element.getAttribute("data-puzzle");
+     // בדוק אם האובייקט מקושר לחידה
+     var puzzleId = this.getAttribute("data-puzzle");
      if (puzzleId) {
+       console.log("Opening puzzle:", puzzleId);
        // בדוק אם החידה כבר נפתרה
        if (gameState.solvedPuzzles[puzzleId]) {
-         // הצג את תוכן הכספת
-         if (item.content) {
-           showSafeContent(item);
-         } else {
-           // הצג הודעת הצלחה
-           alert(gameData.puzzles[puzzleId].successMessage);
-         }
+         // הצג הודעת הצלחה
+         alert(gameData.puzzles[puzzleId].successMessage);
        } else {
          // הצג את חלונית החידה
-         document.getElementById("puzzle-" + puzzleId).style.display = "block";
-       }
-     } else {
-       // אם אין חידה מקושרת, בדוק אם יש קוד ישיר
-       var directCode = element.getAttribute("data-code");
-       if (directCode) {
-         var userCode = prompt("הזן את הקוד לפתיחת הכספת:");
-         if (userCode === directCode) {
-           // קוד נכון
-           if (item.content) {
-             showSafeContent(item);
-           } else {
-             alert("הכספת נפתחה!");
-           }
-         } else if (userCode !== null) {
-           // קוד שגוי
-           alert("קוד שגוי. נסה שוב.");
-         }
-       } else {
-         // כספת ללא קוד או חידה
-         if (item.content) {
-           showSafeContent(item);
+         var puzzleModal = document.getElementById("puzzle-" + puzzleId);
+         if (puzzleModal) {
+           puzzleModal.style.display = "block";
          } else {
-           alert("בחנת את " + item.name);
+           console.error("Puzzle modal not found:", "puzzle-" + puzzleId);
          }
        }
+       return;
      }
-   }
-   
-   // פונקציה להצגת תוכן הכספת
-   function showSafeContent(item) {
-     // כאן ניתן להוסיף לוגיקה שמציגה את תוכן הכספת בצורה חזותית
-     // כרגע נסתפק בהודעה פשוטה
-     alert("תוכן הכספת: " + item.content);
-   }
-   
-   // פונקציה לטיפול בלחיצה על מפתח
-   function handleKeyClick(element, item) {
-     // הוסף את המפתח למלאי
-     if (gameState.inventory.length < 4) {
-       var keyType = element.getAttribute("data-key-type") || "regular";
-       var oneTimeUse = element.hasAttribute("data-one-time");
-       var hint = element.getAttribute("data-hint") || "";
-       
+
+     // בדוק אם האובייקט הוא פריט שניתן לאסוף
+     if (this.getAttribute("data-type") === "key") {
        // הוסף את הפריט למלאי
-       gameState.inventory.push(element.getAttribute("data-type"));
-       
-       // עדכן את המלאי החזותי
-       updateInventoryUI(element.getAttribute("data-type"), keyType, oneTimeUse, hint, item.image);
+       if (gameState.inventory.length < 4) {
+         gameState.inventory.push(this.getAttribute("data-type"));
+         updateInventoryUI();
 
-       // הסר את הפריט מהחדר
-       element.style.display = "none";
-       alert("אספת " + item.name);
-     } else {
-       alert("המלאי שלך מלא. פנה מקום לפריט חדש.");
-     }
-   }
-   
-   // פונקציה לטיפול בלחיצה על ספר
-   function handleBookClick(element, item) {
-     // בדוק אם נדרש פריט לחשיפת רמז מוסתר
-     var requiresItem = element.getAttribute("data-requires-item");
-     var hiddenHint = element.getAttribute("data-hidden-hint");
-     var hasHiddenContent = requiresItem && hiddenHint;
-     
-     // יצירת מודאל ספר
-     var bookModalId = "book-modal-" + itemId;
-     var bookModal = document.getElementById(bookModalId);
-     
-     if (!bookModal) {
-       // צור את המודאל אם לא קיים
-       bookModal = document.createElement("div");
-       bookModal.id = bookModalId;
-       bookModal.className = "modal book-modal";
-       
-       var bookStyle = element.getAttribute("data-style") || "regular";
-       var styleClass = "book-style-" + bookStyle;
-       
-       var modalContent = document.createElement("div");
-       modalContent.className = "modal-content " + styleClass;
-       
-       var closeButton = document.createElement("span");
-       closeButton.className = "close-modal";
-       closeButton.innerHTML = "&times;";
-       closeButton.addEventListener("click", function() {
-         bookModal.style.display = "none";
-       });
-       
-       var bookTitle = document.createElement("h3");
-       bookTitle.textContent = item.name;
-       
-       var bookPages = document.createElement("div");
-       bookPages.className = "book-pages";
-       
-       // הוסף את תוכן הספר
-       if (item.pages && Object.keys(item.pages).length > 0) {
-         // ספר עם מספר עמודים
-         var currentPage = 1;
-         
-         // הוסף את העמוד הראשון
-         var pageContent = document.createElement("div");
-         pageContent.className = "book-page";
-         pageContent.id = "book-page-1";
-         pageContent.innerHTML = item.pages["1"];
-         bookPages.appendChild(pageContent);
-         
-         // הוסף ניווט בין עמודים אם יש יותר מעמוד אחד
-         if (Object.keys(item.pages).length > 1) {
-           var navigation = document.createElement("div");
-           navigation.className = "book-navigation";
-           
-           var prevButton = document.createElement("button");
-           prevButton.className = "page-btn";
-           prevButton.textContent = "עמוד קודם";
-           prevButton.disabled = true;
-           prevButton.addEventListener("click", function() {
-             if (currentPage > 1) {
-               document.getElementById("book-page-" + currentPage).style.display = "none";
-               currentPage--;
-               document.getElementById("book-page-" + currentPage).style.display = "block";
-               
-               // עדכון כפתורים
-               this.disabled = currentPage === 1;
-               nextButton.disabled = false;
-             }
-           });
-           
-           var pageIndicator = document.createElement("span");
-           pageIndicator.id = "page-indicator";
-           pageIndicator.textContent = "עמוד " + currentPage + " מתוך " + Object.keys(item.pages).length;
-           
-           var nextButton = document.createElement("button");
-           nextButton.className = "page-btn";
-           nextButton.textContent = "עמוד הבא";
-           nextButton.addEventListener("click", function() {
-             if (currentPage < Object.keys(item.pages).length) {
-               document.getElementById("book-page-" + currentPage).style.display = "none";
-               currentPage++;
-               
-               // בדוק אם העמוד כבר קיים
-               var nextPageElement = document.getElementById("book-page-" + currentPage);
-               if (!nextPageElement) {
-                 // צור את העמוד אם לא קיים
-                 nextPageElement = document.createElement("div");
-                 nextPageElement.className = "book-page";
-                 nextPageElement.id = "book-page-" + currentPage;
-                 nextPageElement.innerHTML = item.pages[currentPage];
-                 bookPages.appendChild(nextPageElement);
-               }
-               
-               nextPageElement.style.display = "block";
-               
-               // עדכון כפתורים
-               this.disabled = currentPage === Object.keys(item.pages).length;
-               prevButton.disabled = false;
-               
-               // עדכון מחוון העמודים
-               document.getElementById("page-indicator").textContent = 
-                 "עמוד " + currentPage + " מתוך " + Object.keys(item.pages).length;
-             }
-           });
-           
-           navigation.appendChild(prevButton);
-           navigation.appendChild(pageIndicator);
-           navigation.appendChild(nextButton);
-           
-           bookPages.appendChild(navigation);
-         } else {
-           // ספר עם עמוד אחד - הצג את התוכן ישירות
-           var pageContent = document.createElement("div");
-           pageContent.className = "book-page";
-           pageContent.innerHTML = item.content || "";
-           bookPages.appendChild(pageContent);
-         }
-         
-         // בדוק אם יש רמז מוסתר ואם הפריט הנדרש קיים במלאי
-         if (hasHiddenContent) {
-           var hasRequiredItem = gameState.inventory.indexOf(requiresItem) !== -1;
-           
-           if (hasRequiredItem) {
-             // הוסף את הרמז המוסתר
-             var hiddenContent = document.createElement("div");
-             hiddenContent.className = "book-hidden-hint";
-             hiddenContent.innerHTML = "<hr><p><strong>רמז מיוחד:</strong> " + hiddenHint + "</p>";
-             bookPages.appendChild(hiddenContent);
-           }
-         }
+         // הסר את הפריט מהחדר
+         this.style.display = "none";
+         alert("אספת " + item.name);
+       } else {
+         alert("המלאי שלך מלא. פנה מקום לפריט חדש.");
        }
-       
-       modalContent.appendChild(closeButton);
-       modalContent.appendChild(bookTitle);
-       modalContent.appendChild(bookPages);
-       
-       bookModal.appendChild(modalContent);
-       document.getElementById("game-container").appendChild(bookModal);
-     }
-     
-     // הצג את מודאל הספר
-     bookModal.style.display = "block";
-   }
-   
-   // פונקציה לטיפול בלחיצה על מחשב
-   function handleComputerClick(element, item) {
-     // בדוק אם המחשב נעול
-     if (element.getAttribute("data-locked") === "true") {
-       var password = element.getAttribute("data-password");
-       
-       // בקש סיסמה
-       var userInput = prompt("המחשב נעול. הזן סיסמה:");
-       
-       if (userInput === password) {
-         // סיסמה נכונה - בטל את הנעילה
-         element.setAttribute("data-locked", "false");
-         alert("הסיסמה נכונה. המחשב פעיל כעת.");
-         // הצג את מסך המחשב
-         showComputerScreen(element, item);
-       } else if (userInput !== null) {
-         // סיסמה שגויה
-         alert("סיסמה שגויה. גישה נדחתה.");
-       }
-       
        return;
      }
-     
-     // אם לא נעול, הצג את מסך המחשב
-     showComputerScreen(element, item);
-   }
-   
-   // פונקציה להצגת מסך המחשב
-   function showComputerScreen(element, item) {
-     var computerModalId = "computer-modal-" + item.id;
-     var computerModal = document.getElementById(computerModalId);
-     
-     if (!computerModal) {
-       // צור מודאל חדש אם לא קיים
-       computerModal = document.createElement("div");
-       computerModal.id = computerModalId;
-       computerModal.className = "modal";
-       
-       var modalContent = document.createElement("div");
-       modalContent.className = "modal-content";
-       modalContent.style.width = "70%";
-       modalContent.style.maxWidth = "800px";
-       
-       var closeButton = document.createElement("span");
-       closeButton.className = "close-modal";
-       closeButton.innerHTML = "&times;";
-       closeButton.addEventListener("click", function() {
-         computerModal.style.display = "none";
-       });
-       
-       var computerScreen = document.createElement("div");
-       computerScreen.className = "computer-screen";
-       
-       var screenHeader = document.createElement("div");
-       screenHeader.className = "computer-header";
-       screenHeader.innerHTML = "<h3>מערכת: " + item.name + "</h3>";
-       
-       var screenContent = document.createElement("div");
-       screenContent.className = "computer-content";
-       screenContent.innerHTML = item.onScreenText || "ברוך הבא למערכת.";
-       
-       var programsSection = document.createElement("div");
-       programsSection.className = "computer-programs";
-       
-       // בדוק אם המחשב מקושר לחידה
-       var puzzleId = element.getAttribute("data-puzzle");
-       if (puzzleId) {
-         var puzzle = gameData.puzzles[puzzleId];
-         var programElement = document.createElement("div");
-         programElement.className = "computer-program";
-         programElement.textContent = puzzle.name;
-         programElement.addEventListener("click", function() {
-           // הצג את החידה
-           computerModal.style.display = "none";
-           document.getElementById("puzzle-" + puzzleId).style.display = "block";
-         });
-         programsSection.appendChild(programElement);
-       }
-       
-       // הוסף תוכניות נוספות אם קיימות
-       if (item.programs && Object.keys(item.programs).length > 0) {
-         programsSection.innerHTML += "<h4>תוכניות:</h4>";
-         
-         for (var programId in item.programs) {
-           var program = item.programs[programId];
-           var programElement = document.createElement("div");
-           programElement.className = "computer-program";
-           programElement.textContent = program.name;
-           
-           // סגור את הפונקציה כדי לשמור את הערך הנוכחי
-           (function(prog) {
-             programElement.addEventListener("click", function() {
-               // הצג את תוכן התוכנית
-               screenContent.innerHTML = prog.content;
-               
-               // בדוק אם יש פעולה לביצוע
-               if (prog.action && prog.action !== "none" && prog.target) {
-                 if (prog.action === "puzzle") {
-                   // הוסף כפתור להפעלת חידה
-                   var actionButton = document.createElement("button");
-                   actionButton.className = "puzzle-btn";
-                   actionButton.textContent = "הפעל";
-                   actionButton.style.marginTop = "15px";
-                   actionButton.addEventListener("click", function() {
-                     computerModal.style.display = "none";
-                     document.getElementById("puzzle-" + prog.target).style.display = "block";
-                   });
-                   
-                   screenContent.appendChild(actionButton);
-                 } else if (prog.action === "unlock") {
-                   // שחרר נעילה של אובייקט
-                   var targetItem = document.querySelector('[data-item-id="' + prog.target + '"]');
-                   if (targetItem) {
-                     targetItem.setAttribute("data-locked", "false");
-                     
-                     var unlockMessage = document.createElement("p");
-                     unlockMessage.style.color = "#33ff33";
-                     unlockMessage.textContent = "נעילת " + 
-                         gameData.rooms[gameState.currentRoom].items[prog.target].name + " שוחררה!";
-                     screenContent.appendChild(unlockMessage);
-                   }
-                 }
-               }
-             });
-           })(program);
-           
-           programsSection.appendChild(programElement);
-         }
-       }
-       
-       computerScreen.appendChild(screenHeader);
-       computerScreen.appendChild(screenContent);
-       computerScreen.appendChild(programsSection);
-       
-       modalContent.appendChild(closeButton);
-       modalContent.appendChild(computerScreen);
-       
-       computerModal.appendChild(modalContent);
-       document.getElementById("game-container").appendChild(computerModal);
-     }
-     
-     // הצג את מודאל המחשב
-     computerModal.style.display = "block";
-   }
-   
-   // פונקציה לטיפול בלחיצה על הערת מידע
-   function handleInfoClick(element, item) {
-     var itemId = element.getAttribute("data-item-id");
-     showInfoMessage(itemId);
-   }
-   
-   // פונקציה להצגת הודעת מידע
-   function showInfoMessage(itemId) {
-     var item = gameData.rooms[gameState.currentRoom].items[itemId];
-     var element = document.querySelector('[data-item-id="' + itemId + '"]');
-     
-     // בדוק אם המידע הוצג כבר (במקרה של הצגה חד פעמית)
-     var showOnce = element.hasAttribute("data-show-once");
-     if (showOnce && gameState.infoShown[itemId]) {
+
+     // בדוק אם האובייקט מוביל לחדר אחר
+     var nextRoomId = this.getAttribute("data-next-room");
+     if (nextRoomId) {
+       changeRoom(nextRoomId);
        return;
      }
-     
-     // סמן שהמידע הוצג
-     gameState.infoShown[itemId] = true;
-     
-     var displayStyle = element.getAttribute("data-display-style") || "popup";
-     var fontSize = element.getAttribute("data-font-size") || "medium";
-     var textColor = element.getAttribute("data-text-color") || "#000000";
-     
-     // הצג את המידע לפי סגנון התצוגה
-     switch (displayStyle) {
-       case "popup":
-         // הצג כהודעה צפה
-         alert(item.infoText);
-         break;
-         
-       case "dialog":
-         // הצג כחלונית מידע
-         var infoDialog = document.createElement("div");
-         infoDialog.className = "info-popup";
-         infoDialog.style.color = textColor;
-         
-         // הגדר את גודל הגופן
-         if (fontSize === "small") infoDialog.style.fontSize = "14px";
-         else if (fontSize === "large") infoDialog.style.fontSize = "20px";
-         
-         infoDialog.textContent = item.infoText;
-         
-         // כפתור סגירה
-         var closeButton = document.createElement("button");
-         closeButton.textContent = "סגור";
-         closeButton.className = "puzzle-btn";
-         closeButton.style.marginTop = "15px";
-         closeButton.addEventListener("click", function() {
-           document.body.removeChild(infoDialog);
-         });
-         
-         infoDialog.appendChild(document.createElement("br"));
-         infoDialog.appendChild(closeButton);
-         
-         document.body.appendChild(infoDialog);
-         break;
-         
-       case "embedded":
-         // הצג כטקסט מוטמע ליד האובייקט
-         var infoBox = document.createElement("div");
-         infoBox.className = "info-embedded";
-         infoBox.textContent = item.infoText;
-         infoBox.style.color = textColor;
-         
-         // הגדר את גודל הגופן
-         if (fontSize === "small") infoBox.style.fontSize = "14px";
-         else if (fontSize === "large") infoBox.style.fontSize = "20px";
-         
-         // מקם את תיבת המידע ליד האובייקט
-         var rect = element.getBoundingClientRect();
-         var room = document.getElementById(gameState.currentRoom);
-         
-         infoBox.style.left = (rect.right + 10) + "px";
-         infoBox.style.top = rect.top + "px";
-         
-         // הוסף כפתור סגירה
-         var closeBtn = document.createElement("div");
-         closeBtn.style.position = "absolute";
-         closeBtn.style.top = "5px";
-         closeBtn.style.right = "5px";
-         closeBtn.style.cursor = "pointer";
-         closeBtn.textContent = "✕";
-         closeBtn.addEventListener("click", function() {
-           room.removeChild(infoBox);
-         });
-         
-         infoBox.appendChild(closeBtn);
-         room.appendChild(infoBox);
-         
-         // הסר את ההודעה אחרי זמן מה
-         setTimeout(function() {
-           if (infoBox.parentNode === room) {
-             room.removeChild(infoBox);
-           }
-         }, 10000);
-         break;
-     }
-   }
-   
-   // פונקציה לטיפול בלחיצה על דלת
-   function handleDoorClick(element, item) {
-     var nextRoomId = element.getAttribute("data-next-room");
-     if (!nextRoomId) {
-       alert("הדלת הזו לא מובילה לשום מקום.");
-       return;
-     }
-     
-     // בדוק אם הדלת נעולה
-     if (element.getAttribute("data-locked") === "true") {
-       // בדוק דרישות מפתח
-       var requiredItem = element.getAttribute("data-required-item");
-       if (requiredItem && gameState.inventory.indexOf(requiredItem) !== -1) {
-         // השתמש במפתח
-         var itemIndex = gameState.inventory.indexOf(requiredItem);
-         
-         // בדוק אם זה פריט לשימוש חד פעמי
-         var inventorySlot = document.querySelector('.inventory-slot[data-item-type="' + requiredItem + '"]');
-         var oneTimeUse = inventorySlot.getAttribute("data-one-time") === "true";
-         
-         if (oneTimeUse) {
-           gameState.inventory.splice(itemIndex, 1);
-           inventorySlot.innerHTML = "";
-           inventorySlot.removeAttribute("data-item-type");
-         }
-         
-         // פתח את הדלת
-         element.setAttribute("data-locked", "false");
-         alert("השתמשת ב" + getTitleByType(requiredItem) + " כדי לפתוח את " + item.name);
-         
-         // עבור לחדר הבא
-         changeRoom(nextRoomId, item.message);
-       } else {
-         // בדוק דרישות חידה
-         var requiredPuzzle = element.getAttribute("data-required-puzzle");
-         if (requiredPuzzle && gameState.solvedPuzzles[requiredPuzzle]) {
-           // החידה נפתרה, פתח את הדלת
-           element.setAttribute("data-locked", "false");
-           
-           // עבור לחדר הבא
-           changeRoom(nextRoomId, item.message);
-         } else {
-           // דלת נעולה
-           alert("הדלת נעולה. " + (requiredItem ? "מצא את המפתח המתאים." : 
-                 (requiredPuzzle ? "פתור את החידה הנדרשת קודם." : "מצא דרך לפתוח אותה.")));
-         }
-       }
-     } else {
-       // דלת לא נעולה, עבור לחדר הבא
-       changeRoom(nextRoomId, item.message);
-     }
-   }
-   
-   // פונקציה לטיפול בלחיצה על פריט ברצף
-   function handleSequenceItemClick() {
-     var puzzleModal = this.closest(".modal");
-     var puzzleId = puzzleModal.id.replace("puzzle-", "");
-     var puzzle = gameData.puzzles[puzzleId];
-     
-     var itemIndex = parseInt(this.getAttribute("data-sequence-index"));
-     var currentProgress = document.getElementById("sequence-progress-" + puzzleId).textContent.split("/")[0];
-     var currentStep = parseInt(currentProgress);
-     
-     // בדוק אם זה הצעד הבא ברצף
-     if (itemIndex === currentStep) {
-       // צעד נכון
-       currentStep++;
-       document.getElementById("sequence-progress-" + puzzleId).textContent = 
-         currentStep + "/" + puzzle.sequence.length;
-         
-       // בדוק אם הרצף הושלם
-       if (currentStep >= puzzle.sequence.length) {
-         // רצף נכון!
-         gameState.solvedPuzzles[puzzleId] = true;
-         alert(puzzle.successMessage);
-         puzzleModal.style.display = "none";
-         
-         // בדוק אם זה היה התנאי האחרון לסיום המשחק
-         checkGameCompletion();
-       }
-     } else {
-       // צעד שגוי
-       if (puzzle.resetOnError) {
-         // אפס את הרצף
-         document.getElementById("sequence-progress-" + puzzleId).textContent = 
-           "0/" + puzzle.sequence.length;
-         alert("רצף שגוי! התחל מחדש.");
-       } else {
-         // המשך מאותה נקודה
-         alert("צעד שגוי. נסה שוב.");
-       }
-     }
-   }
-   
-   // פונקציה לטיפול בלחיצה על פריט בחידת התאמה
-   function handleMatchingItemClick() {
-     var puzzleModal = this.closest(".modal");
-     var puzzleId = puzzleModal.id.replace("puzzle-", "");
-     var puzzle = gameData.puzzles[puzzleId];
-     
-     var pairIndex = this.getAttribute("data-pair-index");
-     var side = this.getAttribute("data-side");
-     var resultsContainer = document.getElementById("matching-results-" + puzzleId);
-     
-     // סמן את הפריט שנבחר
-     var items = puzzleModal.querySelectorAll(".matching-item");
-     for (var i = 0; i < items.length; i++) {
-       if (items[i].getAttribute("data-side") === side) {
-         items[i].classList.remove("selected");
-       }
-     }
-     this.classList.add("selected");
-     
-     // בדוק אם יש פריט נבחר מהצד השני
-     var selectedRight = puzzleModal.querySelector('.matching-item[data-side="right"].selected');
-     var selectedLeft = puzzleModal.querySelector('.matching-item[data-side="left"].selected');
-     
-     if (selectedRight && selectedLeft) {
-       var rightIndex = selectedRight.getAttribute("data-pair-index");
-       var leftIndex = selectedLeft.getAttribute("data-pair-index");
-       
-       if (rightIndex === leftIndex) {
-         // התאמה נכונה!
-         var matchDiv = document.createElement("div");
-         matchDiv.className = "matching-pair";
-         matchDiv.innerHTML = "<div class='matching-pair-item'>" + selectedLeft.textContent + 
-                             "</div><div class='matching-pair-item'>" + selectedRight.textContent + "</div>";
-         
-         resultsContainer.appendChild(matchDiv);
-         
-         // הסר את הפריטים שהותאמו
-         selectedLeft.style.display = "none";
-         selectedRight.style.display = "none";
-         
-         // הסר את הבחירה
-         selectedLeft.classList.remove("selected");
-         selectedRight.classList.remove("selected");
-         
-         // בדוק אם כל ההתאמות הושלמו
-         var visibleItems = puzzleModal.querySelectorAll(".matching-item[style='display: none;']").length;
-         var totalItems = puzzleModal.querySelectorAll(".matching-item").length;
-         
-         if (visibleItems === totalItems) {
-           // כל ההתאמות נכונות!
-           gameState.solvedPuzzles[puzzleId] = true;
-           alert(puzzle.successMessage);
-           puzzleModal.style.display = "none";
-           
-           // בדוק אם זה היה התנאי האחרון לסיום המשחק
-           checkGameCompletion();
-         }
-       } else {
-         // התאמה שגויה
-         alert("התאמה שגויה. נסה שוב.");
-         
-         // הסר את הבחירה
-         selectedLeft.classList.remove("selected");
-         selectedRight.classList.remove("selected");
-       }
-     }
+
+     // אם הגענו לכאן, האובייקט אינו עושה שום דבר מיוחד
+     alert("בחנת את " + item.name);
    }
 
-   // פונקציה לבדיקת תשובה לחידה
+   // פונקציית בדיקת תשובה לחידה
    function checkPuzzleAnswer(puzzleId) {
+     console.log("Checking puzzle answer:", puzzleId);
      var puzzle = gameData.puzzles[puzzleId];
-     if (!puzzle) return;
+     if (!puzzle) {
+       console.error("Puzzle not found:", puzzleId);
+       return;
+     }
 
-     // בדוק את סוג החידה ובדוק את התשובה בהתאם
-     switch (puzzle.type) {
-       case "code":
-       case "text":
-         var userAnswer = document.getElementById("input-" + puzzleId).value.trim();
-         var isCorrect = false;
-         
-         if (puzzle.type === "code") {
-           isCorrect = userAnswer === puzzle.answer;
-         } else if (puzzle.type === "text") {
-           // בדיקה בלי תלות באותיות גדולות/קטנות
-           isCorrect = userAnswer.toLowerCase() === puzzle.answer.toLowerCase();
-         }
-         
-         if (isCorrect) {
-           // סמן את החידה כפתורה
-           gameState.solvedPuzzles[puzzleId] = true;
-           
-           // הצג הודעת הצלחה
-           alert(puzzle.successMessage);
-           
-           // סגור את המודאל
-           document.getElementById("puzzle-" + puzzleId).style.display = "none";
-           
-           // בדוק אם זה היה התנאי האחרון לסיום המשחק
-           checkGameCompletion();
-         } else {
-           alert("תשובה שגויה. נסה שוב.");
-         }
-         break;
+     var userAnswer = document.getElementById("input-" + puzzleId).value.trim();
+     console.log("User answer:", userAnswer, "Correct answer:", puzzle.answer);
+
+     // בדוק אם התשובה נכונה
+     var isCorrect = false;
+
+     if (puzzle.type === "code") {
+       isCorrect = userAnswer === puzzle.answer;
+     } else if (puzzle.type === "text") {
+       // בדיקה בלי תלות באותיות גדולות/קטנות
+       isCorrect = userAnswer.toLowerCase() === puzzle.answer.toLowerCase();
+     }
+
+     if (isCorrect) {
+       // סמן את החידה כפתורה
+       gameState.solvedPuzzles[puzzleId] = true;
+       console.log("Puzzle solved:", puzzleId);
+
+       // הצג הודעת הצלחה
+       alert(puzzle.successMessage);
+
+       // סגור את המודאל
+       document.getElementById("puzzle-" + puzzleId).style.display = "none";
+
+       // בדוק אם זה היה התנאי האחרון לסיום המשחק
+       checkGameCompletion();
+     } else {
+       alert("תשובה שגויה. נסה שוב.");
      }
    }
 
    // פונקציה לעדכון המלאי במשחק
-   function updateInventoryUI(itemType, keyType, oneTimeUse, hint, image) {
-     // מצא חריץ פנוי
-     var emptySlot = document.querySelector('.inventory-slot:not([data-item-type])');
-     if (!emptySlot) return;
-     
-     // הגדר את סוג הפריט
-     emptySlot.setAttribute("data-item-type", itemType);
-     
-     // הוסף מאפיינים נוספים למפתח
-     if (itemType === "key") {
-       emptySlot.setAttribute("data-key-type", keyType || "regular");
-       if (oneTimeUse) {
-         emptySlot.setAttribute("data-one-time", "true");
+   function updateInventoryUI() {
+     // נקה את כל החריצים
+     var slots = document.querySelectorAll(".inventory-slot");
+     for (var i = 0; i < slots.length; i++) {
+       slots[i].textContent = "";
+       slots[i].setAttribute("data-item-type", "");
+     }
+
+     // מלא את החריצים לפי המלאי
+     for (var i = 0; i < gameState.inventory.length; i++) {
+       var itemType = gameState.inventory[i];
+       var slotSelector = '.inventory-slot[data-slot="' + i + '"]';
+       var slot = document.querySelector(slotSelector);
+
+       if (slot) {
+         slot.textContent = getTitleByType(itemType);
+         slot.setAttribute("data-item-type", itemType);
        }
-     }
-     
-     // הוסף תמונה או טקסט
-     if (image) {
-       var imgElement = document.createElement("img");
-       imgElement.src = image;
-       emptySlot.appendChild(imgElement);
-     } else {
-       emptySlot.textContent = getTitleByType(itemType);
-     }
-     
-     // הוסף רמז אם קיים
-     if (hint) {
-       var hintElement = document.createElement("div");
-       hintElement.className = "inventory-hint";
-       hintElement.textContent = hint;
-       emptySlot.appendChild(hintElement);
      }
    }
 
    // פונקציה לקבלת כותרת לפי סוג פריט
    function getTitleByType(type) {
-     switch (type) {
-       case "key": return "מפתח";
-       case "book": return "ספר";
-       default: return type;
-     }
+     if (type === "key") return "מפתח";
+     if (type === "book") return "ספר";
+     return type;
    }
 
    // פונקציה למעבר בין חדרים
-   function changeRoom(roomId, message) {
-     // הציג הודעת מעבר אם קיימת
-     if (message) {
-       alert(message);
-     }
-     
+   function changeRoom(roomId) {
+     console.log("Changing to room:", roomId);
      // הסתר את החדר הנוכחי
      document.getElementById(gameState.currentRoom).classList.remove("active");
 
@@ -1712,9 +692,6 @@
 
      // עדכן את החדר הנוכחי
      gameState.currentRoom = roomId;
-     
-     // בדוק הודעות מידע אוטומטיות
-     checkAutoShowInfo();
 
      // בדוק אם זה חדר היציאה (האחרון)
      if (roomId === "lastRoom" || isLastRoom(roomId)) {
@@ -1724,48 +701,34 @@
 
    // פונקציה לבדיקה אם זה החדר האחרון
    function isLastRoom(roomId) {
-     // בדוק אם אין דלתות או מעברים מהחדר הזה
-     var room = document.getElementById(roomId);
-     var doors = room.querySelectorAll('.item[data-type="door"]');
-     
-     if (doors.length === 0) {
-       return true;
-     }
-     
-     // בדוק אם כל הדלתות נעולות ללא אפשרות פתיחה
-     var hasExits = false;
-     for (var i = 0; i < doors.length; i++) {
-       var door = doors[i];
-       
-       // אם הדלת לא נעולה או שיש אפשרות לפתוח אותה, זה לא חדר אחרון
-       if (door.getAttribute("data-locked") !== "true" || 
-           door.getAttribute("data-required-item") || 
-           door.getAttribute("data-required-puzzle")) {
-         hasExits = true;
-         break;
+     // בדוק אם אין מעברים מחדר זה לחדרים אחרים
+     for (var i = 0; i < gameData.connections.length; i++) {
+       var connection = gameData.connections[i];
+       if (connection.from === roomId) {
+         return false;
        }
      }
-     
-     return !hasExits;
+     return true;
    }
 
    // פונקציה לבדיקת סיום המשחק
    function checkGameCompletion() {
-     // בדוק אם כל החידות הנדרשות נפתרו
-     var requiredPuzzles = [];
-     
-     // אסוף את כל החידות הנדרשות לפתיחת דלתות
-     var doors = document.querySelectorAll('.item[data-type="door"][data-required-puzzle]');
-     for (var i = 0; i < doors.length; i++) {
-       var puzzleId = doors[i].getAttribute("data-required-puzzle");
-       if (puzzleId && !gameState.solvedPuzzles[puzzleId]) {
-         requiredPuzzles.push(puzzleId);
+     console.log("Checking game completion");
+     // בדוק אם כל החידות נפתרו
+     var allPuzzlesSolved = true;
+     for (var puzzleId in gameData.puzzles) {
+       if (!gameState.solvedPuzzles[puzzleId]) {
+         allPuzzlesSolved = false;
+         break;
        }
      }
-     
-     // בדוק אם אנחנו בחדר האחרון ואין חידות נדרשות נוספות
-     if (isLastRoom(gameState.currentRoom) && requiredPuzzles.length === 0) {
-       endGame();
+
+     if (allPuzzlesSolved) {
+       console.log("All puzzles solved!");
+       // בדוק אם אנחנו בחדר האחרון
+       if (isLastRoom(gameState.currentRoom)) {
+         endGame();
+       }
      }
    }
 
