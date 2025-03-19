@@ -1720,8 +1720,7 @@ if (Object.keys(projectData.rooms[currentRoomId].items).length === 0) {
     requiredItem: null
   };
   
-  console.log("נוספה חידת קוד:", demoCodePuzzleId);
-  console.log("נוסף אובייקט כספת עם חידה מקושרת:", demoItemId);
+
 
     projectData.rooms[currentRoomId].items[demoItemId] = {
       id: demoItemId,
@@ -1747,6 +1746,8 @@ if (Object.keys(projectData.rooms[currentRoomId].items).length === 0) {
       hint: "חפש רמזים בחדר...",
       successMessage: "הכספת נפתחה!"
     };
+    console.log("נוספה חידת קוד:", demoCodePuzzleId);
+  console.log("נוסף אובייקט כספת עם חידה מקושרת:", demoItemId);
   }
 
   // אתחול המחולל
