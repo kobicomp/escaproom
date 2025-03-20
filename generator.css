@@ -127,14 +127,24 @@ body, html {
   display: block;
 }
 
-.room-item.selected .resize-handle {
-  display: block;
+/* סימן לתסריטים מקושרים */
+.script-indicator {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 12px;
+  height: 12px;
+  background-color: #e74c3c;
+  border-radius: 50%;
+  border: 2px solid white;
 }
 
 /* לשוניות */
 .tabs {
   display: flex;
   background-color: #465c6e;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .tab {
@@ -144,6 +154,7 @@ body, html {
   color: #ecf0f1;
   border: none;
   outline: none;
+  flex-shrink: 0;
 }
 
 .tab:hover {
@@ -179,6 +190,8 @@ body, html {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
+  max-height: 240px;
+  overflow-y: auto;
 }
 
 .object-thumbnail {
@@ -193,6 +206,10 @@ body, html {
   color: white;
   font-weight: bold;
   text-align: center;
+}
+
+.object-thumbnail:hover {
+  background-color: #3498db;
 }
 
 /* טפסים */
@@ -215,6 +232,11 @@ input, select, textarea {
   border-radius: 4px;
 }
 
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 5px;
+}
+
 /* כפתורים */
 .btn {
   padding: 8px 15px;
@@ -224,18 +246,40 @@ input, select, textarea {
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+.btn-small {
+  padding: 4px 8px;
+  font-size: 12px;
 }
 
 .btn-secondary {
   background-color: #95a5a6;
 }
 
+.btn-secondary:hover {
+  background-color: #7f8c8d;
+}
+
 .btn-success {
   background-color: #2ecc71;
 }
 
+.btn-success:hover {
+  background-color: #27ae60;
+}
+
 .btn-danger {
   background-color: #e74c3c;
+}
+
+.btn-danger:hover {
+  background-color: #c0392b;
 }
 
 /* חלוניות מודאליות */
@@ -268,6 +312,39 @@ input, select, textarea {
   cursor: pointer;
 }
 
+/* עורכי תסריטים ותנאים */
+.editor-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.7);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor-panel {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  width: 80%;
+  max-width: 800px;
+  max-height: 90vh;
+  border-radius: 4px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.editor-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
 /* לשונית מפה */
 .map-editor {
   height: 100%;
@@ -281,6 +358,7 @@ input, select, textarea {
   background-color: white;
   border: 1px solid #bdc3c7;
   position: relative;
+  overflow: auto;
 }
 
 .map-room {
@@ -294,6 +372,9 @@ input, select, textarea {
   justify-content: center;
   color: white;
   cursor: move;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .map-connection {
@@ -308,8 +389,6 @@ input, select, textarea {
 }
 
 .puzzle-list {
-  list-style-type: none;
-  padding: 0;
   margin-bottom: 20px;
 }
 
@@ -319,15 +398,260 @@ input, select, textarea {
   margin-bottom: 5px;
   background-color: white;
   cursor: pointer;
+  position: relative;
+  border-radius: 4px;
+}
+
+.puzzle-list-item:hover {
+  background-color: #f0f0f0;
+}
+
+.condition-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  background-color: #f39c12;
+  border-radius: 50%;
 }
 
 .puzzle-form {
   background-color: white;
   padding: 15px;
   border: 1px solid #bdc3c7;
+  border-radius: 4px;
 }
 
-/* לשונית ייצוא */
-.export-section {
+/* לשונית משתנים ותסריטים */
+.variables-editor, .scripts-editor {
   padding: 20px;
+}
+
+.variables-table, .scripts-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.variables-table th, .variables-table td,
+.scripts-table th, .scripts-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: right;
+}
+
+.variables-table th, .scripts-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* לשונית מלאי ופריטים */
+.inventory-editor {
+  padding: 20px;
+}
+
+.inventory-section {
+  margin-bottom: 30px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.inventory-section h4 {
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.inventory-category {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.item-type {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.type-name {
+  font-weight: bold;
+}
+
+.type-properties {
+  font-size: 0.9em;
+  color: #666;
+  margin: 5px 0;
+}
+
+.type-controls {
+  display: flex;
+  gap: 5px;
+  margin-top: 5px;
+}
+
+/* תסריטים */
+.actions-list {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.script-action-item {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+
+.script-action-item:last-child {
+  border-bottom: none;
+}
+
+.action-number {
+  background-color: #3498db;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.action-description {
+  flex: 1;
+}
+
+.action-controls {
+  display: flex;
+  gap: 5px;
+}
+
+/* פריטים נדרשים ומוכלים */
+.required-items-list, #contained-items-list {
+  margin-bottom: 10px;
+}
+
+.required-item, .contained-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.required-item .consumed-badge {
+  background-color: #e74c3c;
+  color: white;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-right: 10px;
+}
+
+/* רמזים */
+#code-puzzle-hints-list, #text-puzzle-hints-list,
+#sequence-puzzle-hints-list, #search-puzzle-hints-list {
+  margin-bottom: 10px;
+}
+
+.puzzle-hint {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.hint-cost {
+  background-color: #f39c12;
+  color: white;
+  font-size: 12px;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+/* תנאים מרובים */
+.sub-conditions {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.sub-condition-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+/* חידת חיפוש */
+#search-areas-list {
+  margin-bottom: 10px;
+}
+
+.search-area {
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.search-area-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.search-area-name {
+  font-weight: bold;
+}
+
+/* חידת רצף */
+#sequence-steps-list {
+  margin-bottom: 10px;
+}
+
+.sequence-step {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+  border-radius: 4px;
+}
+
+.sequence-step-number {
+  background-color: #3498db;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
 }
