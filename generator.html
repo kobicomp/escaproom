@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>מחולל חדרי בריחה מקוונים</title>
+  <title>מחולל חדרי בריחה מורחב</title>
   <link rel="stylesheet" href="generator.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <!-- סרגל צד -->
     <div class="sidebar">
       <h2>מחולל חדרי בריחה</h2>
-      
+
       <div class="sidebar-section">
         <div class="section-title">חדרים</div>
         <ul class="rooms-list" id="rooms-list">
@@ -19,22 +19,23 @@
         </ul>
         <button class="btn" id="add-room-btn" style="width: 100%; margin-top: 10px;">+ הוסף חדר</button>
       </div>
-      
+
       <div class="sidebar-section">
         <div class="section-title">אובייקטים</div>
         <div class="object-gallery" id="object-gallery">
-          <div class="object-thumbnail" data-type="safe">כספת</div>
-          <div class="object-thumbnail" data-type="key">מפתח</div>
-          <div class="object-thumbnail" data-type="book">ספר</div>
-          <div class="object-thumbnail" data-type="computer">מחשב</div>
+          <!-- אובייקטים דינמיים יתווספו כאן -->
         </div>
       </div>
-      
+
       <div class="sidebar-section">
         <div class="section-title">הגדרות חדר</div>
         <div class="form-group">
           <label for="room-name">שם החדר:</label>
           <input type="text" id="room-name" value="חדר 1: מעבדה">
+        </div>
+        <div class="form-group">
+          <label for="room-description">תיאור החדר:</label>
+          <textarea id="room-description" rows="3"></textarea>
         </div>
         <div class="form-group">
           <label for="room-background">רקע החדר:</label>
@@ -50,8 +51,12 @@
           <input type="file" id="room-background-image" accept="image/*">
           <button class="btn btn-secondary" id="remove-room-bg-image" style="margin-top: 5px;">הסר תמונת רקע</button>
         </div>
+        <div class="form-group">
+          <button class="btn" id="edit-room-scripts">ערוך תסריטי חדר</button>
+          <button class="btn" id="edit-room-conditions">ערוך תנאי כניסה</button>
+        </div>
       </div>
-      
+
       <div class="sidebar-section">
         <div class="section-title">תכונות האובייקט</div>
         <div id="object-properties" style="display: none;">
@@ -63,29 +68,49 @@
             <label for="object-puzzle">חידה מקושרת:</label>
             <select id="object-puzzle">
               <option value="">ללא</option>
-              <option value="code-puzzle">חידת קוד</option>
-              <option value="text-puzzle">חידת טקסט</option>
             </select>
           </div>
           <div class="form-group">
             <label>
               <input type="checkbox" id="object-locked">
-              נעול (דורש פריט)
+              נעול
             </label>
           </div>
           <div class="form-group">
-            <label for="object-required-item">פריט נדרש:</label>
-            <select id="object-required-item">
-              <option value="">ללא</option>
-              <option value="key">מפתח</option>
-            </select>
+            <label for="object-required-items">פריטים נדרשים:</label>
+            <div id="required-items-container">
+              <div class="required-items-list" id="required-items-list">
+                <!-- פריטים נדרשים יתווספו כאן -->
+              </div>
+              <button class="btn btn-small" id="add-required-item">+ הוסף פריט נדרש</button>
+            </div>
           </div>
           <div class="form-group">
             <label for="object-next-room">מעבר לחדר:</label>
             <select id="object-next-room">
               <option value="">ללא</option>
-              <option value="room2">חדר 2</option>
             </select>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="object-hidden">
+              מוסתר בתחילת המשחק
+            </label>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="object-container">
+              מכיל פריטים
+            </label>
+          </div>
+          <div id="contained-items-section" style="display: none;">
+            <div class="form-group">
+              <label>פריטים מוכלים:</label>
+              <div id="contained-items-list">
+                <!-- פריטים מוכלים יתווספו כאן -->
+              </div>
+              <button class="btn btn-small" id="add-contained-item">+ הוסף פריט מוכל</button>
+            </div>
           </div>
           <div class="form-group">
             <label for="object-width">רוחב:</label>
@@ -100,6 +125,10 @@
             <input type="file" id="object-image" accept="image/*">
             <button class="btn btn-secondary" id="remove-object-image" style="margin-top: 5px;">הסר תמונה</button>
           </div>
+          <div class="form-group">
+            <button class="btn" id="edit-object-scripts">ערוך תסריטי אובייקט</button>
+            <button class="btn" id="edit-object-conditions">ערוך תנאי הופעה</button>
+          </div>
           <button class="btn btn-danger" id="delete-object-btn">מחק אובייקט</button>
         </div>
         <div id="no-object-selected" style="text-align: center; padding: 10px;">
@@ -107,7 +136,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- תוכן ראשי -->
     <div class="main-content">
       <div class="toolbar">
@@ -120,112 +149,196 @@
           <button class="btn btn-success" id="export-btn">ייצא משחק</button>
         </div>
       </div>
-      
+
       <div class="tabs">
         <button class="tab active" data-tab="rooms">חדרים</button>
         <button class="tab" data-tab="puzzles">חידות</button>
         <button class="tab" data-tab="map">מפה</button>
+        <button class="tab" data-tab="inventory">מלאי ופריטים</button>
+        <button class="tab" data-tab="variables">משתנים</button>
+        <button class="tab" data-tab="scripts">תסריטים גלובליים</button>
         <button class="tab" data-tab="export">ייצוא</button>
       </div>
-      
+
       <div class="preview-area">
         <!-- לשונית חדרים -->
         <div class="tab-content active" id="rooms-tab">
           <div class="room-preview" id="room-preview" style="background-color: #243447;">
             <!-- חדר דוגמה עם פריטים -->
-            <div class="room-item" id="item1" style="width: 60px; height: 60px; left: 200px; top: 300px;" data-type="safe">
-              כספת
-            </div>
-            
-            <div class="room-item" id="item2" style="width: 50px; height: 50px; left: 400px; top: 150px;" data-type="computer">
-              מחשב
-            </div>
           </div>
         </div>
-        
+
         <!-- לשונית חידות -->
         <div class="tab-content" id="puzzles-tab" style="display: none;">
           <div class="puzzle-editor">
             <h3>חידות</h3>
             <p>כאן תוכל ליצור ולערוך חידות לחדרי הבריחה שלך.</p>
-            
-            <div class="puzzle-list" id="puzzle-list">
-              <div class="puzzle-list-item" data-puzzle-id="code-puzzle">חידת קוד - כספת</div>
-              <div class="puzzle-list-item" data-puzzle-id="text-puzzle">חידת טקסט - מחשב</div>
+
+            <div class="puzzle-toolbar">
+              <button class="btn" id="add-puzzle-btn">+ הוסף חידה חדשה</button>
             </div>
-            
-            <button class="btn" id="add-puzzle-btn">+ הוסף חידה חדשה</button>
-            
+
+            <div class="puzzle-list" id="puzzle-list">
+              <!-- חידות יתווספו כאן -->
+            </div>
+
             <div id="puzzle-forms-container">
+              <!-- טפסי חידות יתווספו כאן דינמית -->
               <div class="puzzle-form" id="code-puzzle-form" style="display: none; margin-top: 20px;">
                 <h4>עריכת חידת קוד</h4>
                 <div class="form-group">
                   <label for="code-puzzle-name">שם החידה:</label>
-                  <input type="text" id="code-puzzle-name" value="חידת קוד - כספת">
+                  <input type="text" id="code-puzzle-name">
                 </div>
                 <div class="form-group">
                   <label for="code-puzzle-description">תיאור החידה:</label>
-                  <textarea id="code-puzzle-description" rows="3">מצא את הקוד לפתיחת הכספת!</textarea>
+                  <textarea id="code-puzzle-description" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                   <label for="code-puzzle-answer">הקוד הנכון:</label>
-                  <input type="text" id="code-puzzle-answer" value="1234">
+                  <input type="text" id="code-puzzle-answer">
                 </div>
                 <div class="form-group">
-                  <label for="code-puzzle-hint">רמז:</label>
-                  <input type="text" id="code-puzzle-hint" value="חפש רמזים בחדר...">
+                  <button class="btn" id="edit-code-puzzle-condition">ערוך תנאי מקדים</button>
+                </div>
+                <div class="form-group">
+                  <label for="code-puzzle-hints">רמזים:</label>
+                  <div id="code-puzzle-hints-list">
+                    <!-- רשימת רמזים תתווסף כאן -->
+                  </div>
+                  <button class="btn btn-small" id="add-code-puzzle-hint">+ הוסף רמז</button>
                 </div>
                 <div class="form-group">
                   <label for="code-puzzle-success">הודעת הצלחה:</label>
-                  <input type="text" id="code-puzzle-success" value="הכספת נפתחה!">
+                  <input type="text" id="code-puzzle-success">
+                </div>
+                <div class="form-group">
+                  <button class="btn" id="edit-code-puzzle-success-script">ערוך תסריט הצלחה</button>
                 </div>
                 <button class="btn" id="save-code-puzzle">שמור</button>
               </div>
-              
+
               <div class="puzzle-form" id="text-puzzle-form" style="display: none; margin-top: 20px;">
                 <h4>עריכת חידת טקסט</h4>
                 <div class="form-group">
                   <label for="text-puzzle-name">שם החידה:</label>
-                  <input type="text" id="text-puzzle-name" value="חידת טקסט - מחשב">
+                  <input type="text" id="text-puzzle-name">
                 </div>
                 <div class="form-group">
                   <label for="text-puzzle-question">שאלה:</label>
-                  <textarea id="text-puzzle-question" rows="3">מהו שמו של המדען הידוע שגילה את חוק הכבידה?</textarea>
+                  <textarea id="text-puzzle-question" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                   <label for="text-puzzle-answer">תשובה נכונה:</label>
-                  <input type="text" id="text-puzzle-answer" value="אייזק ניוטון">
+                  <input type="text" id="text-puzzle-answer">
                 </div>
                 <div class="form-group">
-                  <label for="text-puzzle-hint">רמז:</label>
-                  <input type="text" id="text-puzzle-hint" value="הוא ראה תפוח נופל...">
+                  <button class="btn" id="edit-text-puzzle-condition">ערוך תנאי מקדים</button>
+                </div>
+                <div class="form-group">
+                  <label for="text-puzzle-hints">רמזים:</label>
+                  <div id="text-puzzle-hints-list">
+                    <!-- רשימת רמזים תתווסף כאן -->
+                  </div>
+                  <button class="btn btn-small" id="add-text-puzzle-hint">+ הוסף רמז</button>
                 </div>
                 <div class="form-group">
                   <label for="text-puzzle-success">הודעת הצלחה:</label>
-                  <input type="text" id="text-puzzle-success" value="נכון! המחשב נפתח!">
+                  <input type="text" id="text-puzzle-success">
+                </div>
+                <div class="form-group">
+                  <button class="btn" id="edit-text-puzzle-success-script">ערוך תסריט הצלחה</button>
                 </div>
                 <button class="btn" id="save-text-puzzle">שמור</button>
+              </div>
+
+              <div class="puzzle-form" id="sequence-puzzle-form" style="display: none; margin-top: 20px;">
+                <h4>עריכת חידת רצף</h4>
+                <div class="form-group">
+                  <label for="sequence-puzzle-name">שם החידה:</label>
+                  <input type="text" id="sequence-puzzle-name">
+                </div>
+                <div class="form-group">
+                  <label for="sequence-puzzle-description">תיאור החידה:</label>
+                  <textarea id="sequence-puzzle-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>צעדי הרצף:</label>
+                  <div id="sequence-steps-list">
+                    <!-- צעדי הרצף יתווספו כאן -->
+                  </div>
+                  <button class="btn btn-small" id="add-sequence-step">+ הוסף צעד</button>
+                </div>
+                <div class="form-group">
+                  <button class="btn" id="edit-sequence-puzzle-condition">ערוך תנאי מקדים</button>
+                </div>
+                <div class="form-group">
+                  <label for="sequence-puzzle-hints">רמזים:</label>
+                  <div id="sequence-puzzle-hints-list">
+                    <!-- רשימת רמזים תתווסף כאן -->
+                  </div>
+                  <button class="btn btn-small" id="add-sequence-puzzle-hint">+ הוסף רמז</button>
+                </div>
+                <div class="form-group">
+                  <label for="sequence-puzzle-success">הודעת הצלחה:</label>
+                  <input type="text" id="sequence-puzzle-success">
+                </div>
+                <div class="form-group">
+                  <button class="btn" id="edit-sequence-puzzle-success-script">ערוך תסריט הצלחה</button>
+                </div>
+                <button class="btn" id="save-sequence-puzzle">שמור</button>
+              </div>
+
+              <div class="puzzle-form" id="search-puzzle-form" style="display: none; margin-top: 20px;">
+                <h4>עריכת חידת חיפוש</h4>
+                <div class="form-group">
+                  <label for="search-puzzle-name">שם החידה:</label>
+                  <input type="text" id="search-puzzle-name">
+                </div>
+                <div class="form-group">
+                  <label for="search-puzzle-description">תיאור החידה:</label>
+                  <textarea id="search-puzzle-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label>אזורי חיפוש:</label>
+                  <div id="search-areas-list">
+                    <!-- אזורי חיפוש יתווספו כאן -->
+                  </div>
+                  <button class="btn btn-small" id="add-search-area">+ הוסף אזור חיפוש</button>
+                </div>
+                <div class="form-group">
+                  <button class="btn" id="edit-search-puzzle-condition">ערוך תנאי מקדים</button>
+                </div>
+                <div class="form-group">
+                  <label for="search-puzzle-hints">רמזים:</label>
+                  <div id="search-puzzle-hints-list">
+                    <!-- רשימת רמזים תתווסף כאן -->
+                  </div>
+                  <button class="btn btn-small" id="add-search-puzzle-hint">+ הוסף רמז</button>
+                </div>
+                <div class="form-group">
+                  <label for="search-puzzle-success">הודעת הצלחה:</label>
+                  <input type="text" id="search-puzzle-success">
+                </div>
+                <div class="form-group">
+                  <button class="btn" id="edit-search-puzzle-success-script">ערוך תסריט הצלחה</button>
+                </div>
+                <button class="btn" id="save-search-puzzle">שמור</button>
               </div>
             </div>
           </div>
         </div>
-        
+
         <!-- לשונית מפה -->
         <div class="tab-content" id="map-tab" style="display: none;">
           <div class="map-editor">
             <h3>מפת חדרים</h3>
             <p>גרור חדרים למפה וצור קשרים ביניהם.</p>
-            
+
             <div class="map-container" id="map-container">
-              <div class="map-room" id="map-room1" style="top: 50px; left: 50px;" data-room-id="room1">
-                חדר 1: מעבדה
-              </div>
-              <div class="map-room" id="map-room2" style="top: 200px; left: 250px;" data-room-id="room2">
-                חדר 2: ספרייה
-              </div>
-              <!-- קשרים בין חדרים יתווספו דינאמית ע"י ה-JavaScript -->
+              <!-- חדרים וקשרים יתווספו כאן דינמית -->
             </div>
-            
+
             <div style="margin-top: 20px;">
               <button class="btn" id="add-map-room">+ הוסף חדר</button>
               <button class="btn" id="create-connection">צור קשר</button>
@@ -233,38 +346,198 @@
             </div>
           </div>
         </div>
-        
+
+        <!-- לשונית מלאי ופריטים -->
+        <div class="tab-content" id="inventory-tab" style="display: none;">
+          <div class="inventory-editor">
+            <h3>ניהול מלאי ופריטים</h3>
+
+            <div class="inventory-section">
+              <h4>קטגוריות מלאי</h4>
+              <div id="inventory-categories">
+                <!-- קטגוריות יתווספו כאן דינמית -->
+              </div>
+            </div>
+
+            <div class="inventory-section">
+              <h4>סוגי חפצים מותאמים</h4>
+              <div id="item-types-list">
+                <!-- סוגי חפצים יתווספו כאן דינמית -->
+              </div>
+            </div>
+
+            <div class="inventory-section">
+              <h4>הגדרות מלאי</h4>
+              <div class="form-group">
+                <label for="max-inventory-size">גודל מלאי מרבי:</label>
+                <input type="number" id="max-inventory-size" min="1" max="20" value="8">
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="enable-item-combining">
+                  אפשר שילוב פריטים במלאי
+                </label>
+              </div>
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" id="auto-use-items">
+                  שימוש אוטומטי בפריטים (ללא צורך בגרירה)
+                </label>
+              </div>
+              <button class="btn" id="save-inventory-settings">שמור הגדרות</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- לשונית משתנים -->
+        <div class="tab-content" id="variables-tab" style="display: none;">
+          <div class="variables-editor">
+            <h3>ניהול משתנים גלובליים</h3>
+            <p>הגדר משתנים שישמשו אותך בתנאים ובתסריטים.</p>
+
+            <div class="variables-list-container">
+              <div class="variables-toolbar">
+                <button class="btn" id="add-variable-btn">+ הוסף משתנה חדש</button>
+              </div>
+
+              <table class="variables-table" id="variables-table">
+                <thead>
+                  <tr>
+                    <th>שם המשתנה</th>
+                    <th>סוג</th>
+                    <th>ערך התחלתי</th>
+                    <th>תיאור</th>
+                    <th>פעולות</th>
+                  </tr>
+                </thead>
+                <tbody id="variables-list">
+                  <!-- משתנים יתווספו כאן דינמית -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- לשונית תסריטים גלובליים -->
+        <div class="tab-content" id="scripts-tab" style="display: none;">
+          <div class="scripts-editor">
+            <h3>תסריטים גלובליים</h3>
+            <p>צור תסריטים שניתן להשתמש בהם במקומות שונים במשחק.</p>
+
+            <div class="scripts-list-container">
+              <div class="scripts-toolbar">
+                <button class="btn" id="add-script-btn">+ הוסף תסריט חדש</button>
+              </div>
+
+              <table class="scripts-table" id="global-scripts-table">
+                <thead>
+                  <tr>
+                    <th>שם התסריט</th>
+                    <th>תיאור</th>
+                    <th>מספר פעולות</th>
+                    <th>פעולות</th>
+                  </tr>
+                </thead>
+                <tbody id="global-scripts-list">
+                  <!-- תסריטים יתווספו כאן דינמית -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
         <!-- לשונית ייצוא -->
         <div class="tab-content" id="export-tab" style="display: none;">
           <div class="export-section">
             <h3>ייצוא משחק</h3>
             <p>ייצא את חדר הבריחה שלך כקובץ HTML שניתן לשתף ולהפעיל בכל דפדפן.</p>
-            
+
             <div class="form-group">
               <label for="game-title">כותרת המשחק:</label>
               <input type="text" id="game-title" value="חדר הבריחה שלי - המעבדה המסתורית">
             </div>
-            
+
             <div class="form-group">
               <label for="game-description">תיאור המשחק:</label>
-              <textarea id="game-description" rows="4">ברוכים הבאים לחדר הבריחה המקוון! מצאת את עצמך נעול במעבדה מסתורית. עליך לפתור את החידות ולמצוא את הדרך החוצה תוך 60 דקות.</textarea>
+              <textarea id="game-description" rows="4">ברוכים הבאים לחדר הבריחה המקוון! מצאת את עצמך נעול במעבדה מסתורית. עליך לפתור את החידות ולמצוא את הדרך החוצה.</textarea>
             </div>
-            
+
             <div class="form-group">
               <label for="game-time-limit">הגבלת זמן (בדקות):</label>
               <input type="number" id="game-time-limit" value="60">
             </div>
-            
+
+            <div class="form-group">
+              <label for="game-intro-text">טקסט פתיחה:</label>
+              <textarea id="game-intro-text" rows="4">התעוררת בחדר לא מוכר. הדלת נעולה ואתה צריך למצוא דרך החוצה.</textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="game-ending-text">טקסט סיום:</label>
+              <textarea id="game-ending-text" rows="4">הצלחת למצוא את הדרך החוצה! כל הכבוד!</textarea>
+            </div>
+
             <button class="btn btn-success" id="generate-game">ייצא משחק</button>
-            
-            <div style="margin-top: 20px; display: none;" id="export-result">
-              <h4>המשחק מוכן להורדה!</h4>
-              <p>לחץ על הכפתור למטה כדי להוריד את המשחק:</p>
-              <button class="btn btn-success" id="download-game">הורד משחק</button>
+          </div>
+        </div>
+
+        <!-- עורכי תסריטים ותנאים -->
+        <div id="script-editor-container" class="editor-overlay" style="display: none;">
+          <div class="editor-panel" id="script-editor">
+            <h3>עורך תסריטים</h3>
+            <div class="form-group">
+              <label for="script-name">שם התסריט:</label>
+              <input type="text" id="script-name">
+            </div>
+
+            <div class="form-group">
+              <label>פעולות:</label>
+              <div id="script-actions-list" class="actions-list">
+                <!-- פעולות התסריט יתווספו כאן -->
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="script-action-type">הוסף פעולה חדשה:</label>
+              <select id="script-action-type">
+                <!-- סוגי פעולות יתווספו כאן דינמית -->
+              </select>
+            </div>
+
+            <div id="script-action-params">
+              <!-- פרמטרים לפעולה יתווספו כאן דינמית -->
+            </div>
+
+            <div class="editor-buttons">
+              <button class="btn" id="add-script-action">הוסף פעולה</button>
+              <button class="btn btn-success" id="save-script">שמור תסריט</button>
+              <button class="btn btn-secondary" id="close-script-editor">סגור</button>
             </div>
           </div>
         </div>
-        
+
+        <div id="condition-editor-container" class="editor-overlay" style="display: none;">
+          <div class="editor-panel" id="condition-editor">
+            <h3>עורך תנאים</h3>
+
+            <div class="form-group">
+              <label for="condition-type">סוג התנאי:</label>
+              <select id="condition-type">
+                <!-- סוגי תנאים יתווספו כאן דינמית -->
+              </select>
+            </div>
+
+            <div id="condition-params">
+              <!-- פרמטרים לתנאי יתווספו כאן דינמית -->
+            </div>
+
+            <div class="editor-buttons">
+              <button class="btn btn-success" id="save-condition">שמור תנאי</button>
+              <button class="btn btn-secondary" id="close-condition-editor">סגור</button>
+            </div>
+          </div>
+        </div>
+
         <!-- מודאלים -->
         <div class="modal" id="add-room-modal">
           <div class="modal-content">
@@ -273,6 +546,10 @@
             <div class="form-group">
               <label for="new-room-name">שם החדר:</label>
               <input type="text" id="new-room-name" value="חדר חדש">
+            </div>
+            <div class="form-group">
+              <label for="new-room-description">תיאור החדר:</label>
+              <textarea id="new-room-description" rows="3"></textarea>
             </div>
             <div class="form-group">
               <label for="new-room-background">רקע:</label>
@@ -286,7 +563,7 @@
             <button class="btn btn-success" id="create-room-btn">צור חדר</button>
           </div>
         </div>
-        
+
         <div class="modal" id="add-puzzle-modal">
           <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -307,25 +584,182 @@
             <button class="btn btn-success" id="create-puzzle-btn">צור חידה</button>
           </div>
         </div>
-        
-        <div class="modal" id="export-game-modal">
+
+        <div class="modal" id="add-variable-modal">
           <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h3>ייצוא המשחק</h3>
-            <p>המשחק שלך מוכן להורדה! ייצרנו עבורך קובץ HTML שניתן לפתוח ישירות בכל דפדפן מודרני.</p>
-            <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin: 15px 0;">
-              <p style="margin: 0;"><strong>הוראות:</strong><br/>
-              1. הורד את הקובץ<br/>
-              2. פתח את הקובץ בכל דפדפן<br/>
-              3. שתף את הקובץ עם חברים כדי שיוכלו לשחק</p>
+            <h3>הוסף משתנה חדש</h3>
+            <div class="form-group">
+              <label for="new-variable-name">שם המשתנה:</label>
+              <input type="text" id="new-variable-name" placeholder="שם באנגלית ללא רווחים">
             </div>
-            <button class="btn btn-success" id="download-game-btn">הורד משחק</button>
+            <div class="form-group">
+              <label for="new-variable-type">סוג המשתנה:</label>
+              <select id="new-variable-type">
+              <option value="text">טקסט</option>
+              <option value="number">מספר</option>
+              <option value="boolean">בוליאני (כן/לא)</option>
+            </select>
           </div>
+          <div class="form-group">
+            <label for="new-variable-value">ערך התחלתי:</label>
+            <input type="text" id="new-variable-value">
+          </div>
+          <div class="form-group">
+            <label for="new-variable-description">תיאור:</label>
+            <input type="text" id="new-variable-description" placeholder="הסבר קצר אודות המשתנה">
+          </div>
+          <button class="btn btn-success" id="create-variable-btn">צור משתנה</button>
+        </div>
+      </div>
+
+      <div class="modal" id="export-game-modal">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>ייצוא המשחק</h3>
+          <p>המשחק שלך מוכן להורדה! ייצרנו עבורך קובץ HTML שניתן לפתוח ישירות בכל דפדפן מודרני.</p>
+          <div style="background-color: #f4f4f4; padding: 10px; border-radius: 5px; margin: 15px 0;">
+            <p style="margin: 0;"><strong>הוראות:</strong><br/>
+            1. הורד את הקובץ<br/>
+            2. פתח את הקובץ בכל דפדפן<br/>
+            3. שתף את הקובץ עם חברים כדי שיוכלו לשחק</p>
+          </div>
+          <button class="btn btn-success" id="download-game-btn">הורד משחק</button>
+        </div>
+      </div>
+
+      <!-- מודאלים נוספים לתסריטים ותנאים -->
+      <div class="modal" id="sub-condition-modal" style="display: none;">
+        <!-- תוכן יתווסף דינמית -->
+      </div>
+
+      <div class="modal" id="item-type-modal" style="display: none;">
+        <!-- תוכן יתווסף דינמית -->
+      </div>
+
+      <div class="modal" id="required-items-modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>הוסף פריט נדרש</h3>
+          <div class="form-group">
+            <label for="required-item-select">בחר פריט:</label>
+            <select id="required-item-select">
+              <!-- אפשרויות יתווספו דינמית -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="required-item-consumed">
+              הפריט נצרך (נעלם מהמלאי לאחר השימוש)
+            </label>
+          </div>
+          <button class="btn btn-success" id="add-required-item-btn">הוסף</button>
+        </div>
+      </div>
+
+      <div class="modal" id="contained-item-modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>הוסף פריט מוכל</h3>
+          <div class="form-group">
+            <label for="contained-item-type">סוג הפריט:</label>
+            <select id="contained-item-type">
+              <!-- אפשרויות יתווספו דינמית -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="contained-item-name">שם הפריט:</label>
+            <input type="text" id="contained-item-name">
+          </div>
+          <button class="btn btn-success" id="add-contained-item-btn">הוסף</button>
+        </div>
+      </div>
+
+      <div class="modal" id="puzzle-hint-modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>הוסף רמז</h3>
+          <div class="form-group">
+            <label for="puzzle-hint-text">טקסט הרמז:</label>
+            <textarea id="puzzle-hint-text" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="puzzle-hint-cost">עלות הרמז (דקות עונשין, 0 לרמז ללא עלות):</label>
+            <input type="number" id="puzzle-hint-cost" min="0" value="0">
+          </div>
+          <button class="btn btn-success" id="add-puzzle-hint-btn">הוסף רמז</button>
+        </div>
+      </div>
+
+      <div class="modal" id="search-area-modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>הוסף אזור חיפוש</h3>
+          <div class="form-group">
+            <label for="search-area-name">שם האזור:</label>
+            <input type="text" id="search-area-name">
+          </div>
+          <div class="form-group">
+            <label for="search-area-description">תיאור:</label>
+            <textarea id="search-area-description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="search-area-has-item">
+              האזור מכיל פריט
+            </label>
+          </div>
+          <div id="search-area-item-section" style="display: none;">
+            <div class="form-group">
+              <label for="search-area-item-type">סוג הפריט:</label>
+              <select id="search-area-item-type">
+                <!-- אפשרויות יתווספו דינמית -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="search-area-item-name">שם הפריט:</label>
+              <input type="text" id="search-area-item-name">
+            </div>
+          </div>
+          <button class="btn btn-success" id="add-search-area-btn">הוסף אזור</button>
+        </div>
+      </div>
+
+      <div class="modal" id="sequence-step-modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>הוסף צעד לרצף</h3>
+          <div class="form-group">
+            <label for="sequence-step-description">תיאור הצעד:</label>
+            <input type="text" id="sequence-step-description">
+          </div>
+          <div class="form-group">
+            <label for="sequence-step-id">מזהה ייחודי (באנגלית ללא רווחים):</label>
+            <input type="text" id="sequence-step-id">
+          </div>
+          <button class="btn btn-success" id="add-sequence-step-btn">הוסף צעד</button>
+        </div>
+      </div>
+
+      <div class="modal" id="global-script-modal" style="display: none;">
+        <div class="modal-content">
+          <span class="close-modal">&times;</span>
+          <h3>הוסף תסריט גלובלי</h3>
+          <div class="form-group">
+            <label for="global-script-name">שם התסריט:</label>
+            <input type="text" id="global-script-name">
+          </div>
+          <div class="form-group">
+            <label for="global-script-description">תיאור (אופציונלי):</label>
+            <textarea id="global-script-description" rows="3"></textarea>
+          </div>
+          <button class="btn btn-success" id="create-global-script-btn">צור תסריט</button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <script src="generator.js"></script>
+<script src="generator.js"></script>
 </body>
 </html>
