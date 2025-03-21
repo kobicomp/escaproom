@@ -827,6 +827,314 @@ function setupPuzzleFormEvents() {
 
   console.log("אירועי טפסי חידות הוגדרו בהצלחה");
 }
+// פונקציה לאתחול ממשק המפה
+function initMapInterface() {
+  console.log("אתחול ממשק מפה");
+
+  var mapContainer = document.getElementById("map-container");
+  if (!mapContainer) {
+    console.error("מיכל המפה לא נמצא");
+    return;
+  }
+
+  // נקה את מיכל המפה
+  mapContainer.innerHTML = "";
+
+  // הוסף את כל החדרים למפה
+  for (var roomId in projectData.rooms) {
+    var room = projectData.rooms[roomId];
+    addRoomToMap(roomId, room.name);
+  }
+
+  // הוסף כפתורי פעולה למפה
+  var addMapRoomBtn = document.getElementById("add-map-room");
+  if (addMapRoomBtn) {
+    addMapRoomBtn.addEventListener("click", function() {
+      var addRoomModal = document.getElementById("add-room-modal");
+      if (addRoomModal) {
+        addRoomModal.style.display = "block";
+      }
+    });
+  }
+
+  var createConnectionBtn = document.getElementById("create-connection");
+  if (createConnectionBtn) {
+    createConnectionBtn.addEventListener("click", startConnectionCreation);
+  }
+
+  var removeConnectionBtn = document.getElementById("remove-connection");
+  if (removeConnectionBtn) {
+    removeConnectionBtn.addEventListener("click", startConnectionRemoval);
+  }
+
+  // עדכן את הקשרים
+  updateMapConnections();
+
+  console.log("ממשק מפה אותחל בהצלחה");
+}
+
+// פונקציה להוספת חדר למפה
+function addRoomToMap(roomId, roomName) {
+  var mapContainer = document.getElementById("map-container");
+  if (!mapContainer) return;
+
+  var mapRoom = document.createElement("div");
+  mapRoom.className = "map-room";
+  mapRoom.id = "map-" + roomId;
+  mapRoom.setAttribute("data-room-id", roomId);
+  mapRoom.textContent = roomName;
+
+  // מיקום אקראי בתוך המפה
+  var maxX = mapContainer.clientWidth - 150;
+  var maxY = mapContainer.clientHeight - 100;
+  var randomX = Math.floor(Math.random() * maxX);
+  var randomY = Math.floor(Math.random() * maxY);
+
+  mapRoom.style.left = randomX + "px";
+  mapRoom.style.top = randomY + "px";
+
+  // הוסף גרירה לחדר
+  mapRoom.addEventListener("mousedown", startDragMapRoom);
+
+  mapContainer.appendChild(mapRoom);
+}
+
+// פונקציות גרירה לחדרים במפה
+function startDragMapRoom(e) {
+  e.preventDefault();
+
+  var room = this;
+  var startX = e.clientX;
+  var startY = e.clientY;
+  var startLeft = parseInt(room.style.left) || 0;
+  var startTop = parseInt(room.style.top) || 0;
+
+  function dragMapRoom(e) {
+    var newLeft = startLeft + (e.clientX - startX);
+    var newTop = startTop + (e.clientY - startY);
+
+    // הגבל לגבולות המפה
+    var mapContainer = document.getElementById("map-container");
+    if (!mapContainer) return;
+
+    var maxX = mapContainer.clientWidth - room.clientWidth;
+    var maxY = mapContainer.clientHeight - room.clientHeight;
+
+    newLeft = Math.max(0, Math.min(newLeft, maxX));
+    newTop = Math.max(0, Math.min(newTop, maxY));
+
+    room.style.left = newLeft + "px";
+    room.style.top = newTop + "px";
+
+    // עדכן את הקשרים
+    updateMapConnections();
+  }
+
+  function stopDragMapRoom() {
+    document.removeEventListener("mousemove", dragMapRoom);
+    document.removeEventListener("mouseup", stopDragMapRoom);
+  }
+
+  document.addEventListener("mousemove", dragMapRoom);
+  document.addEventListener("mouseup", stopDragMapRoom);
+}
+
+// פונקציה לעדכון קשרים במפה
+function updateMapConnections() {
+  // מחק את כל הקשרים הקיימים
+  var existingConnections = document.querySelectorAll(".map-connection");
+  for (var i = 0; i < existingConnections.length; i++) {
+    existingConnections[i].remove();
+  }
+
+  // צור את כל הקשרים מחדש
+  var mapContainer = document.getElementById("map-container");
+  if (!mapContainer) return;
+
+  for (var i = 0; i < projectData.connections.length; i++) {
+    var connection = projectData.connections[i];
+    var fromRoom = document.getElementById("map-" + connection.from);
+    var toRoom = document.getElementById("map-" + connection.to);
+
+    if (fromRoom && toRoom) {
+      // חשב את נקודות החיבור
+      var fromRect = fromRoom.getBoundingClientRect();
+      var toRect = toRoom.getBoundingClientRect();
+      var containerRect = mapContainer.getBoundingClientRect();
+
+      var fromX = fromRect.left + fromRect.width / 2 - containerRect.left;
+      var fromY = fromRect.top + fromRect.height / 2 - containerRect.top;
+      var toX = toRect.left + toRect.width / 2 - containerRect.left;
+      var toY = toRect.top + toRect.height / 2 - containerRect.top;
+
+      // חשב את הזווית והאורך
+      var angle = Math.atan2(toY - fromY, toX - fromX) * 180 / Math.PI;
+      var length = Math.sqrt(Math.pow(toX - fromX, 2) + Math.pow(toY - fromY, 2));
+
+      // יצירת אלמנט הקשר
+      var connectionElement = document.createElement("div");
+      connectionElement.className = "map-connection";
+      connectionElement.style.width = length + "px";
+      connectionElement.style.height = "4px";
+      connectionElement.style.left = fromX + "px";
+      connectionElement.style.top = fromY - 2 + "px";
+      connectionElement.style.transformOrigin = "left center";
+      connectionElement.style.transform = "rotate(" + angle + "deg)";
+
+      // הוסף מידע על דרישות נעילה אם קיימות
+      if (connection.requiredPuzzle) {
+        connectionElement.style.backgroundColor = "#e74c3c";
+        connectionElement.title = "דורש חידה: " + connection.requiredPuzzle;
+      }
+
+      mapContainer.appendChild(connectionElement);
+    }
+  }
+}
+
+// משתנים לניהול יצירת קשרים
+var connectionStart = null;
+var creatingConnection = false;
+
+// פונקציה להתחלת יצירת קשר
+function startConnectionCreation() {
+  creatingConnection = true;
+  connectionStart = null;
+
+  // שנה את המעמד של העכבר
+  document.body.style.cursor = "crosshair";
+
+  // הוסף מאזיני אירועים לחדרים במפה
+  var mapRooms = document.querySelectorAll(".map-room");
+  for (var i = 0; i < mapRooms.length; i++) {
+    mapRooms[i].addEventListener("click", handleConnectionClick);
+  }
+
+  // הוסף אפשרות לבטל את היצירה
+  document.addEventListener("keydown", function cancelConnection(e) {
+    if (e.key === "Escape") {
+      endConnectionCreation();
+      document.removeEventListener("keydown", cancelConnection);
+    }
+  });
+
+  // הצג הודעה
+  alert("בחר את החדר המקור לקשר");
+}
+
+// פונקציה לטיפול בלחיצה על חדרים במפה בזמן יצירת קשר
+function handleConnectionClick() {
+  var roomId = this.getAttribute("data-room-id");
+
+  if (!connectionStart) {
+    // זו הלחיצה הראשונה - שמור את חדר המקור
+    connectionStart = roomId;
+    this.style.border = "2px solid #e74c3c";
+    alert("כעת בחר את חדר היעד");
+  } else if (roomId !== connectionStart) {
+    // זו הלחיצה השנייה - צור את הקשר
+    var connectionFrom = connectionStart;
+    var connectionTo = roomId;
+
+    // בדוק אם הקשר כבר קיים
+    var connectionExists = false;
+    for (var i = 0; i < projectData.connections.length; i++) {
+      var connection = projectData.connections[i];
+      if (connection.from === connectionFrom && connection.to === connectionTo) {
+        connectionExists = true;
+        break;
+      }
+    }
+
+    if (!connectionExists) {
+      // שאל אם נדרשת חידה לקשר
+      var requiredPuzzle = prompt("האם נדרשת חידה למעבר? אם כן, הזן את מזהה החידה, אחרת השאר ריק.");
+
+      // הוסף את הקשר לפרויקט
+      projectData.connections.push({
+        from: connectionFrom,
+        to: connectionTo,
+        requiredPuzzle: requiredPuzzle || null
+      });
+
+      // עדכן את הקשרים במפה
+      updateMapConnections();
+    } else {
+      alert("קשר זה כבר קיים!");
+    }
+
+    // סיים את מצב יצירת הקשר
+    endConnectionCreation();
+  }
+}
+
+// פונקציה לסיום יצירת קשר
+function endConnectionCreation() {
+  creatingConnection = false;
+  connectionStart = null;
+
+  // החזר את מראה הסמן
+  document.body.style.cursor = "default";
+
+  // הסר מאזיני אירועים מחדרים במפה
+  var mapRooms = document.querySelectorAll(".map-room");
+  for (var i = 0; i < mapRooms.length; i++) {
+    mapRooms[i].removeEventListener("click", handleConnectionClick);
+    mapRooms[i].style.border = "";
+  }
+}
+
+// פונקציה להתחלת הסרת קשר
+function startConnectionRemoval() {
+  // הצג הודעה
+  alert("בחר בקשר שברצונך למחוק");
+
+  // הוסף מאזיני אירועים לקשרים
+  var connections = document.querySelectorAll(".map-connection");
+  for (var i = 0; i < connections.length; i++) {
+    connections[i].style.cursor = "pointer";
+    connections[i].addEventListener("click", handleConnectionRemoval);
+  }
+
+  // הוסף אפשרות לביטול
+  document.addEventListener("keydown", function cancelRemoval(e) {
+    if (e.key === "Escape") {
+      endConnectionRemoval();
+      document.removeEventListener("keydown", cancelRemoval);
+    }
+  });
+
+  // הוסף אפשרות לסיום לאחר לחיצה אחת
+  document.addEventListener("click", function endAfterClick() {
+    setTimeout(endConnectionRemoval, 100);
+    document.removeEventListener("click", endAfterClick);
+  });
+}
+
+// פונקציה לטיפול בהסרת קשר
+function handleConnectionRemoval() {
+  // מצא את אינדקס הקשר שנבחר
+  var connections = document.querySelectorAll(".map-connection");
+  var connectionIndex = Array.prototype.indexOf.call(connections, this);
+
+  if (connectionIndex !== -1 && connectionIndex < projectData.connections.length) {
+    // הסר את הקשר מהנתונים
+    projectData.connections.splice(connectionIndex, 1);
+
+    // עדכן את הקשרים במפה
+    updateMapConnections();
+  }
+}
+
+// פונקציה לסיום הסרת קשר
+function endConnectionRemoval() {
+  // החזר את מראה הסמן לקשרים
+  var connections = document.querySelectorAll(".map-connection");
+  for (var i = 0; i < connections.length; i++) {
+    connections[i].style.cursor = "default";
+    connections[i].removeEventListener("click", handleConnectionRemoval);
+  }
+}
 // פונקציה לאתחול המחולל - תיקראה ב-DOMContentLoaded בסוף הקובץ
 function initGenerator() {
   console.log("מאתחל את המחולל המשופר...");
