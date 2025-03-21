@@ -805,7 +805,9 @@ function setupEventListeners() {
   console.log("מאזיני אירועים הוגדרו בהצלחה");
 }
 // פונקציה ליצירת טפסי חידות
+// פונקציה ליצירת טפסי חידות
 function createPuzzleForms() {
+  console.log("יוצר טפסי חידות");
   // שים לב שהטפסים כבר קיימים ב-HTML
   setupPuzzleFormEvents();
 }
@@ -813,9 +815,6 @@ function createPuzzleForms() {
 // פונקציה להגדרת אירועים לטפסי החידות
 function setupPuzzleFormEvents() {
   console.log("מגדיר אירועים לטפסי חידות");
-
-  // אנחנו מגדירים את אירועי השמירה דינמית בפונקציה showPuzzleForm
-  // כאשר פותחים חידה לעריכה, כדי שידעו לשמור את החידה הנכונה
 
   // אירועי לחיצה על פריטי רשימת החידות
   var puzzleListItems = document.querySelectorAll(".puzzle-list-item");
