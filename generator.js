@@ -804,6 +804,30 @@ function setupEventListeners() {
 
   console.log("מאזיני אירועים הוגדרו בהצלחה");
 }
+// פונקציה ליצירת טפסי חידות
+function createPuzzleForms() {
+  // שים לב שהטפסים כבר קיימים ב-HTML
+  setupPuzzleFormEvents();
+}
+
+// פונקציה להגדרת אירועים לטפסי החידות
+function setupPuzzleFormEvents() {
+  console.log("מגדיר אירועים לטפסי חידות");
+
+  // אנחנו מגדירים את אירועי השמירה דינמית בפונקציה showPuzzleForm
+  // כאשר פותחים חידה לעריכה, כדי שידעו לשמור את החידה הנכונה
+
+  // אירועי לחיצה על פריטי רשימת החידות
+  var puzzleListItems = document.querySelectorAll(".puzzle-list-item");
+  for (var i = 0; i < puzzleListItems.length; i++) {
+    puzzleListItems[i].addEventListener("click", function() {
+      var puzzleId = this.getAttribute("data-puzzle-id");
+      showPuzzleForm(puzzleId);
+    });
+  }
+
+  console.log("אירועי טפסי חידות הוגדרו בהצלחה");
+}
 // פונקציה לאתחול המחולל - תיקראה ב-DOMContentLoaded בסוף הקובץ
 function initGenerator() {
   console.log("מאתחל את המחולל המשופר...");
