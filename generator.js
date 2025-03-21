@@ -156,7 +156,352 @@ function fileToDataURL(file) {
     reader.readAsDataURL(file);
   });
 }
+// פונקציה להגדרת מאזיני אירועים
+function setupEventListeners() {
+  console.log("מגדיר מאזיני אירועים כלליים");
 
+  // אירועי לחיצה על הלשוניות
+  var tabs = document.querySelectorAll(".tab");
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].addEventListener("click", function() {
+      // הסר סימון מכל הלשוניות
+      var allTabs = document.querySelectorAll(".tab");
+      for (var j = 0; j < allTabs.length; j++) {
+        allTabs[j].classList.remove("active");
+      }
+      // סמן את הלשונית הנוכחית
+      this.classList.add("active");
+
+      // הסתר את כל התוכן
+      var allContent = document.querySelectorAll(".tab-content");
+      for (var j = 0; j < allContent.length; j++) {
+        allContent[j].style.display = "none";
+      }
+
+      // הצג את התוכן המתאים
+      var tabId = this.getAttribute("data-tab") + "-tab";
+      var contentElement = document.getElementById(tabId);
+      if (contentElement) {
+        contentElement.style.display = "block";
+      }
+    });
+  }
+
+  // אירועי לחיצה על אובייקטי הגלריה
+  var thumbnails = document.querySelectorAll(".object-thumbnail");
+  for (var i = 0; i < thumbnails.length; i++) {
+    thumbnails[i].addEventListener("click", function() {
+      var objectType = this.getAttribute("data-type");
+      if (objectType) {
+        addNewItem(objectType);
+      }
+    });
+  }
+
+  // אירוע לחיצה על כפתור מחיקת אובייקט
+  var deleteObjectBtn = document.getElementById("delete-object-btn");
+  if (deleteObjectBtn) {
+    deleteObjectBtn.addEventListener("click", deleteSelectedItem);
+  }
+
+  // אירועי שינוי בטופס תכונות אובייקט בסיסיות
+  var objectNameInput = document.getElementById("object-name");
+  if (objectNameInput) {
+    objectNameInput.addEventListener("change", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        projectData.rooms[currentRoomId].items[itemId].name = this.value;
+
+        // בדוק אם יש תמונה לאובייקט
+        if (!projectData.rooms[currentRoomId].items[itemId].image) {
+          selectedItem.element.textContent = this.value;
+        }
+      }
+    });
+  }
+
+  // אירועי עדכון מידות
+  var objectWidthInput = document.getElementById("object-width");
+  if (objectWidthInput) {
+    objectWidthInput.addEventListener("change", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        var newWidth = parseInt(this.value);
+
+        // וודא שהערך תקין
+        if (newWidth < 20) newWidth = 20;
+        if (newWidth > 400) newWidth = 400;
+
+        // עדכן את נתוני האובייקט
+        projectData.rooms[currentRoomId].items[itemId].width = newWidth;
+
+        // עדכן את התצוגה
+        selectedItem.element.style.width = newWidth + "px";
+      }
+    });
+  }
+
+  var objectHeightInput = document.getElementById("object-height");
+  if (objectHeightInput) {
+    objectHeightInput.addEventListener("change", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        var newHeight = parseInt(this.value);
+
+        // וודא שהערך תקין
+        if (newHeight < 20) newHeight = 20;
+        if (newHeight > 400) newHeight = 400;
+
+        // עדכן את נתוני האובייקט
+        projectData.rooms[currentRoomId].items[itemId].height = newHeight;
+
+        // עדכן את התצוגה
+        selectedItem.element.style.height = newHeight + "px";
+      }
+    });
+  }
+
+  // אירועי חידה מקושרת
+  var objectPuzzleSelect = document.getElementById("object-puzzle");
+  if (objectPuzzleSelect) {
+    objectPuzzleSelect.addEventListener("change", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        projectData.rooms[currentRoomId].items[itemId].puzzle = this.value;
+      }
+    });
+  }
+
+  // אירועי נעילת אובייקט
+  var objectLockedInput = document.getElementById("object-locked");
+  if (objectLockedInput) {
+    objectLockedInput.addEventListener("change", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        projectData.rooms[currentRoomId].items[itemId].locked = this.checked;
+      }
+    });
+  }
+
+  // אירועי פריט נדרש
+  var objectRequiredItemSelect = document.getElementById("object-required-item");
+  if (objectRequiredItemSelect) {
+    objectRequiredItemSelect.addEventListener("change", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        projectData.rooms[currentRoomId].items[itemId].requiredItem = this.value;
+      }
+    });
+  }
+
+  // אירועי מעבר לחדר
+  var objectNextRoomSelect = document.getElementById("object-next-room");
+  if (objectNextRoomSelect) {
+    objectNextRoomSelect.addEventListener("change", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        projectData.rooms[currentRoomId].items[itemId].nextRoom = this.value;
+      }
+    });
+  }
+
+  // אירועי העלאת תמונות
+  var objectImageInput = document.getElementById("object-image");
+  if (objectImageInput) {
+    objectImageInput.addEventListener("change", async function(e) {
+      if (this.files && this.files[0] && selectedItem) {
+        try {
+          // המרת הקובץ ל-Data URL
+          var dataURL = await fileToDataURL(this.files[0]);
+
+          // עדכון נתוני הפרויקט
+          var itemId = selectedItem.element.id;
+          projectData.rooms[currentRoomId].items[itemId].image = dataURL;
+
+          // עדכון תצוגת האובייקט
+          var imgElement = document.createElement("img");
+          imgElement.src = dataURL;
+          imgElement.style.width = "100%";
+          imgElement.style.height = "100%";
+          imgElement.style.objectFit = "contain";
+
+          // נקה את תוכן האובייקט ושים את התמונה
+          selectedItem.element.textContent = "";
+          selectedItem.element.appendChild(imgElement);
+        } catch (error) {
+          console.error("שגיאה בטעינת התמונה:", error);
+          alert("אירעה שגיאה בטעינת התמונה: " + error);
+        }
+      }
+    });
+  }
+
+  var removeObjectImageBtn = document.getElementById("remove-object-image");
+  if (removeObjectImageBtn) {
+    removeObjectImageBtn.addEventListener("click", function() {
+      if (selectedItem) {
+        var itemId = selectedItem.element.id;
+        var item = projectData.rooms[currentRoomId].items[itemId];
+
+        // הסרת התמונה מנתוני הפרויקט
+        delete item.image;
+
+        // שחזור הטקסט המקורי של האובייקט
+        selectedItem.element.innerHTML = "";
+        selectedItem.element.textContent = item.name;
+      }
+    });
+  }
+
+  // אירועי רקע חדר
+  var roomBackgroundImageInput = document.getElementById("room-background-image");
+  if (roomBackgroundImageInput) {
+    roomBackgroundImageInput.addEventListener("change", async function(e) {
+      if (this.files && this.files[0]) {
+        try {
+          // המרת הקובץ ל-Data URL
+          var dataURL = await fileToDataURL(this.files[0]);
+
+          // עדכון נתוני הפרויקט
+          projectData.rooms[currentRoomId].backgroundImage = dataURL;
+
+          // עדכון תצוגת החדר
+          var roomPreviewElement = document.getElementById("room-preview");
+          if (roomPreviewElement) {
+            roomPreviewElement.style.backgroundImage = "url('" + dataURL + "')";
+            roomPreviewElement.style.backgroundColor = "transparent";
+          }
+        } catch (error) {
+          console.error("שגיאה בטעינת תמונת רקע:", error);
+          alert("אירעה שגיאה בטעינת תמונת הרקע: " + error);
+        }
+      }
+    });
+  }
+
+  var removeRoomBgImageBtn = document.getElementById("remove-room-bg-image");
+  if (removeRoomBgImageBtn) {
+    removeRoomBgImageBtn.addEventListener("click", function() {
+      // הסרת תמונת הרקע והחזרת צבע הרקע המקורי
+      delete projectData.rooms[currentRoomId].backgroundImage;
+      var room = projectData.rooms[currentRoomId];
+
+      var roomPreviewElement = document.getElementById("room-preview");
+      if (roomPreviewElement) {
+        roomPreviewElement.style.backgroundImage = "none";
+
+        // הצג את צבע הרקע המקורי לפי סוג החדר
+        if (room.background === "lab") {
+          roomPreviewElement.style.backgroundColor = "#243447";
+        } else if (room.background === "library") {
+          roomPreviewElement.style.backgroundColor = "#4b3621";
+        } else if (room.background === "office") {
+          roomPreviewElement.style.backgroundColor = "#34515e";
+        } else if (room.background === "mansion") {
+          roomPreviewElement.style.backgroundColor = "#544e4d";
+        }
+      }
+    });
+  }
+
+  // אירועי עדכון פרטי חדר
+  var roomNameInput = document.getElementById("room-name");
+  if (roomNameInput) {
+    roomNameInput.addEventListener("change", function() {
+      projectData.rooms[currentRoomId].name = this.value;
+      var roomItem = document.querySelector('.room-item-list[data-room-id="' + currentRoomId + '"]');
+      if (roomItem) {
+        roomItem.textContent = this.value;
+      }
+
+      // עדכן גם את רשימת יעדי הדלת
+      updateDoorTargets();
+    });
+  }
+
+  var roomBackgroundSelect = document.getElementById("room-background");
+  if (roomBackgroundSelect) {
+    roomBackgroundSelect.addEventListener("change", function() {
+      projectData.rooms[currentRoomId].background = this.value;
+      loadCurrentRoom();
+    });
+  }
+
+  // אירועים לניהול חדרים
+  var addRoomBtn = document.getElementById("add-room-btn");
+  if (addRoomBtn) {
+    addRoomBtn.addEventListener("click", function() {
+      var addRoomModal = document.getElementById("add-room-modal");
+      if (addRoomModal) {
+        addRoomModal.style.display = "block";
+      }
+    });
+  }
+
+  var createRoomBtn = document.getElementById("create-room-btn");
+  if (createRoomBtn) {
+    createRoomBtn.addEventListener("click", addNewRoom);
+  }
+
+  // אירועים לניהול חידות
+  var addPuzzleBtn = document.getElementById("add-puzzle-btn");
+  if (addPuzzleBtn) {
+    addPuzzleBtn.addEventListener("click", function() {
+      var addPuzzleModal = document.getElementById("add-puzzle-modal");
+      if (addPuzzleModal) {
+        addPuzzleModal.style.display = "block";
+      }
+    });
+  }
+
+  var createPuzzleBtn = document.getElementById("create-puzzle-btn");
+  if (createPuzzleBtn) {
+    createPuzzleBtn.addEventListener("click", addNewPuzzle);
+  }
+
+  // אירועי לחיצה על פריטי רשימת החידות
+  var puzzleListItems = document.querySelectorAll(".puzzle-list-item");
+  for (var i = 0; i < puzzleListItems.length; i++) {
+    puzzleListItems[i].addEventListener("click", function() {
+      var puzzleId = this.getAttribute("data-puzzle-id");
+      showPuzzleForm(puzzleId);
+    });
+  }
+
+  // אירועי שמירה וייצוא
+  var saveProjectBtn = document.getElementById("save-project-btn");
+  if (saveProjectBtn) {
+    saveProjectBtn.addEventListener("click", saveProject);
+  }
+
+  var loadProjectBtn = document.getElementById("load-project-btn");
+  if (loadProjectBtn) {
+    loadProjectBtn.addEventListener("click", loadProject);
+  }
+
+  var newProjectBtn = document.getElementById("new-project-btn");
+  if (newProjectBtn) {
+    newProjectBtn.addEventListener("click", newProject);
+  }
+
+  var generateGameBtn = document.getElementById("generate-game");
+  if (generateGameBtn) {
+    generateGameBtn.addEventListener("click", exportGame);
+  }
+
+  // אירועי סגירת מודאלים
+  var closeButtons = document.querySelectorAll(".close-modal");
+  for (var i = 0; i < closeButtons.length; i++) {
+    closeButtons[i].addEventListener("click", function() {
+      var modal = this.closest(".modal");
+      if (modal) {
+        modal.style.display = "none";
+      }
+    });
+  }
+
+  console.log("מאזיני אירועים הוגדרו בהצלחה");
+}
 // פונקציה לאתחול המחולל - תיקראה ב-DOMContentLoaded בסוף הקובץ
 function initGenerator() {
   console.log("מאתחל את המחולל המשופר...");
