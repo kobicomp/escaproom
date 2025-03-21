@@ -156,6 +156,308 @@ function fileToDataURL(file) {
     reader.readAsDataURL(file);
   });
 }
+// פונקציה להצגת תכונות של אובייקט נבחר
+function showItemProperties(itemId) {
+  var item = projectData.rooms[currentRoomId].items[itemId];
+  if (!item) return;
+
+  // הצג את פאנל התכונות
+  var noObjectSelectedElement = document.getElementById("no-object-selected");
+  var objectPropertiesElement = document.getElementById("object-properties");
+
+  if (!noObjectSelectedElement || !objectPropertiesElement) {
+    console.error("אלמנטי פאנל תכונות חסרים");
+    return;
+  }
+
+  noObjectSelectedElement.style.display = "none";
+  objectPropertiesElement.style.display = "block";
+
+  // מלא את הערכים בטופס הכללי
+  var nameElement = document.getElementById("object-name");
+  var widthElement = document.getElementById("object-width");
+  var heightElement = document.getElementById("object-height");
+  var puzzleElement = document.getElementById("object-puzzle");
+  var lockedElement = document.getElementById("object-locked");
+  var requiredItemElement = document.getElementById("object-required-item");
+  var nextRoomElement = document.getElementById("object-next-room");
+
+  if (nameElement) nameElement.value = item.name;
+  if (widthElement) widthElement.value = item.width;
+  if (heightElement) heightElement.value = item.height;
+  
+  // עדכן את תפריט בחירת החידות
+  if (puzzleElement) {
+    // נקה את התפריט קודם
+    puzzleElement.innerHTML = '<option value="">ללא</option>';
+    
+    // הוסף את כל החידות
+    for (var puzzleId in projectData.puzzles) {
+      var puzzle = projectData.puzzles[puzzleId];
+      var option = document.createElement("option");
+      option.value = puzzleId;
+      option.textContent = puzzle.name;
+      puzzleElement.appendChild(option);
+    }
+    
+    // בחר את החידה המקושרת
+    puzzleElement.value = item.puzzle || "";
+  }
+  
+  if (lockedElement) lockedElement.checked = item.locked || false;
+  if (requiredItemElement) requiredItemElement.value = item.requiredItem || "";
+  if (nextRoomElement) nextRoomElement.value = item.nextRoom || "";
+
+  // איפוס שדה העלאת התמונה
+  var objectImageElement = document.getElementById("object-image");
+  if (objectImageElement) objectImageElement.value = "";
+}
+// פונקציה למחיקת אובייקט נבחר
+function deleteSelectedItem() {
+  if (selectedItem) {
+    var itemId = selectedItem.element.id;
+    delete projectData.rooms[currentRoomId].items[itemId];
+
+    // טען מחדש את החדר
+    loadCurrentRoom();
+
+    // הסתר את תכונות האובייקט
+    var objectPropertiesElement = document.getElementById("object-properties");
+    var noObjectSelectedElement = document.getElementById("no-object-selected");
+
+    if (objectPropertiesElement) objectPropertiesElement.style.display = "none";
+    if (noObjectSelectedElement) noObjectSelectedElement.style.display = "block";
+
+    selectedItem = null;
+  }
+}
+// פונקציה להוספת חדר חדש
+function addNewRoom() {
+  var newRoomNameInput = document.getElementById("new-room-name");
+  var newRoomBackgroundSelect = document.getElementById("new-room-background");
+
+  if (!newRoomNameInput || !newRoomBackgroundSelect) {
+    console.error("אלמנטי טופס הוספת חדר חסרים");
+    return;
+  }
+
+  var roomName = newRoomNameInput.value;
+  var roomBackground = newRoomBackgroundSelect.value;
+
+  // צור מזהה ייחודי
+  var roomCount = Object.keys(projectData.rooms).length;
+  var newRoomId = "room" + (roomCount + 1);
+
+  // הוסף את החדר לנתוני הפרויקט
+  projectData.rooms[newRoomId] = {
+    id: newRoomId,
+    name: roomName,
+    background: roomBackground,
+    backgroundImage: null,
+    items: {}
+  };
+
+  // עדכן את רשימת החדרים
+  var roomsList = document.getElementById("rooms-list");
+  if (roomsList) {
+    var li = document.createElement("li");
+    li.className = "room-item-list";
+    li.setAttribute("data-room-id", newRoomId);
+    li.textContent = roomName;
+    li.addEventListener("click", function() {
+      currentRoomId = this.getAttribute("data-room-id");
+      loadCurrentRoom();
+    });
+    roomsList.appendChild(li);
+  }
+
+  // סגור את המודאל
+  var addRoomModal = document.getElementById("add-room-modal");
+  if (addRoomModal) {
+    addRoomModal.style.display = "none";
+  }
+
+  // איפוס שדות
+  newRoomNameInput.value = "חדר חדש";
+
+  // עדכן את רשימת החדרים בתפריטי היעד
+  updateDoorTargets();
+
+  // הוסף את החדר למפה
+  addRoomToMap(newRoomId, roomName);
+
+  console.log("חדר חדש נוסף:", newRoomId);
+}
+// פונקציה להוספת חידה חדשה
+function addNewPuzzle() {
+  var newPuzzleTypeSelect = document.getElementById("new-puzzle-type");
+  var newPuzzleNameInput = document.getElementById("new-puzzle-name");
+
+  if (!newPuzzleTypeSelect || !newPuzzleNameInput) {
+    console.error("אלמנטי טופס הוספת חידה חסרים");
+    return;
+  }
+
+  var puzzleType = newPuzzleTypeSelect.value;
+  var puzzleName = newPuzzleNameInput.value;
+
+  // צור מזהה ייחודי
+  var puzzleId = puzzleType + "-puzzle-" + (new Date().getTime());
+
+  // יצירת חידה חדשה על פי הסוג
+  var newPuzzle = {
+    id: puzzleId,
+    name: puzzleName,
+    type: puzzleType
+  };
+
+  // הוסף תכונות מיוחדות לפי הסוג
+  switch (puzzleType) {
+    case "code":
+      newPuzzle.description = "מצא את הקוד הנכון";
+      newPuzzle.answer = "1234";
+      newPuzzle.hint = "חפש רמזים בחדר...";
+      newPuzzle.successMessage = "הקוד נכון! הכספת נפתחה.";
+      break;
+
+    case "text":
+      newPuzzle.question = "ענה על השאלה הבאה";
+      newPuzzle.answer = "התשובה";
+      newPuzzle.hint = "רמז לתשובה";
+      newPuzzle.successMessage = "תשובה נכונה!";
+      break;
+  }
+
+  // הוסף את החידה לנתוני הפרויקט
+  projectData.puzzles[puzzleId] = newPuzzle;
+
+  // הוסף את החידה לרשימה
+  var puzzleList = document.getElementById("puzzle-list");
+  if (puzzleList) {
+    var puzzleItem = document.createElement("div");
+    puzzleItem.className = "puzzle-list-item";
+    puzzleItem.setAttribute("data-puzzle-id", puzzleId);
+    puzzleItem.textContent = puzzleName;
+    puzzleItem.addEventListener("click", function() {
+      var id = this.getAttribute("data-puzzle-id");
+      showPuzzleForm(id);
+    });
+    puzzleList.appendChild(puzzleItem);
+  }
+
+  // סגור את המודאל
+  var addPuzzleModal = document.getElementById("add-puzzle-modal");
+  if (addPuzzleModal) {
+    addPuzzleModal.style.display = "none";
+  }
+
+  // עדכן את תפריטי בחירת החידות
+  var puzzleSelectElements = document.querySelectorAll("select[id$='puzzle']");
+  for (var i = 0; i < puzzleSelectElements.length; i++) {
+    var select = puzzleSelectElements[i];
+    var option = document.createElement("option");
+    option.value = puzzleId;
+    option.textContent = puzzleName;
+    select.appendChild(option);
+  }
+
+  // פתח את הטופס לעריכת החידה החדשה
+  showPuzzleForm(puzzleId);
+
+  alert("חידה חדשה נוספה בהצלחה!");
+}
+// פונקציה להצגת טופס חידה
+function showPuzzleForm(puzzleId) {
+  // הסתר את כל טפסי החידות
+  var puzzleForms = document.querySelectorAll(".puzzle-form");
+  for (var i = 0; i < puzzleForms.length; i++) {
+    puzzleForms[i].style.display = "none";
+  }
+
+  var puzzle = projectData.puzzles[puzzleId];
+  if (!puzzle) {
+    console.error("חידה לא נמצאה:", puzzleId);
+    return;
+  }
+
+  // הצג את הטופס המתאים
+  var formId = "";
+  if (puzzle.type === "code") {
+    formId = "code-puzzle-form";
+    var nameInput = document.getElementById("code-puzzle-name");
+    var descInput = document.getElementById("code-puzzle-description");
+    var answerInput = document.getElementById("code-puzzle-answer");
+    var hintInput = document.getElementById("code-puzzle-hint");
+    var successInput = document.getElementById("code-puzzle-success");
+
+    if (nameInput) nameInput.value = puzzle.name || "";
+    if (descInput) descInput.value = puzzle.description || "";
+    if (answerInput) answerInput.value = puzzle.answer || "";
+    if (hintInput) hintInput.value = puzzle.hint || "";
+    if (successInput) successInput.value = puzzle.successMessage || "";
+    
+    // עדכן את פונקציות השמירה לשמור את החידה הנוכחית
+    var saveBtn = document.getElementById("save-code-puzzle");
+    if (saveBtn) {
+      saveBtn.onclick = function() {
+        puzzle.name = nameInput.value;
+        puzzle.description = descInput.value;
+        puzzle.answer = answerInput.value;
+        puzzle.hint = hintInput.value;
+        puzzle.successMessage = successInput.value;
+        
+        // עדכן את תצוגת רשימת החידות
+        var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
+        if (puzzleItem) {
+          puzzleItem.textContent = puzzle.name;
+        }
+        
+        alert("החידה נשמרה בהצלחה!");
+      };
+    }
+  } else if (puzzle.type === "text") {
+    formId = "text-puzzle-form";
+    var nameInput = document.getElementById("text-puzzle-name");
+    var questionInput = document.getElementById("text-puzzle-question");
+    var answerInput = document.getElementById("text-puzzle-answer");
+    var hintInput = document.getElementById("text-puzzle-hint");
+    var successInput = document.getElementById("text-puzzle-success");
+
+    if (nameInput) nameInput.value = puzzle.name || "";
+    if (questionInput) questionInput.value = puzzle.question || "";
+    if (answerInput) answerInput.value = puzzle.answer || "";
+    if (hintInput) hintInput.value = puzzle.hint || "";
+    if (successInput) successInput.value = puzzle.successMessage || "";
+    
+    // עדכן את פונקציות השמירה לשמור את החידה הנוכחית
+    var saveBtn = document.getElementById("save-text-puzzle");
+    if (saveBtn) {
+      saveBtn.onclick = function() {
+        puzzle.name = nameInput.value;
+        puzzle.question = questionInput.value;
+        puzzle.answer = answerInput.value;
+        puzzle.hint = hintInput.value;
+        puzzle.successMessage = successInput.value;
+        
+        // עדכן את תצוגת רשימת החידות
+        var puzzleItem = document.querySelector('.puzzle-list-item[data-puzzle-id="' + puzzleId + '"]');
+        if (puzzleItem) {
+          puzzleItem.textContent = puzzle.name;
+        }
+        
+        alert("החידה נשמרה בהצלחה!");
+      };
+    }
+  }
+
+  // הצג את הטופס
+  var form = document.getElementById(formId);
+  if (form) {
+    form.style.display = "block";
+  } else {
+    console.error("טופס החידה לא נמצא:", formId);
+  }
+}
 // פונקציה להגדרת מאזיני אירועים
 function setupEventListeners() {
   console.log("מגדיר מאזיני אירועים כלליים");
@@ -2453,7 +2755,76 @@ function newProject() {
     alert("פרויקט חדש נוצר בהצלחה!");
   }
 }
+// פונקציה לייצוא המשחק
+function exportGame() {
+  console.log("מייצא משחק...");
+  // עדכן את נתוני הייצוא מהטופס
+  var gameTitleInput = document.getElementById("game-title");
+  var gameDescriptionInput = document.getElementById("game-description");
+  var gameTimeLimitInput = document.getElementById("game-time-limit");
 
+  if (gameTitleInput) projectData.settings.title = gameTitleInput.value;
+  if (gameDescriptionInput) projectData.settings.description = gameDescriptionInput.value;
+  if (gameTimeLimitInput) projectData.settings.timeLimit = parseInt(gameTimeLimitInput.value);
+
+  // אם פחות מ-10 דקות, עדכן ל-10 דקות כדי למנוע משחק קצר מדי
+  if (projectData.settings.timeLimit < 10) {
+    projectData.settings.timeLimit = 10;
+    if (gameTimeLimitInput) gameTimeLimitInput.value = "10";
+  }
+
+  // בדוק תקינות בסיסית
+  if (Object.keys(projectData.rooms).length === 0) {
+    alert("לא ניתן לייצא משחק ללא חדרים!");
+    return;
+  }
+
+  // טען את תבנית המשחק
+  fetch('game-template.html')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('התבנית לא נמצאה. ודא שקובץ game-template.html נמצא בתיקייה הנוכחית.');
+      }
+      return response.text();
+    })
+    .then(template => {
+      // הוסף דיבאג לקובץ המיוצא
+      console.log("Game data for export:", projectData);
+      
+      // החלף את המקומות השמורים בתבנית
+      var gameHTML = template
+        .replace('{{GAME_TITLE}}', projectData.settings.title)
+        .replace('{{GAME_DESCRIPTION}}', projectData.settings.description)
+        .replace(/{{GAME_TIME_LIMIT}}/g, projectData.settings.timeLimit)
+        .replace('{{GAME_DATA_JSON}}', JSON.stringify(projectData));
+
+   // הצג את מודאל ייצוא המשחק
+      var exportGameModal = document.getElementById("export-game-modal");
+      if (exportGameModal) {
+        exportGameModal.style.display = "block";
+
+        // הגדר אירוע לכפתור ההורדה
+        var downloadGameBtn = document.getElementById("download-game-btn");
+        if (downloadGameBtn) {
+          downloadGameBtn.onclick = function() {
+            var blob = new Blob([gameHTML], { type: "text/html;charset=utf-8" });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement("a");
+            a.href = url;
+            a.download = "escape-room-game.html";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+          };
+        }
+      }
+    })
+    .catch(error => {
+      console.error('שגיאה בטעינת תבנית המשחק:', error);
+      alert('אירעה שגיאה בטעינת תבנית המשחק: ' + error.message);
+    });
+}
 // אירוע טעינת המסמך - נקודת הכניסה הראשית
 document.addEventListener("DOMContentLoaded", function() {
   console.log("המסמך נטען, מאתחל את המחולל המשופר...");
